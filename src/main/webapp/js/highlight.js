@@ -1,22 +1,22 @@
 (() => {
 
     let modalCss = `
-        width: 20px;
-        height: 20px;
-        background-colo: green;
+        background-color: rgb(246, 246, 246);
+        display: block;
         position: absolute;
+        padding: 3px;
     `;
 
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
-                        
+                        H
                     </div>`;
 
     window.onload = () => {
         loadModal();
     };
 
-    window.onmouseup = () => {
-        openHighlightModal();
+    window.onmouseup = (event) => {
+        openHighlightModal(event);
     };
 
     /**
@@ -27,7 +27,7 @@
         document.body.innerHTML += modalDiv;
     }
 
-    function openHighlightModal() {
+    function openHighlightModal(event) {
         let modal = document.querySelector("#highlightModal");
 
         if (!isSomethingSelected()) {
@@ -35,8 +35,9 @@
             return;
         }
 
-
         modal.style.display = "block";
+        modal.style.top = `${event.clientY}px`;
+        modal.style.left = `${event.clientX}px`;
     }
 
     /**
