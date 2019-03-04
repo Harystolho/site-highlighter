@@ -1,5 +1,7 @@
 (() => {
 
+    let highlightHost = "http://localhost:8080";
+
     let initialPos = {x: 0, y: 0};
     let finalPos = {x: 0, y: 0};
 
@@ -73,7 +75,25 @@
 
     window.saveSelection = function () {
         let selectedText = getSelectedText();
+
+        sendSelectionToServer(selectedText, (status)=>{
+            if(status === "OK")
+                window.getSelection().removeAllRanges();
+        });
     };
+
+    function sendSelectionToServer(selection, cb) {
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                cb("OK");
+            }
+        };
+
+        xhttp.open("POST", `${highlightHost}/api/v1/save`, true);
+        xhttp.send(`id=${Highlight.id}&text=${selection}`);
+    }
 
     function getSelectedText() {
         let range = window.getSelection().getRangeAt(0);
