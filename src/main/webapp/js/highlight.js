@@ -7,14 +7,18 @@
     let selectionDirection;
 
     let modalCss = `
-        background-color: rgb(246, 246, 246);
+        background-color: rgb(240, 240, 240);
         display: block;
         position: absolute;
         padding: 3px;
+        width: 78px;
+        border-radius: 4px;
+        box-shadow: 0 0 3px 2px #0000004d;
     `;
 
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
-                        <img src="https://image.flaticon.com/icons/svg/25/25688.svg" style="width:28px;">
+                        <img src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fcool-application-icons%2F512%2Fpencil-512.png&f=1" style="width:28px; cursor: pointer"
+                        onclick="saveSelection()">
                     </div>`;
 
     window.onload = () => {
@@ -42,6 +46,10 @@
         document.body.innerHTML += modalDiv;
     }
 
+    /**
+     * Shows or hides the modal that is used to highlight content
+     * @param event
+     */
     function openHighlightModal(event) {
         let modal = document.querySelector("#highlightModal");
 
@@ -52,12 +60,25 @@
 
         modal.style.display = "block";
 
+        //parseFloat(window.getComputedStyle(event.target, null).getPropertyValue("font-size").slice(0, -2));
+
         if (selectionDirection === "DOWN") {
-            modal.style.top = `${initialPos.y - modal.offsetHeight}px`;
+            modal.style.top = `${initialPos.y - (modal.offsetHeight * 1.5)}px`;
             modal.style.left = `${initialPos.x}px`;
         } else {
-
+            modal.style.top = `${finalPos.y - (modal.offsetHeight * 1.5)}px`;
+            modal.style.left = `${finalPos.x}px`;
         }
+    }
+
+    window.saveSelection = function () {
+        let selectedText = getSelectedText();
+    };
+
+    function getSelectedText() {
+        let range = window.getSelection().getRangeAt(0);
+
+        return range.cloneContents().textContent;
     }
 
     function calculateSelectionDirection() {
