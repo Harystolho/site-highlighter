@@ -17,12 +17,12 @@
     <div id="contentContainer">
         <div id="contentToolbarContainer">
             <div id="contentToolbar">
-                <img class="content-toolbar-item" src="/icons/pencil.png">
+                <img class="content-toolbar-item" src="/icons/pencil.png" onclick="ContentEditor.toggleEdit()">
                 <img class="content-toolbar-item" src="/icons/trash.png">
                 <img class="content-toolbar-item" src="/icons/color-wheel.png">
             </div>
         </div>
-        <div id="content"></div>
+        <div id="content" contenteditable="true"></div>
     </div>
 </div>
 
