@@ -39,20 +39,6 @@ let Dashboard = (() => {
     `;
     };
 
-    // HELPER FUNCTIONS
-    function httpGet(url, cb) {
-        let xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                cb(this.responseText);
-            }
-        };
-
-        xhttp.open("GET", url, true);
-        xhttp.send();
-    }
-
     return funcs;
 })();
 
@@ -60,20 +46,39 @@ let ContentEditor = (() => {
     let funcs = {};
 
     funcs.saveDocument = () => {
-        let xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let response = JSON.parse(this.responseText);
-            }
-        };
-
         let content = document.querySelector("#content");
 
-        xhttp.open("POST", `/api/v1/document/save`, true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`id=${content.getAttribute("data-document-id")}&text=${content.innerHTML}`);
+        httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data)=>{
+            let response = JSON.parse(data);
+        });
     };
 
     return funcs;
 })();
+
+function httpGet(url, cb) {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            cb(this.responseText);
+        }
+    };
+
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
+function httpPost(url, body, cb) {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            cb(this.responseText);
+        }
+    };
+
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send(body);
+}
