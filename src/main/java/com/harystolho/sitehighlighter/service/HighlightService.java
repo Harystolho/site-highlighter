@@ -14,7 +14,7 @@ public class HighlightService {
 	private static final Logger logger = Logger.getLogger(HighlightService.class.getName());
 
 	public ServiceResponse<Void> saveHighlight(Cookie[] cookies, String text) {
-		if (text == null) {
+		if (text == null || text.trim().equals("")) {
 			logger.severe("text is null");
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}

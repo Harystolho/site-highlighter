@@ -76,8 +76,8 @@
     window.saveSelection = function () {
         let selectedText = getSelectedText();
 
-        sendSelectionToServer(selectedText, (status)=>{
-            if(status === "OK")
+        sendSelectionToServer(selectedText, (status) => {
+            if (status === "OK")
                 window.getSelection().removeAllRanges();
         });
     };
@@ -85,9 +85,11 @@
     function sendSelectionToServer(selection, cb) {
         let xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function() {
+        xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                cb("OK");
+                let response = JSON.parse(this.responseText);
+
+                cb(response.error);
             }
         };
 

@@ -27,8 +27,6 @@ public class HighlightController {
 		ServiceResponse<Void> response = highlightService.saveHighlight(req.getCookies(), req.getParameter("text"));
 
 		switch (response.getStatus()) {
-		case OK:
-			break;
 		case FAIL:
 			return API_Response.of("FAIL", null);
 		default:
