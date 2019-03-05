@@ -40,7 +40,12 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 		<!-- END SPRING -->
-
+		<!-- START THYMELEAF -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring5</artifactId>
+		</dependency>
+		<!-- END THYMELEAF -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

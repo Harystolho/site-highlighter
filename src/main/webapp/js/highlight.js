@@ -113,6 +113,14 @@
     }
 
     /**
+     * Opens a window to manage the highlights. How this function is called varies from site to site, some may choose
+     * to add a button or an icon, but that doesn't interfere with the functionality
+     */
+    window.openHighlightsFrame = () =>{
+
+    };
+
+    /**
      *
      * @return {boolean} TRUE if there is something(text or image) selected
      */
