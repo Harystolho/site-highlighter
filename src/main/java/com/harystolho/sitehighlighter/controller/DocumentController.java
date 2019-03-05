@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.harystolho.sitehighlighter.model.Document;
@@ -29,6 +30,21 @@ public class DocumentController {
 	@ResponseBody
 	public API_Response getDocuments(HttpServletRequest req) {
 		ServiceResponse<List<Document>> response = documentService.listDocuments(Arrays.asList(req.getCookies()));
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return API_Response.of("FAIL", null);
+		default:
+			break;
+		}
+
+		return API_Response.of("OK", response.getResponse());
+	}
+
+	@GetMapping("/api/v1/document/{id}")
+	@ResponseBody
+	public API_Response getDocument(HttpServletRequest req, @PathVariable int id) {
+		ServiceResponse<Document> response = documentService.getDocument(Arrays.asList(req.getCookies()), id);
 
 		switch (response.getStatus()) {
 		case FAIL:

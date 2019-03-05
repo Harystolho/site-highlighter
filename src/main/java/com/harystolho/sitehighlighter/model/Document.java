@@ -2,6 +2,8 @@ package com.harystolho.sitehighlighter.model;
 
 public class Document {
 
+	private int id;
+
 	private String title;
 	private String path;
 	private String highlights;
@@ -39,8 +41,16 @@ public class Document {
 		if (highlights.isEmpty()) {
 			highlights = highlight.getText();
 		} else {
-			this.highlights += "\r\n\r\n" + highlight.getText();
+			this.highlights += "<br><br>" + highlight.getText();
 		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

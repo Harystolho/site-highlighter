@@ -3,6 +3,7 @@ package com.harystolho.sitehighlighter.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 
@@ -29,7 +30,8 @@ public class FakeDocumentDAO implements DocumentDAO {
 		if (document.isPresent()) {
 			document.get().addHighlight(highlight);
 		} else {
-			Document doc = new Document(highlight.getText().substring(0, 15));
+			Document doc = new Document(highlight.getText().substring(0, 35));
+			doc.setId(new Random().nextInt(500));
 			doc.setPath(highlight.getPath()); // TODO remove / at the end of path
 
 			doc.addHighlight(highlight);
@@ -54,6 +56,13 @@ public class FakeDocumentDAO implements DocumentDAO {
 	@Override
 	public List<Document> getDocumentsByUser(List<Cookie> cookies) {
 		return documents;
+	}
+
+	@Override
+	public Optional<Document> getDocumentById(List<Cookie> cookies, int id) {
+		return documents.stream().filter((doc) -> {
+			return doc.getId() == id;
+		}).findFirst();
 	}
 
 }

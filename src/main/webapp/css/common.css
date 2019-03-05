@@ -35,6 +35,7 @@ body{
 
 .library-template-title{
     margin-bottom: 0;
+    cursor: pointer;
 }
 
 .library-template-url{

@@ -1,6 +1,7 @@
 package com.harystolho.sitehighlighter.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
@@ -26,6 +27,16 @@ public class DocumentService {
 
 	public ServiceResponse<List<Document>> listDocuments(List<Cookie> cookies) {
 		return ServiceResponse.of(documentDao.getDocumentsByUser(cookies), ServiceStatus.OK);
+	}
+
+	public ServiceResponse<Document> getDocument(List<Cookie> cookies, int id) {
+		Optional<Document> document = documentDao.getDocumentById(cookies, id);
+
+		if (document.isPresent()) {
+			return ServiceResponse.of(document.get(), ServiceStatus.OK);
+		} else {
+			return ServiceResponse.of(null, ServiceStatus.FAIL);
+		}
 	}
 
 }
