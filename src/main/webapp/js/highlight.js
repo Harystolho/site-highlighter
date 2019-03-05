@@ -92,6 +92,7 @@
         };
 
         xhttp.open("POST", `${highlightHost}/api/v1/save`, true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhttp.send(`id=${Highlight.id}&text=${selection}`);
     }
 
