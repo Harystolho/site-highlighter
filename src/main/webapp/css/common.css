@@ -21,16 +21,21 @@ body{
 
 #libraryContainer {
     width: var(--library-container-width);
-    padding: 7px;
+    padding: 7px 0;
 }
 
 #contentContainer{
     width: calc(100% - var(--menu-container-width) - var(--library-container-width));
-    background-color: #f3f3f3;
+    background-color: #f9f9f9;
+    overflow-y: auto;
 }
 
 .library-template-container{
-    margin-bottom: 10px;
+    padding: 6px 5px;
+}
+
+.library-template-container:hover {
+    box-shadow: 0 0 5px #4b4b4b66;
 }
 
 .library-template-title{
@@ -44,4 +49,13 @@ body{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+#content{
+    margin: 0 auto;
+    max-width: 1160px;
+}
+
+#contentToolbar{
+    height: 100px;
 }

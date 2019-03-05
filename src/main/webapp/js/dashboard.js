@@ -24,7 +24,7 @@ let Dashboard = (() => {
         httpGet(`/api/v1/document/${id}`, (data)=>{
            let response = JSON.parse(data);
 
-           document.querySelector("#contentContainer").innerHTML = response.data.highlights;
+           document.querySelector("#content").innerHTML = response.data.highlights;
         });
     };
 
