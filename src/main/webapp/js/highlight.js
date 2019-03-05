@@ -120,5 +120,19 @@
         return window.getSelection().anchorOffset !== window.getSelection().focusOffset;
     }
 
+    window.listHighlights = () => {
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let response = JSON.parse(this.responseText);
+
+            }
+        };
+
+        xhttp.open("POST", `${highlightHost}/api/v1/highlight`, true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(`id=${Highlight.id}&path=${window.location.host + window.location.pathname}`);
+    }
 
 })();

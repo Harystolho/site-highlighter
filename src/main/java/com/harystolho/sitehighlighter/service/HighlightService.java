@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -35,6 +36,10 @@ public class HighlightService {
 		highlightDao.saveHighlight(new Highlight(text, path));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
+	public ServiceResponse<List<Highlight>> listHighlights(List<Cookie> asList, String path) {
+		return ServiceResponse.of(highlightDao.getHighlightsByPath(path), ServiceStatus.OK);
 	}
 
 	private boolean isHighlightTextValid(String text) {

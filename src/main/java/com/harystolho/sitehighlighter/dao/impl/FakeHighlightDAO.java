@@ -2,6 +2,7 @@ package com.harystolho.sitehighlighter.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,12 @@ public class FakeHighlightDAO implements HighlightDAO {
 	@Override
 	public void saveHighlight(Highlight highlight) {
 		highlights.add(highlight);
+	}
+
+	@Override
+	public List<Highlight> getHighlightsByPath(String path) {
+		return this.highlights.stream().filter((high) -> high.getPath().equalsIgnoreCase(path))
+				.collect(Collectors.toList());
 	}
 
 }
