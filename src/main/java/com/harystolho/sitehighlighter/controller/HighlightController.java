@@ -1,5 +1,7 @@
 package com.harystolho.sitehighlighter.controller;
 
+import java.util.Arrays;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +26,8 @@ public class HighlightController {
 
 	@PostMapping("/api/v1/save")
 	public API_Response saveHighlight(HttpServletRequest req, HttpServletResponse res) {
-		ServiceResponse<Void> response = highlightService.saveHighlight(req.getCookies(), req.getParameter("text"));
-
+		ServiceResponse<Void> response = highlightService.saveHighlight(Arrays.asList(req.getCookies()), req.getParameter("text"), req.getParameter("path"));
+		
 		switch (response.getStatus()) {
 		case FAIL:
 			return API_Response.of("FAIL", null);
