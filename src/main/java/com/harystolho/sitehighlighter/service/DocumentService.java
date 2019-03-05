@@ -39,4 +39,20 @@ public class DocumentService {
 		}
 	}
 
+	public ServiceResponse<Object> saveDocument(List<Cookie> cookies, String id, String text) {
+		if (!HighlightService.isHighlightTextValid(text)) {
+			logger.severe("Content text is not valid [" + id + "]");
+			return ServiceResponse.of(null, ServiceStatus.FAIL);
+		}
+
+		try {
+			documentDao.updateDocumentText(Integer.parseInt(id), text);
+		} catch (Exception e) {
+			logger.severe(String.format("Can't convert id to int [%s]", id));
+			return ServiceResponse.of(null, ServiceStatus.FAIL);
+		}
+
+		return ServiceResponse.of("{}", ServiceStatus.OK);
+	}
+
 }

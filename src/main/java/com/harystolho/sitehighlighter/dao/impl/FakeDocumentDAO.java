@@ -83,4 +83,13 @@ public class FakeDocumentDAO implements DocumentDAO {
 		}).findFirst();
 	}
 
+	@Override
+	public void updateDocumentText(int id, String text) {
+		Optional<Document> document = getDocumentById(null, id);
+		
+		if(document.isPresent()) {
+			document.get().setHighlights(text);
+		}
+	}
+
 }

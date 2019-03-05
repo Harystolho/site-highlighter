@@ -25,6 +25,7 @@ let Dashboard = (() => {
             let response = JSON.parse(data);
 
             document.querySelector("#content").innerHTML = response.data.highlights;
+            document.querySelector("#content").setAttribute("data-document-id", id);
         });
     };
 
@@ -58,7 +59,21 @@ let Dashboard = (() => {
 let ContentEditor = (() => {
     let funcs = {};
 
+    funcs.saveDocument = () => {
+        let xhttp = new XMLHttpRequest();
 
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let response = JSON.parse(this.responseText);
+            }
+        };
+
+        let content = document.querySelector("#content");
+
+        xhttp.open("POST", `/api/v1/document/save`, true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(`id=${content.getAttribute("data-document-id")}&text=${content.innerHTML}`);
+    };
 
     return funcs;
 })();

@@ -18,4 +18,6 @@ public interface DocumentDAO {
 
 	Optional<Document> getDocumentById(List<Cookie> cookies, int id);
 
+	void updateDocumentText(int id, String text);
+
 }

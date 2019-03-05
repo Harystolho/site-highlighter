@@ -48,7 +48,7 @@ public class HighlightService {
 		}
 	}
 
-	private boolean isHighlightTextValid(String text) {
+	public static boolean isHighlightTextValid(String text) {
 		return text != null && !text.trim().equals("");
 	}
 
