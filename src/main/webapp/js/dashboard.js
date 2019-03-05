@@ -58,17 +58,7 @@ let Dashboard = (() => {
 let ContentEditor = (() => {
     let funcs = {};
 
-    funcs.toggleEdit = () =>{
-        let content = document.querySelector("#content");
 
-        let state = content.getAttribute("contenteditable");
-
-        if(state === "true"){
-            content.setAttribute("contenteditable", "false");
-        } else {
-            content.setAttribute("contenteditable", "true");
-        }
-    };
 
     return funcs;
 })();
