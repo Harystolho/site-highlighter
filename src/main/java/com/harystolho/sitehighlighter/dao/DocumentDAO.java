@@ -6,8 +6,6 @@ import com.harystolho.sitehighlighter.model.Highlight;
 
 public interface DocumentDAO {
 
-	void saveHighlight(Highlight highlight);
-
-	List<Highlight> getHighlightsByPath(String path);
+	
 
 }

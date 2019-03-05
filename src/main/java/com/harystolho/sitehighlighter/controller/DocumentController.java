@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.harystolho.sitehighlighter.model.Document;
-import com.harystolho.sitehighlighter.model.Highlight;
 import com.harystolho.sitehighlighter.service.DocumentService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
 import com.harystolho.sitehighlighter.utils.API_Response;
