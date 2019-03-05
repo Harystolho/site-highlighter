@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.DocumentService;
@@ -25,6 +26,7 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/documents")
+	@ResponseBody
 	public API_Response getDocuments(HttpServletRequest req) {
 		ServiceResponse<List<Document>> response = documentService.listDocuments(Arrays.asList(req.getCookies()));
 

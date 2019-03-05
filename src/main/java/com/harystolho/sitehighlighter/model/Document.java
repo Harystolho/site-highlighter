@@ -2,8 +2,22 @@ package com.harystolho.sitehighlighter.model;
 
 public class Document {
 
+	private String title;
 	private String path;
 	private String highlights;
+
+	public Document(String title) {
+		this.title = title;
+		highlights = "";
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getPath() {
 		return path;
@@ -22,7 +36,11 @@ public class Document {
 	}
 
 	public void addHighlight(Highlight highlight) {
-		this.highlights += "\r\n\r\n" + highlight.getText();
+		if (highlights.isEmpty()) {
+			highlights = highlight.getText();
+		} else {
+			this.highlights += "\r\n\r\n" + highlight.getText();
+		}
 	}
 
 }

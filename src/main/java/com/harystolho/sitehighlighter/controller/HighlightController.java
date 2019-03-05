@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
 import com.harystolho.sitehighlighter.service.HighlightService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
@@ -45,7 +46,7 @@ public class HighlightController {
 
 	@PostMapping("/api/v1/highlight")
 	public API_Response listHighlightsByPath(HttpServletRequest req) {
-		ServiceResponse<List<Highlight>> response = highlightService.listHighlights(Arrays.asList(req.getCookies()), req.getParameter("path"));
+		ServiceResponse<Document> response = highlightService.listHighlights(Arrays.asList(req.getCookies()), req.getParameter("path"));
 		
 		switch (response.getStatus()) {
 		case FAIL:

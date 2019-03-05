@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.Cookie;
+
 import org.springframework.stereotype.Service;
 
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
@@ -27,8 +29,8 @@ public class FakeDocumentDAO implements DocumentDAO {
 		if (document.isPresent()) {
 			document.get().addHighlight(highlight);
 		} else {
-			Document doc = new Document();
-			doc.setPath(highlight.getPath());
+			Document doc = new Document(highlight.getText().substring(0, 15));
+			doc.setPath(highlight.getPath()); // TODO remove / at the end of path
 
 			doc.addHighlight(highlight);
 
@@ -44,9 +46,14 @@ public class FakeDocumentDAO implements DocumentDAO {
 
 		if (document.isPresent()) {
 			return document.get();
-		} else {
-			return new Document();
 		}
+
+		return null;
+	}
+
+	@Override
+	public List<Document> getDocumentsByUser(List<Cookie> cookies) {
+		return documents;
 	}
 
 }

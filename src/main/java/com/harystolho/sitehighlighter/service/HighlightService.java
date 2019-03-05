@@ -39,7 +39,13 @@ public class HighlightService {
 	}
 
 	public ServiceResponse<Document> listHighlights(List<Cookie> asList, String path) {
-		return ServiceResponse.of(documentDao.getHighlightsByPath(path), ServiceStatus.OK);
+		Document document = documentDao.getHighlightsByPath(path);
+
+		if (document != null) {
+			return ServiceResponse.of(document, ServiceStatus.OK);
+		} else {
+			return ServiceResponse.of(null, ServiceStatus.FAIL);
+		}
 	}
 
 	private boolean isHighlightTextValid(String text) {

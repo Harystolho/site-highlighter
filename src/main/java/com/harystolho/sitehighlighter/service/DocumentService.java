@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
+import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
 
 @Service
 public class DocumentService {
@@ -23,8 +24,8 @@ public class DocumentService {
 		this.documentDao = documentDAO;
 	}
 
-	public ServiceResponse<List<Document>> listDocuments(List<Cookie> asList) {
-		return null;
+	public ServiceResponse<List<Document>> listDocuments(List<Cookie> cookies) {
+		return ServiceResponse.of(documentDao.getDocumentsByUser(cookies), ServiceStatus.OK);
 	}
 
 }
