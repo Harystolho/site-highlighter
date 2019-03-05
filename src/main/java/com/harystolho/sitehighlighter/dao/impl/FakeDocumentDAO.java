@@ -36,4 +36,17 @@ public class FakeDocumentDAO implements DocumentDAO {
 		}
 	}
 
+	@Override
+	public Document getHighlightsByPath(String path) {
+		Optional<Document> document = documents.stream().filter((doc) -> {
+			return doc.getPath().equalsIgnoreCase(path);
+		}).findFirst();
+
+		if (document.isPresent()) {
+			return document.get();
+		} else {
+			return new Document();
+		}
+	}
+
 }

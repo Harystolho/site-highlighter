@@ -8,7 +8,8 @@ import javax.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.harystolho.sitehighlighter.dao.HighlightDAO;
+import com.harystolho.sitehighlighter.dao.DocumentDAO;
+import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
 
@@ -17,11 +18,11 @@ public class HighlightService {
 
 	private static final Logger logger = Logger.getLogger(HighlightService.class.getName());
 
-	private HighlightDAO highlightDao;
+	private DocumentDAO documentDao;
 
 	@Autowired
-	public HighlightService(HighlightDAO highlightDAO) {
-		highlightDao = highlightDAO;
+	public HighlightService(DocumentDAO highlightDAO) {
+		documentDao = highlightDAO;
 	}
 
 	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String text, String path) {
@@ -32,13 +33,13 @@ public class HighlightService {
 
 		// TODO add cookie verification
 
-		highlightDao.saveHighlight(new Highlight(text, path));
+		documentDao.addHighlightToDocument(new Highlight(text, path));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<List<Highlight>> listHighlights(List<Cookie> asList, String path) {
-		return ServiceResponse.of(highlightDao.getHighlightsByPath(path), ServiceStatus.OK);
+	public ServiceResponse<Document> listHighlights(List<Cookie> asList, String path) {
+		return ServiceResponse.of(documentDao.getHighlightsByPath(path), ServiceStatus.OK);
 	}
 
 	private boolean isHighlightTextValid(String text) {
