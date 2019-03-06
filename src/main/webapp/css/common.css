@@ -24,6 +24,7 @@ body {
     padding: 7px 0;
     overflow-y: auto;
     overflow-x: hidden;
+    margin-top: 52px;
 }
 
 #contentContainer {
@@ -34,7 +35,7 @@ body {
 }
 
 .library-template-container {
-    padding: 8px 5px;
+    padding: 8px 7px;
 }
 
 .library-template-container:hover {
@@ -45,6 +46,7 @@ body {
 .library-template-title {
     margin-bottom: 0;
     cursor: pointer;
+    font-family: 'Raleway', sans-serif;
 }
 
 .library-template-title:hover .library-template-external-link {
@@ -70,6 +72,7 @@ body {
 #content {
     margin: 0 auto;
     max-width: 1160px;
+    font-family: 'Laila', serif;
 }
 
 #contentToolbarContainer {
