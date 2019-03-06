@@ -24,6 +24,8 @@ let Dashboard = (() => {
         httpGet(`/api/v1/document/${id}`, (data) => {
             let response = JSON.parse(data);
 
+            funcs.currentDocumentId = id;
+
             document.querySelector("#content").innerHTML = response.data.highlights;
             document.querySelector("#content").setAttribute("data-document-id", id);
         });
@@ -46,6 +48,9 @@ let ContentEditor = (() => {
     let funcs = {};
 
     funcs.saveDocument = () => {
+        if(Dashboard.currentDocumentId === undefined)
+            return;
+
         let content = document.querySelector("#content");
 
         httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data)=>{
@@ -56,6 +61,10 @@ let ContentEditor = (() => {
                 document.querySelector("#tempStatusMsg").innerHTML = "";
             }, 750);
         });
+    };
+
+    funcs.boldSelection = () =>{
+
     };
 
     return funcs;
