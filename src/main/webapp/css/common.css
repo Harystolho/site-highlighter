@@ -22,6 +22,8 @@ body {
 #libraryContainer {
     width: var(--library-container-width);
     padding: 7px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #contentContainer {

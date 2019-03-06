@@ -83,9 +83,14 @@
     window.saveSelection = function () {
         let selectedText = getSelectedText();
 
+        // TODO display some kind of notification to show if the highlight was saved or failed
+        document.querySelector("#highlightModal").style.display = "none";
+
         sendSelectionToServer(selectedText, (status) => {
-            if (status === "OK")
+            if (status === "OK"){
                 window.getSelection().removeAllRanges();
+            }
+
         });
     };
 
@@ -95,7 +100,6 @@
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let response = JSON.parse(this.responseText);
-
                 cb(response.error);
             }
         };
