@@ -50,6 +50,11 @@ let ContentEditor = (() => {
 
         httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data)=>{
             let response = JSON.parse(data);
+            document.querySelector("#tempStatusMsg").innerHTML = "Saved";
+
+            setTimeout(()=>{
+                document.querySelector("#tempStatusMsg").innerHTML = "";
+            }, 750);
         });
     };
 

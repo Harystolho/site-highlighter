@@ -26,8 +26,9 @@ body {
 
 #contentContainer {
     width: calc(100% - var(--menu-container-width) - var(--library-container-width));
-    background-color: #f9f9f9;
+    background-color: #f1fbff;
     overflow-y: auto;
+    padding: 0 15px;
 }
 
 .library-template-container {
