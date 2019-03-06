@@ -48,22 +48,31 @@ let ContentEditor = (() => {
     let funcs = {};
 
     funcs.saveDocument = () => {
-        if(Dashboard.currentDocumentId === undefined)
+        if (Dashboard.currentDocumentId === undefined)
             return;
 
         let content = document.querySelector("#content");
 
-        httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data)=>{
+        httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data) => {
             let response = JSON.parse(data);
             document.querySelector("#tempStatusMsg").innerHTML = "Saved";
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 document.querySelector("#tempStatusMsg").innerHTML = "";
             }, 750);
         });
     };
 
-    funcs.boldSelection = () =>{
+    funcs.boldSelection = () => {
+        let range = window.getSelection().getRangeAt(0);
+
+        if (range.startContainer.parentElement.tagName === "B") { // Selection range is bold
+            range.insertNode(document.createTextNode(range.extractContents().textContent));
+        } else {
+            let b = document.createElement("b");
+            b.innerHTML = range.extractContents().textContent;
+            range.insertNode(b);
+        }
 
     };
 
