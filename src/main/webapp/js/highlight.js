@@ -1,6 +1,6 @@
 (() => {
 
-    let highlightHost = "http://localhost:8080";
+    let highlightHost = "https://localhost:8181";
 
     let initialPos = {x: 0, y: 0};
     let finalPos = {x: 0, y: 0};

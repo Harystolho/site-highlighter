@@ -1,12 +1,15 @@
 package com.harystolho.sitehighlighter.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,10 +29,13 @@ public class HighlightController {
 	}
 
 	// TODO add cors to this
+	@CrossOrigin
 	@PostMapping("/api/v1/save")
 	public API_Response saveHighlight(HttpServletRequest req, HttpServletResponse res) {
-		ServiceResponse<Void> response = highlightService.saveHighlight(Arrays.asList(req.getCookies()),
-				req.getParameter("text"), req.getParameter("path"));
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+
+		ServiceResponse<Void> response = highlightService.saveHighlight(cookies, req.getParameter("text"),
+				req.getParameter("path"));
 
 		switch (response.getStatus()) {
 		case FAIL:
