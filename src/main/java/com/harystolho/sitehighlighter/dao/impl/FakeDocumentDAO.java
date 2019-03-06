@@ -48,7 +48,7 @@ public class FakeDocumentDAO implements DocumentDAO {
 		if (document.isPresent()) {
 			document.get().addHighlight(highlight);
 		} else {
-			Document doc = new Document(highlight.getText().substring(0, 35));
+			Document doc = new Document("[1] " + highlight.getPath());
 			doc.setId(new Random().nextInt(500));
 			doc.setPath(highlight.getPath()); // TODO remove / at the end of path
 

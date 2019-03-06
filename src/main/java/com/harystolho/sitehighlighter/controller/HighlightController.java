@@ -28,7 +28,6 @@ public class HighlightController {
 		this.highlightService = highlightService;
 	}
 
-	// TODO add cors to this
 	@CrossOrigin
 	@PostMapping("/api/v1/save")
 	public API_Response saveHighlight(HttpServletRequest req, HttpServletResponse res) {

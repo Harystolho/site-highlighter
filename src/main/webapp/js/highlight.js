@@ -16,6 +16,7 @@
         width: 78px;
         border-radius: 4px;
         box-shadow: 0 0 3px 2px #0000004d;
+        z-index: 999;
     `;
 
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
@@ -28,13 +29,15 @@
     };
 
     window.onmousedown = (event) => {
-        initialPos.x = event.layerX;
-        initialPos.y = event.layerY;
+        initialPos.x = event.pageX;
+        initialPos.y = event.pageY;
+
+        console.log(event);
     };
 
     window.onmouseup = (event) => {
-        finalPos.x = event.layerX;
-        finalPos.y = event.layerY;
+        finalPos.x = event.pageX;
+        finalPos.y = event.pageY;
 
         calculateSelectionDirection();
         openHighlightModal(event);
@@ -47,6 +50,10 @@
         console.log("Inserting Highlight Modal");
         document.body.innerHTML += modalDiv;
     }
+
+    window.loadModalWrapper = () =>{
+      loadModal();
+    };
 
     /**
      * Shows or hides the modal that is used to highlight content
@@ -110,6 +117,9 @@
         } else {
             selectionDirection = "UP";
         }
+
+        console.log(initialPos);
+        console.log(finalPos);
     }
 
     /**
