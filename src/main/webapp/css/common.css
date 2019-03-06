@@ -34,16 +34,29 @@ body {
 }
 
 .library-template-container {
-    padding: 6px 5px;
+    padding: 8px 5px;
 }
 
 .library-template-container:hover {
     box-shadow: 0 0 5px #4b4b4b66;
+    background-color: #f3f3f3;
 }
 
 .library-template-title {
     margin-bottom: 0;
     cursor: pointer;
+}
+
+.library-template-title:hover .library-template-external-link {
+    display: inline;
+}
+
+.library-template-external-link {
+    display: none;
+    opacity: 0.6;
+    width: 20px;
+    vertical-align: bottom;
+    margin-left: 5px;
 }
 
 .library-template-url {
@@ -79,7 +92,7 @@ body {
     transition: transform 0.3s;
 }
 
-.content-toolbar-item:hover{
+.content-toolbar-item:hover {
     transform: scale(1.1);
 }
 

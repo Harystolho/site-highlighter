@@ -34,9 +34,13 @@ let Dashboard = (() => {
     // TEMPLATE FUNCTIONS
     funcs.librarySiteTemplate = (title, url, id) => {
         return `
-    <div class="library-template-container">
-        <h5 class="library-template-title" data-id="${id}" onclick="Dashboard.displayDocumentContent(${id})">${title}</h5>
-        <div class="library-template-url"><a href="https://${url}" target="_blank">${url}</a></div>
+    <div class="library-template-container" data-id="${id}">
+        <h5 class="library-template-title">
+            <span onclick="Dashboard.displayDocumentContent(${id})">${title}</span>
+            <a href="https://${url}" target="_blank">
+                <img class="library-template-external-link" src="/icons/external-link.png">
+            </a>
+        </h5>
     </div>
     `; // TODO is the url always HTTPS?
     };
