@@ -80,9 +80,53 @@ let ContentEditor = (() => {
 
     };
 
+    const EDITOR_SEPARATOR = "|~|";
+
     funcs.changeSelectionColor = () => {
-      
+        let range = window.getSelection().getRangeAt(0);
+
+        range.insertNode(document.createTextNode(EDITOR_SEPARATOR));
+
+        if (typeof range.endContainer.appendData === "function") {
+            let firstPart = range.endContainer.textContent.slice(0, range.endOffset);
+            let lastPart = range.endContainer.textContent.slice(range.endOffset);
+
+            range.endContainer.textContent = firstPart + EDITOR_SEPARATOR + lastPart;
+        } else {
+            let fragments = range.extractContents();
+
+            let endResult = "";
+
+            Array.from(fragments.childNodes).forEach((c) => {
+                if (c.tagName === undefined) {
+                    endResult += c.textContent;
+                } else {
+                    endResult += `<${c.tagName.toLowerCase()}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
+                }
+
+            });
+
+            console.log(endResult);
+        }
+
+        console.log(range.commonAncestorContainer);
     };
+
+    /**
+     * Most tags in HTMl have a closing tag, the ones that don't are called void tags.
+     * @param tag
+     * @return {String} the closing tag or an empty string if the tag has no closing tag
+     */
+    function getClosingTag(tag) {
+        let voidTags = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"];
+
+        if(voidTags.includes(tag)){
+            return "";
+        } else {
+            return `</${tag}>`;
+        }
+
+    }
 
     return funcs;
 })();
