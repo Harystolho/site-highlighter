@@ -85,31 +85,34 @@ let ContentEditor = (() => {
     funcs.changeSelectionColor = () => {
         let range = window.getSelection().getRangeAt(0);
 
-        range.insertNode(document.createTextNode(EDITOR_SEPARATOR));
-
+        // if the endContainer is of the type '#text"
         if (typeof range.endContainer.appendData === "function") {
+            range.insertNode(document.createTextNode(EDITOR_SEPARATOR));
+
             let firstPart = range.endContainer.textContent.slice(0, range.endOffset);
             let lastPart = range.endContainer.textContent.slice(range.endOffset);
 
             range.endContainer.textContent = firstPart + EDITOR_SEPARATOR + lastPart;
-        } else {
+        } else { // if the endContainer is of the type "#div" or related to it
             let fragments = range.extractContents();
 
-            let endResult = "";
+            // Insert the separator here so I know where to replace the text later
+            range.insertNode(document.createTextNode(EDITOR_SEPARATOR));
+
+            let completeInnerHTML = "";
 
             Array.from(fragments.childNodes).forEach((c) => {
                 if (c.tagName === undefined) {
-                    endResult += c.textContent;
+                    completeInnerHTML += c.textContent;
                 } else {
-                    endResult += `<${c.tagName.toLowerCase()}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
+                    completeInnerHTML += `<${c.tagName.toLowerCase()}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
                 }
-
             });
 
-            console.log(endResult);
+            range.commonAncestorContainer.innerHTML = range.commonAncestorContainer.innerHTML.replace(EDITOR_SEPARATOR, completeInnerHTML);
         }
 
-        console.log(range.commonAncestorContainer);
+
     };
 
     /**
@@ -118,9 +121,10 @@ let ContentEditor = (() => {
      * @return {String} the closing tag or an empty string if the tag has no closing tag
      */
     function getClosingTag(tag) {
-        let voidTags = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"];
+        let voidTags = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link",
+            "meta", "param", "source", "track", "wbr"];
 
-        if(voidTags.includes(tag)){
+        if (voidTags.includes(tag)) {
             return "";
         } else {
             return `</${tag}>`;
