@@ -34,7 +34,7 @@ public class HighlightController {
 		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
 
 		ServiceResponse<Void> response = highlightService.saveHighlight(cookies, req.getParameter("text"),
-				req.getParameter("path"));
+				req.getParameter("path"), req.getParameter("title"));
 
 		switch (response.getStatus()) {
 		case FAIL:

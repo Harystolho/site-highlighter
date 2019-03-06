@@ -25,7 +25,7 @@ public class HighlightService {
 		documentDao = highlightDAO;
 	}
 
-	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String text, String path) {
+	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String text, String path, String title) {
 		if (!isHighlightTextValid(text)) {
 			logger.severe("text is null");
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
@@ -33,7 +33,7 @@ public class HighlightService {
 
 		// TODO add cookie verification
 
-		documentDao.addHighlightToDocument(new Highlight(text, path));
+		documentDao.addHighlightToDocument(new Highlight(text, path, title));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}

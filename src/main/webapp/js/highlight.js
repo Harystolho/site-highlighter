@@ -32,7 +32,6 @@
         initialPos.x = event.pageX;
         initialPos.y = event.pageY;
 
-        console.log(event);
     };
 
     window.onmouseup = (event) => {
@@ -51,8 +50,8 @@
         document.body.innerHTML += modalDiv;
     }
 
-    window.loadModalWrapper = () =>{
-      loadModal();
+    window.loadModalWrapper = () => {
+        loadModal();
     };
 
     /**
@@ -87,7 +86,7 @@
         document.querySelector("#highlightModal").style.display = "none";
 
         sendSelectionToServer(selectedText, (status) => {
-            if (status === "OK"){
+            if (status === "OK") {
                 window.getSelection().removeAllRanges();
             }
 
@@ -106,7 +105,8 @@
 
         xhttp.open("POST", `${highlightHost}/api/v1/save`, true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`id=${Highlight.id}&text=${encodeURIComponent(selection)}&path=${window.location.host + window.location.pathname}`);
+        xhttp.send(`id=${Highlight.id}&text=${encodeURIComponent(selection)} 
+            &path=${window.location.host + window.location.pathname}&title=${document.title}`);
     }
 
     function getSelectedText() {
@@ -122,15 +122,13 @@
             selectionDirection = "UP";
         }
 
-        console.log(initialPos);
-        console.log(finalPos);
     }
 
     /**
      * Opens a window to manage the highlights. How this function is called varies from site to site, some may choose
      * to add a button or an icon, but that doesn't interfere with the functionality
      */
-    window.openHighlightsFrame = () =>{
+    window.openHighlightsFrame = () => {
 
     };
 

@@ -20,24 +20,12 @@ public class FakeDocumentDAO implements DocumentDAO {
 
 	public FakeDocumentDAO() {
 		documents = new ArrayList<>();
-		
+
 		Document d1 = new Document("D1 Document for testing purposes only");
 		d1.setId(1233);
 		d1.setPath("www.jamesclear.com");
 		d1.setHighlights("This is a simple <b> test</b>");
 		documents.add(d1);
-		
-		Document d2 = new Document("D2 Document for testing purposes only");
-		d2.setId(1234);
-		d2.setPath("www.mylife.com/articles/old-life");
-		d2.setHighlights("This is a simple <b> test</b>");
-		documents.add(d2);
-		
-		Document d3 = new Document("D3 Document for testing purposes only");
-		d3.setId(1235);
-		d3.setPath("www.jamesclear.com/articles/motivation");
-		d3.setHighlights("This is a simple <b> test</b>");
-		documents.add(d3);
 	}
 
 	public void addHighlightToDocument(Highlight highlight) {
@@ -48,7 +36,7 @@ public class FakeDocumentDAO implements DocumentDAO {
 		if (document.isPresent()) {
 			document.get().addHighlight(highlight);
 		} else {
-			Document doc = new Document("[1] " + highlight.getPath());
+			Document doc = new Document(highlight.getPageTitle());
 			doc.setId(new Random().nextInt(500));
 			doc.setPath(highlight.getPath()); // TODO remove / at the end of path
 
@@ -86,8 +74,8 @@ public class FakeDocumentDAO implements DocumentDAO {
 	@Override
 	public void updateDocumentText(int id, String text) {
 		Optional<Document> document = getDocumentById(null, id);
-		
-		if(document.isPresent()) {
+
+		if (document.isPresent()) {
 			document.get().setHighlights(text);
 		}
 	}

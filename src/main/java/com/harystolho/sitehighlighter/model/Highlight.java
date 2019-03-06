@@ -4,10 +4,12 @@ public class Highlight {
 
 	private String text;
 	private String path;
+	private String pageTitle;
 
-	public Highlight(String text, String path) {
+	public Highlight(String text, String path, String title) {
 		this.text = text;
 		this.path = path;
+		this.pageTitle = title;
 	}
 
 	public String getText() {
@@ -24,6 +26,14 @@ public class Highlight {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getPageTitle() {
+		return pageTitle;
+	}
+
+	public void setPageTitle(String pageTitle) {
+		this.pageTitle = pageTitle;
 	}
 
 }
