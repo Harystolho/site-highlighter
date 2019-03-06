@@ -34,9 +34,9 @@ let Dashboard = (() => {
         return `
     <div class="library-template-container">
         <h5 class="library-template-title" data-id="${id}" onclick="Dashboard.displayDocumentContent(${id})">${title}</h5>
-        <div class="library-template-url">${url}</div>
+        <div class="library-template-url"><a href="https://${url}" target="_blank">${url}</a></div>
     </div>
-    `;
+    `; // TODO is the url always HTTPS?
     };
 
     return funcs;
