@@ -80,6 +80,10 @@ let ContentEditor = (() => {
 
     };
 
+    funcs.changeSelectionColor = () => {
+      
+    };
+
     return funcs;
 })();
 

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TempController {
 
+	// TODO remove temp controller
+
 	@GetMapping("/")
 	@ResponseBody
 	public String test_page() {
