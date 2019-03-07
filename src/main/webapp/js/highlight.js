@@ -140,14 +140,15 @@
                 return `</${tag}>`;
             }
         }
-        
+
         function getTagAttributes(tag) {
-            switch (tag.tagName.toLowerCase()){
-                case "a":
-                    return `href="${tag.getAttribute("href")}"`;
-                default:
-                    return "";
-            }
+            let attributes = "";
+
+            tag.getAttributeNames().forEach((attr)=>{
+                attributes += `${attr}="${tag.getAttribute(attr)}" `;
+            });
+
+            return attributes;
         }
     }
 

@@ -105,7 +105,7 @@ let ContentEditor = (() => {
                 if (c.tagName === undefined) { // If the child is not an html tag
                     completeInnerHTML += c.textContent;
                 } else { // If the child is a html tag
-                    completeInnerHTML += `<${c.tagName.toLowerCase()}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
+                    completeInnerHTML += `<${c.tagName.toLowerCase()}  ${getTagAttributes(c)}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
                 }
             });
 
@@ -129,6 +129,21 @@ let ContentEditor = (() => {
         } else {
             return `</${tag}>`;
         }
+    }
+
+    /**
+     * Some tags have some attributes that have to be copied to
+     * @param tag
+     * @return {*}
+     */
+    function getTagAttributes(tag) {
+        let attributes = "";
+
+        tag.getAttributeNames().forEach((attr)=>{
+            attributes += `${attr}="${tag.getAttribute(attr)}"`;
+        });
+
+        return attributes;
     }
 
     return funcs;
