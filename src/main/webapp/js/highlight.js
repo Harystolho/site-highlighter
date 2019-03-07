@@ -25,6 +25,8 @@
                     </div>`;
 
     window.onload = () => {
+        loadCommonScript();
+
         loadModal();
     };
 
@@ -41,6 +43,14 @@
         calculateSelectionDirection();
         openHighlightModal(event);
     };
+
+    function loadCommonScript() {
+        let script = document.createElement('script');
+        script.async = true;script.type = 'text/javascript';
+        script.src = `${highlightHost}/js/common.js`;
+        let node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(script, node);
+    }
 
     /**
      * Creates the modal that shows up when something is selected
@@ -112,8 +122,6 @@
     function getSelectedText() {
         let range = window.getSelection().getRangeAt(0);
 
-
-
         let fragments = range.cloneContents();
         let completeInnerHTML = "";
 
@@ -125,31 +133,7 @@
             }
         });
 
-        console.log(completeInnerHTML);
-
-        //return range.cloneContents().textContent;
         return completeInnerHTML;
-
-        function getClosingTag(tag) {
-            let voidTags = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link",
-                "meta", "param", "source", "track", "wbr"];
-
-            if (voidTags.includes(tag)) {
-                return "";
-            } else {
-                return `</${tag}>`;
-            }
-        }
-
-        function getTagAttributes(tag) {
-            let attributes = "";
-
-            tag.getAttributeNames().forEach((attr)=>{
-                attributes += `${attr}="${tag.getAttribute(attr)}" `;
-            });
-
-            return attributes;
-        }
     }
 
     function calculateSelectionDirection() {
