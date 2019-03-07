@@ -46,7 +46,7 @@ public class HighlightController {
 		res.addCookie(new Cookie("highlight_id", "5fgjvd8u9015dbsl"));
 
 		return API_Response.of("OK", null);
-	}
+	} // TODO button that converts the text to HTML 
 
 	@PostMapping("/api/v1/highlight")
 	public API_Response listHighlightsByPath(HttpServletRequest req) {

@@ -46,7 +46,7 @@ let Dashboard = (() => {
     };
 
     return funcs;
-})();
+})(); // TODO show box to edit the link in an <a> tag
 
 let ContentEditor = (() => {
     let funcs = {};

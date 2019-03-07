@@ -8,6 +8,10 @@
     // "UP" or "DOWN"
     let selectionDirection;
 
+    let options = {
+        triedReload: false
+    };
+
     let modalCss = `
         background-color: rgb(240, 240, 240);
         display: block;
@@ -46,7 +50,8 @@
 
     function loadCommonScript() {
         let script = document.createElement('script');
-        script.async = true;script.type = 'text/javascript';
+        script.async = true;
+        script.type = 'text/javascript';
         script.src = `${highlightHost}/js/common.js`;
         let node = document.getElementsByTagName('script')[0];
         node.parentNode.insertBefore(script, node);
@@ -70,6 +75,11 @@
      */
     function openHighlightModal(event) {
         let modal = document.querySelector("#highlightModal");
+
+        if (modal === null) {
+            displayNotLoadedMessage();
+            return;
+        }
 
         if (!isSomethingSelected()) {
             modal.style.display = "none";
@@ -101,6 +111,7 @@
             }
 
         });
+        ``
     };
 
     function sendSelectionToServer(selection, cb) {
@@ -174,6 +185,16 @@
         xhttp.open("POST", `${highlightHost}/api/v1/highlight`, true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhttp.send(`id=${Highlight.id}&path=${window.location.host + window.location.pathname}`);
+    };
+
+    function displayNotLoadedMessage() {
+        if (!options.triedReload) {
+            if (confirm("Highlight script is not loaded correctly. Try to load again?")) {
+                loadModal();
+            }
+            options.triedReload = true;
+        }
     }
 
-})();
+})
+();
