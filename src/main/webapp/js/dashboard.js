@@ -93,7 +93,7 @@ let ContentEditor = (() => {
             let lastPart = range.endContainer.textContent.slice(range.endOffset);
 
             range.endContainer.textContent = firstPart + EDITOR_SEPARATOR + lastPart;
-        } else { // if the endContainer is of the type "#div" or related to it
+        } else { // if the endContainer is of the type "#div" or related some html tag
             let fragments = range.extractContents();
 
             // Insert the separator here so I know where to replace the text later
@@ -102,9 +102,9 @@ let ContentEditor = (() => {
             let completeInnerHTML = "";
 
             Array.from(fragments.childNodes).forEach((c) => {
-                if (c.tagName === undefined) {
+                if (c.tagName === undefined) { // If the child is not an html tag
                     completeInnerHTML += c.textContent;
-                } else {
+                } else { // If the child is a html tag
                     completeInnerHTML += `<${c.tagName.toLowerCase()}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
                 }
             });
@@ -129,7 +129,6 @@ let ContentEditor = (() => {
         } else {
             return `</${tag}>`;
         }
-
     }
 
     return funcs;

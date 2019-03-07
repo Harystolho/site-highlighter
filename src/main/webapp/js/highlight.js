@@ -112,7 +112,43 @@
     function getSelectedText() {
         let range = window.getSelection().getRangeAt(0);
 
-        return range.cloneContents().textContent;
+
+
+        let fragments = range.cloneContents();
+        let completeInnerHTML = "";
+
+        Array.from(fragments.childNodes).forEach((c) => {
+            if (c.tagName === undefined) { // If the child is not an html tag
+                completeInnerHTML += c.textContent;
+            } else { // If the child is a html tag
+                completeInnerHTML += `<${c.tagName.toLowerCase()} ${getTagAttributes(c)}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
+            }
+        });
+
+        console.log(completeInnerHTML);
+
+        //return range.cloneContents().textContent;
+        return completeInnerHTML;
+
+        function getClosingTag(tag) {
+            let voidTags = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link",
+                "meta", "param", "source", "track", "wbr"];
+
+            if (voidTags.includes(tag)) {
+                return "";
+            } else {
+                return `</${tag}>`;
+            }
+        }
+        
+        function getTagAttributes(tag) {
+            switch (tag.tagName.toLowerCase()){
+                case "a":
+                    return `href="${tag.getAttribute("href")}"`;
+                default:
+                    return "";
+            }
+        }
     }
 
     function calculateSelectionDirection() {
