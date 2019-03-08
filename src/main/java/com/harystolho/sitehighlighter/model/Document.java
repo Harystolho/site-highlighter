@@ -38,11 +38,7 @@ public class Document {
 	}
 
 	public void addHighlight(Highlight highlight) {
-		if (highlights.isEmpty()) {
-			highlights = highlight.getText();
-		} else {
-			this.highlights += "<br><br>" + highlight.getText();
-		}
+		highlights += highlight.getText();
 	}
 
 	public int getId() {

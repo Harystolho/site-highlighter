@@ -134,7 +134,7 @@
         let range = window.getSelection().getRangeAt(0);
 
         let fragments = range.cloneContents();
-        let completeInnerHTML = "";
+        let completeInnerHTML = "<div><div><br></div>";
 
         Array.from(fragments.childNodes).forEach((c) => {
             if (c.tagName === undefined) { // If the child is not an html tag
@@ -144,7 +144,7 @@
             }
         });
 
-        return completeInnerHTML;
+        return completeInnerHTML + "</div>";
     }
 
     function calculateSelectionDirection() {
