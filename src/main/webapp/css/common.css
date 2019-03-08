@@ -40,7 +40,8 @@ body {
 
 .library-template-container:hover {
     box-shadow: 0 0 5px #4b4b4b66;
-    background-color: #f3f3f3;
+    background-color: #0776ff;
+    color: white;
 }
 
 .library-template-title {
