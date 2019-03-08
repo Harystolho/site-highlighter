@@ -28,10 +28,27 @@
                         onclick="saveSelection()">
                     </div>`;
 
+    let notificationCss = `
+        position: fixed;
+        background-color: white;
+        z-index: 99999;
+        right: 17px;
+        top: 78px;
+        padding: 9px 20px;
+        box-shadow: 0 0 5px #00000080;
+        border-radius: 6px;
+        display: none;
+    `;
+
+    let notificationDiv = `<div id="highlightNotification" style="${notificationCss}">
+                    Saved Highlight!
+                    </div>`;
+
     window.onload = () => {
         loadCommonScript();
 
         loadModal();
+        loadNotificationModal();
     };
 
     window.onmousedown = (event) => {
@@ -68,6 +85,26 @@
     window.loadModalWrapper = () => {
         loadModal();
     };
+
+    /**
+     * The notification modal is a div that appears when something is highlighted
+     */
+    function loadNotificationModal() {
+        document.body.innerHTML += notificationDiv;
+    }
+
+    function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
+        let notif = document.querySelector("#highlightNotification");
+
+        if(notif !== null){
+            notif.innerHTML = msg;
+            notif.style.display = "block";
+
+            setTimeout(()=>{
+                notif.style.display = "none";
+            }, duration);
+        }
+    }
 
     /**
      * Shows or hides the modal that is used to highlight content
@@ -108,6 +145,7 @@
         sendSelectionToServer(selectedText, (status) => {
             if (status === "OK") {
                 window.getSelection().removeAllRanges();
+                showNotificationModal();
             }
 
         });
