@@ -25,7 +25,6 @@ body {
     padding: 7px 0;
     overflow-y: auto;
     overflow-x: hidden;
-    margin-top: 52px;
 }
 
 #contentContainer {
@@ -105,4 +104,11 @@ body {
 
 #contentToolbar img {
     width: 35px;
+}
+
+#libraryTitle {
+    font-family: Raleway, serif;
+    font-variant: small-caps;
+    margin-left: 4px;
+    color: #0070ff;
 }
