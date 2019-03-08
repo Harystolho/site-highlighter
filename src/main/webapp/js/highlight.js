@@ -134,7 +134,7 @@
         let range = window.getSelection().getRangeAt(0);
 
         let fragments = range.cloneContents();
-        let completeInnerHTML = "<div><div><br></div>";
+        let completeInnerHTML = "<div>";
 
         Array.from(fragments.childNodes).forEach((c) => {
             if (c.tagName === undefined) { // If the child is not an html tag
@@ -144,7 +144,7 @@
             }
         });
 
-        return completeInnerHTML + "</div>";
+        return completeInnerHTML + "</div><div><br></div>";
     }
 
     function calculateSelectionDirection() {
@@ -190,7 +190,7 @@
     function displayNotLoadedMessage() {
         if (!options.triedReload) {
             if (confirm("Highlight script is not loaded correctly. Try to load again?")) {
-                loadModal();
+                window.onload();
             }
             options.triedReload = true;
         }
