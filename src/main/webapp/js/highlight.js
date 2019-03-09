@@ -143,6 +143,7 @@
 
         sendSelectionToServer(selectedText, (status) => {
             if (status === "OK") {
+                highlightSelectionInPage();
                 window.getSelection().removeAllRanges();
                 showNotificationModal();
             } else {
@@ -184,6 +185,17 @@
         });
 
         return completeInnerHTML + "</div><div><br></div>";
+    }
+
+    /**
+     * Adds a <span> tag arround the selection to indicate it was highlighted
+     */
+    function highlightSelectionInPage() {
+        let highlightSpan = document.createElement("span");
+
+        highlightSpan.style.backgroundColor = "#fffd7c";
+
+        window.getSelection().getRangeAt(0).surroundContents(highlightSpan);
     }
 
     function calculateSelectionDirection() {
