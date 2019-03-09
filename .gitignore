@@ -13,7 +13,7 @@ local
 .recommenders
 .idea
 target/
-src/main/resources/*
+src/main/resources/
 
 # External tool builders
 .externalToolBuilders/

@@ -14,3 +14,21 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 }
+
+//TODO add share on social media
+//TODO add option to choose where what document to add the highlight
+
+//TODO add display document on the page that is being highlighted
+
+//TODO add reminder
+
+//TODO add keyboard shortcut
+
+//TODO add tag to document
+//TODO add sort by tag
+//TODO change document's name
+//TODO delete document
+
+//TODO add account/guest
+
+//TODO create addon
