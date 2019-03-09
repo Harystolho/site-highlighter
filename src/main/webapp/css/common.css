@@ -113,3 +113,25 @@ body {
     margin-left: 4px;
     color: #0070ff;
 }
+
+#menuIcons{
+    display: flex;
+    flex-direction: column;
+    margin-top: 68px;
+}
+
+.menu-icon{
+    text-align: center;
+    margin: 0 8px;
+    border-bottom: solid 1px #0003;
+    padding: 7px 0;
+}
+
+.menu-icon:hover{
+    border-bottom: solid 1px #0070ff;
+    cursor: pointer;
+}
+
+.menu-icon img{
+    width: 65%;
+}
