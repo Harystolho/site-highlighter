@@ -146,8 +146,9 @@
             if (status === "OK") {
                 window.getSelection().removeAllRanges();
                 showNotificationModal();
+            } else {
+                showNotificationModal("Error saving highlight", 5000);
             }
-
         });
         ``
     };
