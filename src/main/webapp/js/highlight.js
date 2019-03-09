@@ -164,8 +164,9 @@
 
         xhttp.open("POST", `${highlightHost}/api/v1/save`, true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`text=${encodeURIComponent(selection)} 
-            &path=${window.location.host + window.location.pathname}&title=${document.title}`);
+        xhttp.send(`text=${encodeURIComponent(selection)}
+            &path=${window.location.host + window.location.pathname}
+            &title=${encodeURIComponent(document.title)}`);
     }
 
     function getSelectedText() {
