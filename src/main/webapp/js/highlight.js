@@ -12,6 +12,13 @@
         triedReload: false
     };
 
+    let shortcutKey = {
+        keyCode: 73,
+        altKey: true,
+        shiftKey: false,
+        ctrlKey: false
+    };
+
     let modalCss = `
         background-color: rgb(240, 240, 240);
         display: block;
@@ -63,6 +70,13 @@
 
         calculateSelectionDirection();
         openHighlightModal(event);
+    };
+
+    window.onkeyup = (event) => {
+        if (event.keyCode === shortcutKey.keyCode && event.altKey === shortcutKey.altKey
+            && event.shiftKey === shortcutKey.shiftKey && event.ctrlKey === shortcutKey.ctrlKey) { // 'i'
+            saveSelectionUsingShortcut();
+        }
     };
 
     function loadCommonScript() {
@@ -153,6 +167,12 @@
         });
         ``
     };
+
+    function saveSelectionUsingShortcut() {
+        if (isSomethingSelected()) {
+            saveSelection();
+        }
+    }
 
     function sendSelectionToServer(selection, cb) {
         let xhttp = new XMLHttpRequest();
