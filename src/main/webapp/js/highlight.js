@@ -96,11 +96,11 @@
     function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
         let notif = document.querySelector("#highlightNotification");
 
-        if(notif !== null){
+        if (notif !== null) {
             notif.innerHTML = msg;
             notif.style.display = "block";
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 notif.style.display = "none";
             }, duration);
         }
@@ -123,8 +123,6 @@
             return;
         }
 
-        modal.style.display = "block";
-
         //parseFloat(window.getComputedStyle(event.target, null).getPropertyValue("font-size").slice(0, -2));
 
         if (selectionDirection === "DOWN") {
@@ -134,12 +132,13 @@
             modal.style.top = `${finalPos.y - (modal.offsetHeight * 1.5)}px`;
             modal.style.left = `${finalPos.x}px`;
         }
+
+        modal.style.display = "block";
     }
 
     window.saveSelection = function () {
         let selectedText = getSelectedText();
 
-        // TODO display some kind of notification to show if the highlight was saved or failed
         document.querySelector("#highlightModal").style.display = "none";
 
         sendSelectionToServer(selectedText, (status) => {
@@ -165,7 +164,7 @@
 
         xhttp.open("POST", `${highlightHost}/api/v1/save`, true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`id=${Highlight.id}&text=${encodeURIComponent(selection)} 
+        xhttp.send(`text=${encodeURIComponent(selection)} 
             &path=${window.location.host + window.location.pathname}&title=${document.title}`);
     }
 
@@ -223,7 +222,7 @@
 
         xhttp.open("POST", `${highlightHost}/api/v1/highlight`, true);
         xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`id=${Highlight.id}&path=${window.location.host + window.location.pathname}`);
+        xhttp.send(`path=${window.location.host + window.location.pathname}`);
     };
 
     function displayNotLoadedMessage() {
