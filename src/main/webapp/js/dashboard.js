@@ -80,9 +80,28 @@ let ContentEditor = (() => {
 
     };
 
-    const EDITOR_SEPARATOR = "|~|";
+    const EDITOR_SEPARATOR = "!#!";
 
     funcs.changeSelectionColor = () => {
+        surroundSelectionWithEditorSeparator();
+
+        let range = window.getSelection().getRangeAt(0);
+
+        let fragments = range.commonAncestorContainer.innerHTML.split(EDITOR_SEPARATOR);
+
+        console.log(fragments[1]);
+
+        let newContent = `<span style="background-color: palegoldenrod">${fragments[1]}</span>`;
+
+        range.commonAncestorContainer.innerHTML = fragments[0] + newContent + fragments[2];
+    };
+
+    /**
+     * Surrounds the selected context with the EDITOR_SEPARATOR tag. This tag is used to indicate where the selection
+     * begins and where it ends, usually after this method is called you use the {range.commonAncestorContainer.innerHTML}
+     * and replace the content between the EDITOR_SEPARATOR tags.
+     */
+    function surroundSelectionWithEditorSeparator() {
         let range = window.getSelection().getRangeAt(0);
 
         // if the endContainer is of the type '#text"
@@ -99,21 +118,23 @@ let ContentEditor = (() => {
             // Insert the separator here so I know where to replace the text later
             range.insertNode(document.createTextNode(EDITOR_SEPARATOR));
 
-            let completeInnerHTML = "";
+            // Place a EDITOR_SEPARATOR in the beginning of the text
+            let completeInnerHTML = EDITOR_SEPARATOR;
 
             Array.from(fragments.childNodes).forEach((c) => {
                 if (c.tagName === undefined) { // If the child is not an html tag
                     completeInnerHTML += c.textContent;
-                } else { // If the child is a html tag
+                } else { // If the child is an html tag
                     completeInnerHTML += `<${c.tagName.toLowerCase()}  ${getTagAttributes(c)}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
                 }
             });
 
+            // Place another EDITOR_SEPARATOR at the end of the text
+            completeInnerHTML += EDITOR_SEPARATOR;
+
             range.commonAncestorContainer.innerHTML = range.commonAncestorContainer.innerHTML.replace(EDITOR_SEPARATOR, completeInnerHTML);
         }
-
-
-    };
+    }
 
     funcs.removeSelectionFormatting = () => {
         let range = window.getSelection().getRangeAt(0);
