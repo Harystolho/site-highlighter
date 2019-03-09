@@ -35,11 +35,11 @@
     `;
 
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
-                        <img src="/icons/highlight.png" style="${cursorCss}"
+                        <img src="${highlightHost}/icons/highlight.png" style="${cursorCss}"
                         onclick="saveSelection()">
-                        <img src="/icons/share.png" style="${cursorCss} margin: 0 7px;"
+                        <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 7px;"
                         onclick="">
-                        <img src="/icons/gear.png" style="${cursorCss}"
+                        <img src="${highlightHost}/icons/gear.png" style="${cursorCss}"
                         onclick="">
                     </div>`;
 
@@ -166,9 +166,9 @@
 
         sendSelectionToServer(selectedText, (status) => {
             if (status === "OK") {
+                showNotificationModal();
                 highlightSelectionInPage();
                 window.getSelection().removeAllRanges();
-                showNotificationModal();
             } else {
                 showNotificationModal("Error saving highlight", 5000);
             }
