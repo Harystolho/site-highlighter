@@ -20,19 +20,27 @@
     };
 
     let modalCss = `
-        background-color: rgb(240, 240, 240);
-        display: block;
+        background-color: rgb(252, 252, 252);
+        display: none;
         position: absolute;
-        padding: 3px;
-        width: 78px;
-        border-radius: 4px;
-        box-shadow: 0 0 3px 2px #0000004d;
+        padding: 5px 9px;
         z-index: 999;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 6px 1px;
+        border-radius: 21px;
+    `;
+
+    let cursorCss = `
+        width: 28px; 
+        cursor: pointer;
     `;
 
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
-                        <img src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fcool-application-icons%2F512%2Fpencil-512.png&f=1" style="width:28px; cursor: pointer"
+                        <img src="/icons/highlight.png" style="${cursorCss}"
                         onclick="saveSelection()">
+                        <img src="/icons/share.png" style="${cursorCss} margin: 0 7px;"
+                        onclick="">
+                        <img src="/icons/gear.png" style="${cursorCss}"
+                        onclick="">
                     </div>`;
 
     let notificationCss = `

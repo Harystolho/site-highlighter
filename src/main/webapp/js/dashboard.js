@@ -36,6 +36,15 @@ let Dashboard = (() => {
         });
     };
 
+    /**
+     * @param library {String}
+     */
+    funcs.displayLibrary = (library) => {
+        document.querySelectorAll(".generalLibrary").forEach(l => l.style.display = "none");
+
+        document.querySelector(library).style.display = "block";
+    };
+
     // TEMPLATE FUNCTIONS
     funcs.librarySiteTemplate = (title, url, id) => {
         return `
@@ -48,16 +57,6 @@ let Dashboard = (() => {
         </h5>
     </div>
     `; // TODO is the url always HTTPS?
-    };
-
-    /**
-     *
-     * @param library {String}
-     */
-    funcs.displayLibrary = (library) => {
-        document.querySelectorAll(".generalLibrary").forEach(l => l.style.display = "none");
-
-        document.querySelector(library).style.display = "block";
     };
 
     return funcs;
@@ -151,6 +150,7 @@ let ContentEditor = (() => {
         }
     }
 
+    // TODO fix this to remove the style
     funcs.removeSelectionFormatting = () => {
         let range = window.getSelection().getRangeAt(0);
 

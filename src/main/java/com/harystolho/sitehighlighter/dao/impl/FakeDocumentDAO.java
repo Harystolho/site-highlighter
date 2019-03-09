@@ -20,12 +20,6 @@ public class FakeDocumentDAO implements DocumentDAO {
 
 	public FakeDocumentDAO() {
 		documents = new ArrayList<>();
-
-		Document d1 = new Document("D1 Document for testing purposes only");
-		d1.setId(1233);
-		d1.setPath("www.jamesclear.com");
-		d1.setHighlights("This is a simple <b> test</b>");
-		documents.add(d1);
 	}
 
 	public void addHighlightToDocument(Highlight highlight) {
