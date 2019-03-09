@@ -113,13 +113,14 @@
     function openHighlightModal(event) {
         let modal = document.querySelector("#highlightModal");
 
-        if (modal === null) {
-            displayNotLoadedMessage();
+        if (!isSomethingSelected()) {
+            if (modal !== null)
+                modal.style.display = "none";
             return;
         }
 
-        if (!isSomethingSelected()) {
-            modal.style.display = "none";
+        if (modal === null) {
+            displayNotLoadedMessage();
             return;
         }
 
