@@ -23,7 +23,6 @@ body {
 #libraryContainer {
     width: var(--library-container-width);
     padding: 7px 0;
-    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -107,31 +106,35 @@ body {
     width: 35px;
 }
 
-#libraryTitle {
+#documentLibraryTitle, #tagLibraryTitle {
     font-family: Raleway, serif;
     font-variant: small-caps;
-    margin-left: 4px;
+    margin-left: 6px;
     color: #0070ff;
 }
 
-#menuIcons{
+#menuIcons {
     display: flex;
     flex-direction: column;
     margin-top: 68px;
 }
 
-.menu-icon{
+.menu-icon {
     text-align: center;
     margin: 0 8px;
     border-bottom: solid 1px #0003;
     padding: 7px 0;
 }
 
-.menu-icon:hover{
+.menu-icon:hover {
     border-bottom: solid 1px #0070ff;
     cursor: pointer;
 }
 
-.menu-icon img{
+.menu-icon img {
     width: 65%;
+}
+
+#documentLibraryList {
+    overflow-y: auto;
 }

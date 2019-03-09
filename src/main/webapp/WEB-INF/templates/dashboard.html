@@ -16,16 +16,25 @@
 <div id="rootContainer">
     <div id="menuContainer">
         <div id="menuIcons">
-            <div class="menu-icon">
+            <div class="menu-icon" onclick="Dashboard.displayLibrary(Dashboard.libraries.DOCUMENT)">
                 <img src="/icons/document-blue.png">
             </div>
-            <div class="menu-icon" style="padding: 10px 0;">
+            <div class="menu-icon" style="padding: 10px 0;" onclick="Dashboard.displayLibrary(Dashboard.libraries.TAG)">
                 <img src="/icons/tag-blue.png">
             </div>
         </div>
     </div>
     <div id="libraryContainer">
-        <h1 id="libraryTitle">Documents</h1>
+        <div id="documentLibrary" class="generalLibrary">
+            <h1 id="documentLibraryTitle">Documents</h1>
+            <!--TODO add the scroll to this div-->
+            <div id="documentLibraryList"></div>
+        </div>
+        <div id="tagLibrary" class="generalLibrary" style="display:none;">
+            <h1 id="tagLibraryTitle">Tags</h1>
+            <!--TODO add the scroll to this div-->
+            <div id="tagLibraryList"></div>
+        </div>
     </div>
     <div id="contentContainer">
         <div id="contentToolbarContainer">
@@ -33,9 +42,11 @@
                 <img class="content-toolbar-item" src="/icons/save.png" onclick="ContentEditor.saveDocument()">
                 <img class="content-toolbar-item" src="/icons/bold.png" onclick="ContentEditor.boldSelection()">
                 <img class="content-toolbar-item" src="/icons/color.png" onclick="ContentEditor.changeSelectionColor()">
-                <img class="content-toolbar-item" src="/icons/remove-formatting.png" onclick="ContentEditor.removeSelectionFormatting()">
+                <img class="content-toolbar-item" src="/icons/remove-formatting.png"
+                     onclick="ContentEditor.removeSelectionFormatting()">
             </div>
-            <div style="text-align: center; color: #776400; font-size: larger; position: absolute; top: 69px;" id="tempStatusMsg"></div>
+            <div style="text-align: center; color: #776400; font-size: larger; position: absolute; top: 69px;"
+                 id="tempStatusMsg"></div>
         </div>
         <div id="content" contenteditable="true"></div>
     </div>

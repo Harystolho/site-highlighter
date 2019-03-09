@@ -1,6 +1,11 @@
 let Dashboard = (() => {
     let funcs = {};
 
+    funcs.libraries = {
+        DOCUMENT: "#documentLibrary",
+        TAG: "#tagLibrary"
+    };
+
     window.onload = () => {
         requestDocuments();
     };
@@ -12,7 +17,7 @@ let Dashboard = (() => {
         httpGet("/api/v1/documents", (data) => {
             let response = JSON.parse(data);
 
-            let library = document.querySelector("#libraryContainer");
+            let library = document.querySelector("#documentLibraryList");
 
             response.data.forEach((doc) => {
                 library.innerHTML += funcs.librarySiteTemplate(doc.title, doc.path, doc.id);
@@ -43,6 +48,16 @@ let Dashboard = (() => {
         </h5>
     </div>
     `; // TODO is the url always HTTPS?
+    };
+
+    /**
+     *
+     * @param library {String}
+     */
+    funcs.displayLibrary = (library) => {
+        document.querySelectorAll(".generalLibrary").forEach(l => l.style.display = "none");
+
+        document.querySelector(library).style.display = "block";
     };
 
     return funcs;
