@@ -39,16 +39,14 @@
     <div id="contentContainer">
         <div id="contentToolbarContainer">
             <div id="contentToolbar">
-                <img class="content-toolbar-item" src="/icons/save.png" onclick="ContentEditor.saveDocument()">
                 <img class="content-toolbar-item" src="/icons/bold.png" onclick="ContentEditor.boldSelection()">
                 <img class="content-toolbar-item" src="/icons/color.png" onclick="ContentEditor.changeSelectionColor()">
                 <img class="content-toolbar-item" src="/icons/remove-formatting.png"
                      onclick="ContentEditor.removeSelectionFormatting()">
             </div>
-            <div style="text-align: center; color: #776400; font-size: larger; position: absolute; top: 69px;"
-                 id="tempStatusMsg"></div>
+            <div id="tempStatusMsg"></div>
         </div>
-        <div id="content" contenteditable="true"></div>
+        <div id="content" contenteditable="true" onkeyup="ContentEditor.contentEditorOnKeyUp(event)"></div>
     </div>
 </div>
 

@@ -139,3 +139,19 @@ body {
 #documentLibraryList {
     overflow-y: auto;
 }
+
+#tempStatusMsg{
+    display: none;
+    text-align: center;
+    color: #fff;
+    font-size: larger;
+    position: absolute;
+    top: 41px;
+    font-family: Raleway, serif;
+    background-color: #67a7fa;
+    border-radius: 6px;
+    padding: 6px 13px;
+    box-shadow: 0 0 5px #0000004d;
+    font-weight: bold;
+    letter-spacing: 2px;
+}

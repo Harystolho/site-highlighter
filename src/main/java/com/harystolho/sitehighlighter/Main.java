@@ -22,7 +22,6 @@ public class Main {
 
 //TODO add reminder
 
-//TODO add auto save
 //TODO add tag to document
 //TODO add sort by tag
 //TODO change document's name

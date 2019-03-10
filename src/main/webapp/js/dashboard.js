@@ -25,17 +25,6 @@ let Dashboard = (() => {
         });
     }
 
-    funcs.displayDocumentContent = (id) => {
-        httpGet(`/api/v1/document/${id}`, (data) => {
-            let response = JSON.parse(data);
-
-            funcs.currentDocumentId = id;
-
-            document.querySelector("#content").innerHTML = response.data.highlights;
-            document.querySelector("#content").setAttribute("data-document-id", id);
-        });
-    };
-
     /**
      * @param library {String}
      */
@@ -50,7 +39,7 @@ let Dashboard = (() => {
         return `
     <div class="library-template-container" data-id="${id}">
         <h5 class="library-template-title">
-            <span onclick="Dashboard.displayDocumentContent(${id})">${title}</span>
+            <span onclick="ContentEditor.displayDocumentContent(${id})">${title}</span>
             <a href="https://${url}" target="_blank">
                 <img class="library-template-external-link" src="/icons/external-link.png">
             </a>
@@ -65,19 +54,69 @@ let Dashboard = (() => {
 let ContentEditor = (() => {
     let funcs = {};
 
+    let options = {
+        currentDocumentId: 0,
+        modifiedTimeout: undefined
+    };
+
+
+    // TODO add the missing ones
+    // The keys below when pressed don't trigger the document to auto save because they don't modify the content
+    const keysIgnoredOnContentEditor = [16 /*SHIFT*/, 17 /*CTRL*/, 18 /*ALT*/, 20 /*CAPS*/,
+        27 /*ESC*/, 37 /*LEFT*/, 38 /*UP*/, 39 /*RIGHT*/, 40 /*DOWN*/];
+
+    // TODO if the user switches to another document before this one is saved, save it before
+    /**
+     * Waits some time after the user has typed something and then saves the document automatically. The document is saved
+     * only if the user has typed some key and for 2 seconds no other keys have been pressed.
+     * @param event
+     */
+    funcs.contentEditorOnKeyUp = (event) => {
+        if (keysIgnoredOnContentEditor.includes(event.keyCode))
+            return;
+
+        if (options.modifiedTimeout !== undefined)
+            clearTimeout(options.modifiedTimeout);
+
+        options.modifiedTimeout = setTimeout(() => {
+            funcs.saveDocument();
+        }, 2000);
+
+    };
+
+    funcs.displayDocumentContent = (id) => {
+        httpGet(`/api/v1/document/${id}`, (data) => {
+            let response = JSON.parse(data);
+
+            resetDocumentOptions(id);
+
+            document.querySelector("#content").innerHTML = response.data.highlights;
+            document.querySelector("#content").setAttribute("data-document-id", id);
+        });
+    };
+
+    function resetDocumentOptions(docId) {
+        options.currentDocumentId = docId;
+        options.modifiedTimeout = undefined;
+    }
+
     funcs.saveDocument = () => {
-        if (Dashboard.currentDocumentId === undefined)
+        if (options.currentDocumentId === undefined)
             return;
 
         let content = document.querySelector("#content");
 
         httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data) => {
             let response = JSON.parse(data);
-            document.querySelector("#tempStatusMsg").innerHTML = "Saved";
+
+            let tempStatusMsg = document.querySelector("#tempStatusMsg");
+
+            tempStatusMsg.innerHTML = "Saved!";
+            tempStatusMsg.style.display = "block";
 
             setTimeout(() => {
-                document.querySelector("#tempStatusMsg").innerHTML = "";
-            }, 750);
+                tempStatusMsg.style.display = "none";
+            }, 1200);
         });
     };
 
@@ -156,7 +195,6 @@ let ContentEditor = (() => {
 
         range.insertNode(document.createTextNode(range.extractContents().textContent));
     };
-
 
     return funcs;
 })();

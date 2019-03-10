@@ -31,7 +31,7 @@ public class FakeDocumentDAO implements DocumentDAO {
 			document.get().addHighlight(highlight);
 		} else {
 			Document doc = new Document(highlight.getPageTitle());
-			doc.setId(new Random().nextInt(500));
+			doc.setId(new Random().nextInt(5000));
 			doc.setPath(highlight.getPath()); // TODO remove / at the end of path
 
 			doc.addHighlight(highlight);
