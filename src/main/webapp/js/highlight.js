@@ -37,9 +37,9 @@ let Highlight = (() => {
 
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
                         <img src="${highlightHost}/icons/highlight.png" style="${cursorCss}"
-                        onclick="saveSelection()">
+                        onclick="Highlight.saveSelection()">
                         <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 7px;"
-                        onclick="tweetSelection()">
+                        onclick="Highlight.tweetSelection()">
                         <img src="${highlightHost}/icons/gear.png" style="${cursorCss}"
                         onclick="">
                     </div>`;
@@ -102,12 +102,9 @@ let Highlight = (() => {
      */
     function loadModal() {
         console.log("Inserting Highlight Modal");
+        // TODO make sure the modal is only inserted once
         document.body.innerHTML += modalDiv;
     }
-
-    window.loadModalWrapper = () => {
-        loadModal();
-    };
 
     /**
      * The notification modal is a div that appears when something is highlighted
@@ -160,7 +157,7 @@ let Highlight = (() => {
         modal.style.display = "block";
     }
 
-    window.saveSelection = function () {
+    Highlight.saveSelection = function () {
         let selectedText = getSelectedText();
 
         document.querySelector("#highlightModal").style.display = "none";
@@ -179,7 +176,7 @@ let Highlight = (() => {
 
     function saveSelectionUsingShortcut() {
         if (isSomethingSelected()) {
-            saveSelection();
+            Highlight.saveSelection();
         }
     }
 
@@ -241,7 +238,7 @@ let Highlight = (() => {
      * Opens a window to manage the highlights. How this function is called varies from site to site, some may choose
      * to add a button or an icon, but that doesn't interfere with the functionality
      */
-    window.openHighlightsFrame = () => {
+    Highlight.openHighlightsFrame = () => {
 
     };
 
@@ -253,7 +250,7 @@ let Highlight = (() => {
         return window.getSelection().anchorOffset !== window.getSelection().focusOffset;
     }
 
-    window.listHighlights = () => {
+    Highlight.listHighlights = () => {
         let xhttp = new XMLHttpRequest();
 
         xhttp.onreadystatechange = function () {
@@ -277,7 +274,7 @@ let Highlight = (() => {
         }
     }
 
-    window.tweetSelection = () => {
+    Highlight.tweetSelection = () => {
         openTweetIntent(window.getSelection().getRangeAt(0).cloneContents().textContent, window.location.href);
     };
 
