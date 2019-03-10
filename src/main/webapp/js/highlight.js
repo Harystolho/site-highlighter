@@ -176,6 +176,7 @@ let Highlight = (() => {
 
         //parseFloat(window.getComputedStyle(event.target, null).getPropertyValue("font-size").slice(0, -2));
 
+        // TODO use range.getClientRects() to position the modal
         if (selectionDirection === "DOWN") {
             modal.style.top = `${initialPos.y - (modal.offsetHeight * 1.5)}px`;
         } else {
@@ -189,7 +190,7 @@ let Highlight = (() => {
         modal.style.display = "block";
     }
 
-    Highlight.saveSelection = function () {
+    funcs.saveSelection = function () {
         let selectedText = getSelectedText();
 
         document.querySelector("#highlightModal").style.display = "none";
@@ -270,7 +271,7 @@ let Highlight = (() => {
      * Opens a window to manage the highlights. How this function is called varies from site to site, some may choose
      * to add a button or an icon, but that doesn't interfere with the functionality
      */
-    Highlight.openHighlightsFrame = () => {
+    funcs.openHighlightsFrame = () => {
 
     };
 
@@ -282,7 +283,7 @@ let Highlight = (() => {
         return window.getSelection().anchorOffset !== window.getSelection().focusOffset;
     }
 
-    Highlight.listHighlights = () => {
+    funcs.listHighlights = () => {
         let xhttp = new XMLHttpRequest();
 
         xhttp.onreadystatechange = function () {
@@ -306,7 +307,7 @@ let Highlight = (() => {
         }
     }
 
-    Highlight.tweetSelection = () => {
+    funcs.tweetSelection = () => {
         openTweetIntent(window.getSelection().getRangeAt(0).cloneContents().textContent, window.location.href);
     };
 
