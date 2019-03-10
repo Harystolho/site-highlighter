@@ -1,4 +1,5 @@
-(() => {
+let Highlight = (() => {
+    let funcs = {};
 
     let highlightHost = "https://localhost:8181";
 
@@ -38,7 +39,7 @@
                         <img src="${highlightHost}/icons/highlight.png" style="${cursorCss}"
                         onclick="saveSelection()">
                         <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 7px;"
-                        onclick="">
+                        onclick="tweetSelection()">
                         <img src="${highlightHost}/icons/gear.png" style="${cursorCss}"
                         onclick="">
                     </div>`;
@@ -276,5 +277,14 @@
         }
     }
 
-})
-();
+    window.tweetSelection = () => {
+        openTweetIntent(window.getSelection().getRangeAt(0).cloneContents().textContent, window.location.href);
+    };
+
+    function openTweetIntent(text, url = " ") {
+        let tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        window.open(tweetUrl);
+    }
+
+    return funcs;
+})();
