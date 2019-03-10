@@ -31,5 +31,3 @@ public class Main {
 //TODO add calendar to remainder's doc
 
 //TODO add account/guest
-
-// TODO remove the highlight page from the addon urls
