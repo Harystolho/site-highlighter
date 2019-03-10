@@ -19,6 +19,7 @@ public class Main {
 //TODO add option to choose where what document to add the highlight
 //TODO fix modal position
 
+//TODO add frame to see highlight in the page
 //TODO add display document on the page that is being highlighted
 
 //TODO add reminder
@@ -26,9 +27,9 @@ public class Main {
 //TODO add tag to document
 //TODO add sort by tag
 //TODO delete document
-//TODO add calendar to remainder's doc
 //TODO change document's name
+//TODO add calendar to remainder's doc
 
 //TODO add account/guest
 
-//TODO create addon
+// TODO remove the highlight page from the addon urls
