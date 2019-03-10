@@ -64,6 +64,7 @@ let Highlight = (() => {
         loadCommonScript();
 
         loadModal();
+        loadCss();
         loadNotificationModal();
     };
 
@@ -104,6 +105,35 @@ let Highlight = (() => {
         console.log("Inserting Highlight Modal");
         // TODO make sure the modal is only inserted once
         document.body.innerHTML += modalDiv;
+    }
+
+    function loadCss() {
+        let css = document.createElement('style');
+
+        css.innerHTML = `
+        #highlightModal::before, #highlightModal::after{
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            transform: rotate(45deg);
+            left: 50%;
+            z-index: -1;
+            }
+
+        #highlightModal.up::before {
+            box-shadow: -3px -3px 4px #0000004d;
+            top: -17%;
+        }
+        
+        #highlightModal.down::after {
+            box-shadow: 3px 3px 4px #0003;
+            top: 83%;
+        }`;
+
+        let node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(css, node);
     }
 
     /**
@@ -148,11 +178,13 @@ let Highlight = (() => {
 
         if (selectionDirection === "DOWN") {
             modal.style.top = `${initialPos.y - (modal.offsetHeight * 1.5)}px`;
-            modal.style.left = `${initialPos.x}px`;
         } else {
             modal.style.top = `${finalPos.y - (modal.offsetHeight * 1.5)}px`;
-            modal.style.left = `${finalPos.x}px`;
         }
+
+        modal.style.left = `${finalPos.x}px`;
+        modal.classList.add("down");
+        modal.classList.remove("up");
 
         modal.style.display = "block";
     }

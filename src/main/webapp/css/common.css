@@ -156,3 +156,23 @@ body {
     font-weight: bold;
     letter-spacing: 2px;
 }
+
+#highlightModal::before, #highlightModal::after{
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    transform: rotate(45deg);
+    left: 50%;
+    z-index: -1;
+    box-shadow: 3px 3px 4px #0003;
+}
+
+#highlightModal::before {
+    top: -17%;
+}
+
+#highlightModal::after {
+    top: 83%;
+}
