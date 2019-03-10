@@ -193,7 +193,7 @@ let ContentEditor = (() => {
     funcs.removeSelectionFormatting = () => {
         let range = window.getSelection().getRangeAt(0);
 
-        range.insertNode(document.createTextNode(range.extractContents().textContent));
+        //range.insertNode(document.createTextNode(range.extractContents().textContent));
     };
 
     return funcs;

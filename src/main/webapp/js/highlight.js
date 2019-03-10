@@ -174,20 +174,32 @@ let Highlight = (() => {
             return;
         }
 
-        //parseFloat(window.getComputedStyle(event.target, null).getPropertyValue("font-size").slice(0, -2));
+        const modalOffset = 15;
+        let rect = getFirstRect(Array.from(window.getSelection().getRangeAt(0).getClientRects()));
 
-        // TODO use range.getClientRects() to position the modal
-        if (selectionDirection === "DOWN") {
-            modal.style.top = `${initialPos.y - (modal.offsetHeight * 1.5)}px`;
-        } else {
-            modal.style.top = `${finalPos.y - (modal.offsetHeight * 1.5)}px`;
-        }
+        modal.style.top = rect.y - modal.offsetHeight - modalOffset + window.scrollY + "px";
 
+        //TODO fix modal x-axis position
         modal.style.left = `${finalPos.x}px`;
         modal.classList.add("down");
         modal.classList.remove("up");
 
         modal.style.display = "block";
+    }
+
+    /**
+     * Returns the DOMRect with the lowest y
+     * @param rects {Array}
+     */
+    function getFirstRect(rects) {
+        let lowest = rects[0];
+
+        rects.forEach((rect) => {
+            if (rect.y < lowest.y)
+                lowest = rect;
+        });
+
+        return lowest;
     }
 
     funcs.saveSelection = function () {
