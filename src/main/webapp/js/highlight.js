@@ -51,16 +51,41 @@ let Highlight = (() => {
         position: fixed;
         background-color: white;
         z-index: 99999;
-        right: 17px;
+        right: 0;
         top: 78px;
         padding: 9px 20px;
         box-shadow: 0 0 5px #00000080;
-        border-radius: 6px;
+        border-radius: 6px 0 0 6px;
         display: none;
     `;
 
     let notificationDiv = `<div id="highlightNotification" style="${notificationCss}">
                     Saved Highlight!
+                    </div>`;
+
+    let customSaveCss = `
+        position: fixed;
+        width: 326px;
+        background-color: white;
+        top: 15vh;
+        right: 0px;
+        box-shadow: 0 0 11px 2px #0003;
+        border-radius: 7px 0 0 7px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    `;
+
+    let customSaveDiv = `<div id="highlightCustomSave" style="${customSaveCss}">
+                    <select style="margin-bottom: 10px;font-size: 14px; padding: 3px">
+                        <option>${window.location.href}</option>
+                        <option>Common Document 1</option>
+                        <option>Common Document 2</option>
+                        <option>Common Document 3</option>
+                    </select>
+                    <div id="customSaveContent" contenteditable="true" style="border: dashed 2px #0003;padding: 2px;margin-bottom: 12px; max-height: 250px; overflow-y: auto; font-size: 14px;">
+                    </div>
+                    <button style="background-color: #0070ff;width: max-content;align-self: center;padding: 9px 7px;color: #fff;border-radius: 4px; font-size: 15px;">Save Highlight</button>
                     </div>`;
 
     window.onload = () => {
@@ -181,6 +206,8 @@ let Highlight = (() => {
             return;
         }
 
+        // TODO don't show the modal if the user opened the custom save modal
+
         const modalOffset = 15;
         let rect = getFirstRect(Array.from(window.getSelection().getRangeAt(0).getClientRects()));
 
@@ -212,7 +239,7 @@ let Highlight = (() => {
     funcs.saveSelection = function () {
         let selectedText = getSelectedText();
 
-        document.querySelector("#highlightModal").style.display = "none";
+        closeHighlightModal();
 
         sendSelectionToServer(selectedText, (status) => {
             if (status === "OK") {
@@ -227,8 +254,25 @@ let Highlight = (() => {
     };
 
     funcs.saveSelectionCustomMode = () => {
+        let selectedText = getSelectedText();
 
+        // Don't add this before getting the text because it removes all ranges when it adds
+        if (document.querySelector("#highlightCustomSave") === null)
+            loadCustomSaveModal();
+
+        closeHighlightModal();
+        window.getSelection().removeAllRanges();
+
+        document.querySelector("#customSaveContent").innerHTML = selectedText;
     };
+
+    function closeHighlightModal() {
+        document.querySelector("#highlightModal").style.display = "none";
+    }
+
+    function loadCustomSaveModal() {
+        document.body.innerHTML += customSaveDiv;
+    }
 
     function saveSelectionUsingShortcut() {
         if (isSomethingSelected()) {
