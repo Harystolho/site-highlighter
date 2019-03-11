@@ -18,6 +18,7 @@ public class Main {
 //TODO add share on social media
 //TODO add option to choose where what document to add the highlight
 
+//TODO show 'reload script' message on a modal instead of alert
 //TODO add frame to see highlight in the page
 //TODO add display document on the page that is being highlighted
 
@@ -28,5 +29,7 @@ public class Main {
 //TODO delete document
 //TODO change document's name
 //TODO add calendar to remainder's doc
+
+//TODO show error if site has csp
 
 //TODO add account/guest

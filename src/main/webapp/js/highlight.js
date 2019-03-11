@@ -35,10 +35,13 @@ let Highlight = (() => {
         cursor: pointer;
     `;
 
+    //TODO improve highlight-plus icon
     let modalDiv = `<div id="highlightModal" style="${modalCss}">
                         <img src="${highlightHost}/icons/highlight.png" style="${cursorCss}"
                         onclick="Highlight.saveSelection()">
-                        <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 7px;"
+                        <img src="${highlightHost}/icons/highlight-plus.png" style="${cursorCss} margin: 0 0 0 5px;"
+                        onclick="Highlight.saveSelectionCustomMode()">
+                        <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 5px;"
                         onclick="Highlight.tweetSelection()">
                         <img src="${highlightHost}/icons/gear.png" style="${cursorCss}"
                         onclick="">
@@ -217,6 +220,10 @@ let Highlight = (() => {
             }
         });
         ``
+    };
+
+    funcs.saveSelectionCustomMode = () => {
+
     };
 
     function saveSelectionUsingShortcut() {
