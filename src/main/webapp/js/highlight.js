@@ -166,6 +166,10 @@ let Highlight = (() => {
     function openHighlightModal(event) {
         let modal = document.querySelector("#highlightModal");
 
+        // If the click was inside the modal
+        if(modal !== null && modal.contains(event.target))
+            return;
+
         if (!isSomethingSelected()) {
             if (modal !== null)
                 modal.style.display = "none";
