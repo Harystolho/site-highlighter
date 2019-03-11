@@ -40,7 +40,7 @@ let Highlight = (() => {
                         <img src="${highlightHost}/icons/highlight.png" style="${cursorCss}"
                         onclick="Highlight.saveSelection()">
                         <img src="${highlightHost}/icons/highlight-plus.png" style="${cursorCss} margin: 0 0 0 5px;"
-                        onclick="Highlight.saveSelectionCustomMode()">
+                        onclick="Highlight.openCustomSaveModal()">
                         <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 5px;"
                         onclick="Highlight.tweetSelection()">
                         <img src="${highlightHost}/icons/gear.png" style="${cursorCss}"
@@ -78,14 +78,14 @@ let Highlight = (() => {
 
     let customSaveDiv = `<div id="highlightCustomSave" style="${customSaveCss}">
                     <select style="margin-bottom: 10px;font-size: 14px; padding: 3px">
-                        <option>${window.location.href}</option>
+                        <option value="0">${document.title}</option>
                         <option>Common Document 1</option>
                         <option>Common Document 2</option>
                         <option>Common Document 3</option>
                     </select>
                     <div id="customSaveContent" contenteditable="true" style="border: dashed 2px #0003;padding: 2px;margin-bottom: 12px; max-height: 250px; overflow-y: auto; font-size: 14px;">
                     </div>
-                    <button style="background-color: #0070ff;width: max-content;align-self: center;padding: 9px 7px;color: #fff;border-radius: 4px; font-size: 15px;">Save Highlight</button>
+                    <button onclick="Highlight.saveCustomModalText()" style="background-color: #0070ff;width: max-content;align-self: center;padding: 9px 7px;color: #fff;border-radius: 4px; font-size: 15px;">Save Highlight</button>
                     </div>`;
 
     window.onload = () => {
@@ -192,7 +192,7 @@ let Highlight = (() => {
         let modal = document.querySelector("#highlightModal");
 
         // If the click was inside the modal
-        if(modal !== null && modal.contains(event.target))
+        if (modal !== null && modal.contains(event.target))
             return;
 
         if (!isSomethingSelected()) {
@@ -253,7 +253,29 @@ let Highlight = (() => {
         ``
     };
 
-    funcs.saveSelectionCustomMode = () => {
+    /**
+     * Saves the text from the custom save modal(#highlightCustomSave)
+     */
+    funcs.saveCustomModalText = () => {
+        let content = document.querySelector("#customSaveContent").innerHTML;
+
+        sendSelectionToServer(content, (status) => {
+            document.querySelector("#highlightCustomSave").remove();
+
+            if (status === "OK") {
+                showNotificationModal();
+                highlightSelectionInPage();
+                window.getSelection().removeAllRanges();
+            } else {
+                showNotificationModal("Error saving highlight", 5000);
+            }
+        });
+    };
+
+    /**
+     * Opens the Custom Save modal to edit the highlight before saving it
+     */
+    funcs.openCustomSaveModal = () => {
         let selectedText = getSelectedText();
 
         // Don't add this before getting the text because it removes all ranges when it adds
@@ -261,7 +283,6 @@ let Highlight = (() => {
             loadCustomSaveModal();
 
         closeHighlightModal();
-        window.getSelection().removeAllRanges();
 
         document.querySelector("#customSaveContent").innerHTML = selectedText;
     };
