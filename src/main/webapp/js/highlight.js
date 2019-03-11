@@ -20,72 +20,31 @@ let Highlight = (() => {
         ctrlKey: false
     };
 
-    let modalCss = `
-        background-color: rgb(252, 252, 252);
-        display: none;
-        position: absolute;
-        padding: 5px 9px;
-        z-index: 999;
-        box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 6px 1px;
-        border-radius: 21px;
-    `;
-
-    let cursorCss = `
-        width: 28px; 
-        cursor: pointer;
-    `;
-
     //TODO improve highlight-plus icon
-    let modalDiv = `<div id="highlightModal" style="${modalCss}">
-                        <img src="${highlightHost}/icons/highlight.png" style="${cursorCss}"
+    let modalDiv = `<div id="highlightModal">
+                        <img class="highlightModal-icon" src="${highlightHost}/icons/highlight.png" 
                         onclick="Highlight.saveSelection()">
-                        <img src="${highlightHost}/icons/highlight-plus.png" style="${cursorCss} margin: 0 0 0 5px;"
+                        <img class="highlightModal-icon" src="${highlightHost}/icons/highlight-plus.png" style="margin: 0 0 0 5px;"
                         onclick="Highlight.openCustomSaveModal()">
-                        <img src="${highlightHost}/icons/share.png" style="${cursorCss} margin: 0 5px;"
+                        <img class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
                         onclick="Highlight.tweetSelection()">
-                        <img src="${highlightHost}/icons/gear.png" style="${cursorCss}"
-                        onclick="">
+                        <img class="highlightModal-icon" src="${highlightHost}/icons/gear.png" onclick="">
                     </div>`;
 
-    let notificationCss = `
-        position: fixed;
-        background-color: white;
-        z-index: 99999;
-        right: 0;
-        top: 78px;
-        padding: 9px 20px;
-        box-shadow: 0 0 5px #00000080;
-        border-radius: 6px 0 0 6px;
-        display: none;
-    `;
-
-    let notificationDiv = `<div id="highlightNotification" style="${notificationCss}">
+    let notificationDiv = `<div id="highlightNotification">
                     Saved Highlight!
                     </div>`;
 
-    let customSaveCss = `
-        position: fixed;
-        width: 326px;
-        background-color: white;
-        top: 15vh;
-        right: 0px;
-        box-shadow: 0 0 11px 2px #0003;
-        border-radius: 7px 0 0 7px;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-    `;
-
-    let customSaveDiv = `<div id="highlightCustomSave" style="${customSaveCss}">
-                    <select style="margin-bottom: 10px;font-size: 14px; padding: 3px">
+    let customSaveDiv = `<div id="highlightCustomSave">
+                    <select id="customSave-select">
                         <option value="0">${document.title}</option>
                         <option>Common Document 1</option>
                         <option>Common Document 2</option>
                         <option>Common Document 3</option>
                     </select>
-                    <div id="customSaveContent" contenteditable="true" style="border: dashed 2px #0003;padding: 2px;margin-bottom: 12px; max-height: 250px; overflow-y: auto; font-size: 14px;">
+                    <div id="customSaveContent" contenteditable="true">
                     </div>
-                    <button onclick="Highlight.saveCustomModalText()" style="background-color: #0070ff;width: max-content;align-self: center;padding: 9px 7px;color: #fff;border-radius: 4px; font-size: 15px;">Save Highlight</button>
+                    <button id="customSave-saveButton" onclick="Highlight.saveCustomModalText()">Save Highlight</button>
                     </div>`;
 
     window.onload = () => {
@@ -133,35 +92,6 @@ let Highlight = (() => {
         console.log("Inserting Highlight Modal");
         // TODO make sure the modal is only inserted once
         document.body.innerHTML += modalDiv;
-    }
-
-    function loadCss() {
-        let css = document.createElement('style');
-
-        css.innerHTML = `
-        #highlightModal::before, #highlightModal::after{
-            content: "";
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background-color: white;
-            transform: rotate(45deg);
-            left: 50%;
-            z-index: -1;
-            }
-
-        #highlightModal.up::before {
-            box-shadow: -3px -3px 4px #0000004d;
-            top: -17%;
-        }
-        
-        #highlightModal.down::after {
-            box-shadow: 3px 3px 4px #0003;
-            top: 83%;
-        }`;
-
-        let node = document.getElementsByTagName('script')[0];
-        node.parentNode.insertBefore(css, node);
     }
 
     /**
@@ -264,7 +194,7 @@ let Highlight = (() => {
 
             if (status === "OK") {
                 showNotificationModal();
-                highlightSelectionInPage();
+                highlightSelectionInPage(); // TODO fix this
                 window.getSelection().removeAllRanges();
             } else {
                 showNotificationModal("Error saving highlight", 5000);
@@ -371,21 +301,6 @@ let Highlight = (() => {
         return window.getSelection().anchorOffset !== window.getSelection().focusOffset;
     }
 
-    funcs.listHighlights = () => {
-        let xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let response = JSON.parse(this.responseText);
-
-            }
-        };
-
-        xhttp.open("POST", `${highlightHost}/api/v1/highlight`, true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`path=${window.location.host + window.location.pathname}`);
-    };
-
     function displayNotLoadedMessage() {
         if (!options.triedReload) {
             if (confirm("Highlight script is not loaded correctly. Try to load again?")) {
@@ -402,6 +317,102 @@ let Highlight = (() => {
     function openTweetIntent(text, url = " ") {
         let tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
         window.open(tweetUrl);
+    }
+
+    function loadCss() {
+        let css = document.createElement("style");
+        css.type = "text/css";
+
+
+        css.innerHTML = `
+        #highlightModal::before, #highlightModal::after{
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            transform: rotate(45deg);
+            left: 50%;
+            z-index: -1;
+            }
+
+        #highlightModal.up::before {
+            box-shadow: -3px -3px 4px #0000004d;
+            top: -17%;
+        }
+        
+        #highlightModal.down::after {
+            box-shadow: 3px 3px 4px #0003;
+            top: 83%;
+        }
+        
+        #highlightModal{
+            background-color: rgb(252, 252, 252);
+            display: none;
+            position: absolute;
+            padding: 5px 9px;
+            z-index: 999;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 6px 1px;
+            border-radius: 21px;
+        }
+        
+        .highlightModal-icon{
+            width: 28px; 
+            cursor: pointer;
+        }
+        
+        #customSave-select{
+            margin-bottom: 10px;
+            font-size: 14px;
+            padding: 3px
+        }
+        
+        #highlightNotification{
+            position: fixed;
+            background-color: white;
+            z-index: 99999;
+            right: 0;
+            top: 78px;
+            padding: 9px 20px;
+            box-shadow: 0 0 5px #00000080;
+            border-radius: 6px 0 0 6px;
+            display: none;
+        }
+        
+        #highlightCustomSave{
+            position: fixed;
+            width: 326px;
+            background-color: white;
+            top: 15vh;
+            right: 0px;
+            box-shadow: 0 0 11px 2px #0003;
+            border-radius: 7px 0 0 7px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #customSaveContent{
+            border: dashed 2px #0003;
+            padding: 2px;
+            margin-bottom: 12px; 
+            max-height: 250px; 
+            overflow-y: auto; 
+            font-size: 14px;
+        }
+        
+        #customSave-saveButton{
+            background-color: #0070ff;
+            width: max-content;
+            align-self: center;
+            padding: 9px 7px;
+            color: #fff;
+            border-radius: 4px; 
+            font-size: 15px;
+        }
+        `;
+
+        document.head.appendChild(css);
     }
 
     return funcs;
