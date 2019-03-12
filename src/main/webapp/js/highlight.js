@@ -3,11 +3,7 @@ let Highlight = (() => {
 
     let highlightHost = "https://localhost:8181";
 
-    let initialPos = {x: 0, y: 0};
     let finalPos = {x: 0, y: 0};
-
-    // "UP" or "DOWN"
-    let selectionDirection;
 
     let options = {
         triedReload: false
@@ -55,17 +51,10 @@ let Highlight = (() => {
         loadNotificationModal();
     };
 
-    window.onmousedown = (event) => {
-        initialPos.x = event.pageX;
-        initialPos.y = event.pageY;
-
-    };
-
     window.onmouseup = (event) => {
         finalPos.x = event.pageX;
         finalPos.y = event.pageY;
 
-        calculateSelectionDirection();
         openHighlightModal(event);
     };
 
@@ -148,7 +137,7 @@ let Highlight = (() => {
         modal.classList.add("down");
         modal.classList.remove("up");
 
-        modal.style.display = "block";
+        modal.style.display = "flex";
     }
 
     /**
@@ -276,15 +265,6 @@ let Highlight = (() => {
         window.getSelection().getRangeAt(0).surroundContents(highlightSpan);
     }
 
-    function calculateSelectionDirection() {
-        if (initialPos.y <= finalPos.y) {
-            selectionDirection = "DOWN";
-        } else {
-            selectionDirection = "UP";
-        }
-
-    }
-
     /**
      * Opens a window to manage the highlights. How this function is called varies from site to site, some may choose
      * to add a button or an icon, but that doesn't interfere with the functionality
@@ -409,6 +389,11 @@ let Highlight = (() => {
             color: #fff;
             border-radius: 4px; 
             font-size: 15px;
+            border: none;
+        }
+        
+        #customSave-saveButton:hover {
+            box-shadow: 0 0 5px #0009;
         }
         `;
 

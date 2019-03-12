@@ -140,7 +140,7 @@ body {
     overflow-y: auto;
 }
 
-#tempStatusMsg{
+#tempStatusMsg {
     display: none;
     text-align: center;
     color: #fff;
@@ -157,7 +157,7 @@ body {
     letter-spacing: 2px;
 }
 
-#highlightModal::before, #highlightModal::after{
+#highlightModal::before, #highlightModal::after {
     content: "";
     position: absolute;
     width: 15px;

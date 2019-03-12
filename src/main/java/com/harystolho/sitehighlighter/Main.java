@@ -32,3 +32,5 @@ public class Main {
 //TODO show error if site has csp
 
 //TODO add account/guest
+
+// https://just-comments.com/docs.html <- How to do authentication 
