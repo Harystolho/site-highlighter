@@ -39,11 +39,11 @@ window.Dashboard = (() => {
         document.querySelector(library).style.display = "block";
     };
 
-    funcs.makeDocumentGold = () =>{
+    funcs.makeDocumentGold = () => {
         let docId = ContentEditor.options.currentDocumentId();
 
-        if(docId !== 0){
-            httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data)=>{
+        if (docId !== 0) {
+            httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data) => {
                 let response = JSON.parse(data);
             });
         }
@@ -76,7 +76,7 @@ window.ContentEditor = (() => {
 
     // Public
     funcs.options = {
-      currentDocumentId: () => options.currentDocumentId
+        currentDocumentId: () => options.currentDocumentId
     };
 
     // TODO add the missing ones

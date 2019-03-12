@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 
@@ -82,6 +83,11 @@ public class FakeDocumentDAO implements DocumentDAO {
 		if (document.isPresent()) {
 			document.get().setStatus(status);
 		}
+	}
+
+	@Override
+	public List<Document> getDocumentsByStatus(DocumentStatus status) {
+		return documents.stream().filter((doc) -> doc.getStatus() == status).collect(Collectors.toList());
 	}
 
 }

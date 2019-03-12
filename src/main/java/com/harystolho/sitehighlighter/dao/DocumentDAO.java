@@ -23,4 +23,6 @@ public interface DocumentDAO {
 
 	void setDocumentStatus(int id, DocumentStatus status);
 
+	List<Document> getDocumentsByStatus(DocumentStatus status);
+
 }

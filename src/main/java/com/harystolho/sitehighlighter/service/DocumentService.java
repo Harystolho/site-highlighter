@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import javax.management.ObjectName;
 import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
@@ -74,6 +78,22 @@ public class DocumentService {
 		}
 
 		return ServiceResponse.of("{}", ServiceStatus.OK);
+	}
+
+	public ServiceResponse<ArrayNode> getDocumentsByStatus(List<Cookie> cookies, String status) {
+		ArrayNode array = new ArrayNode(new JsonNodeFactory(false));
+
+		List<Document> matches = documentDao.getDocumentsByStatus(DocumentStatus.statusFromString(status));
+
+		matches.forEach((doc) -> {
+			ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
+
+			node.put("title", doc.getTitle());
+
+			array.add(node);
+		});
+
+		return ServiceResponse.of(array, ServiceStatus.OK);
 	}
 
 }

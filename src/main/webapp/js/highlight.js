@@ -1,6 +1,7 @@
 import '../css/highlight.css';
 
 import * as common from "./common";
+import * as axios from 'axios';
 
 window.Highlight = (() => {
     let funcs = {};
@@ -46,6 +47,11 @@ window.Highlight = (() => {
                     </div>
                     <button id="customSave-saveButton" onclick="Highlight.saveCustomModalText()">Save Highlight</button>
                     </div>`;
+
+    const DOCUMENT_STATUS = {
+        WOOD: "WOOD",
+        GOLD: "GOLD"
+    };
 
     window.onload = () => {
         loadModal();
@@ -205,6 +211,8 @@ window.Highlight = (() => {
 
         closeHighlightModal();
 
+        addDocumentsToCustomSelect();
+
         document.querySelector("#customSaveContent").innerHTML = selectedText;
     };
 
@@ -290,6 +298,30 @@ window.Highlight = (() => {
             }
             options.triedReload = true;
         }
+    }
+
+    /**
+     * Adds the documents that have the DOCUMENT_STATUS.GOLD to the #customSave-select select
+     */
+    function addDocumentsToCustomSelect() {
+        let select = document.getElementById("customSave-select");
+
+        getDocumentsThatMatchStatus(DOCUMENT_STATUS.GOLD, (data)=>{
+            console.log(data);
+        });
+
+
+    }
+
+    /**
+     *
+     * @param status {DOCUMENT_STATUS|String}
+     * @param cb
+     */
+    function getDocumentsThatMatchStatus(status, cb) {
+        axios.get(`${highlightHost}/api/v1/document/status/${status}`).then((response)=>{
+           cb(response);
+        });
     }
 
     funcs.tweetSelection = () => {
