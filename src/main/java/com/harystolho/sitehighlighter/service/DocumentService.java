@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
+import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
 @Service
 public class DocumentService {
@@ -47,6 +48,26 @@ public class DocumentService {
 
 		try {
 			documentDao.updateDocumentText(Integer.parseInt(id), text);
+		} catch (Exception e) {
+			logger.severe(String.format("Can't convert id to int [%s]", id));
+			return ServiceResponse.of(null, ServiceStatus.FAIL);
+		}
+
+		return ServiceResponse.of("{}", ServiceStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param asList
+	 * @param id
+	 * @param status the status is something similar to a priority for documents
+	 * @return
+	 */
+	public ServiceResponse<Object> changeDocumentStatus(List<Cookie> asList, String id, String status) {
+		DocumentStatus docStatus = DocumentStatus.statusFromString(status);
+
+		try {
+			documentDao.setDocumentStatus(Integer.parseInt(id), docStatus);
 		} catch (Exception e) {
 			logger.severe(String.format("Can't convert id to int [%s]", id));
 			return ServiceResponse.of(null, ServiceStatus.FAIL);

@@ -39,6 +39,16 @@ window.Dashboard = (() => {
         document.querySelector(library).style.display = "block";
     };
 
+    funcs.makeDocumentGold = () =>{
+        let docId = ContentEditor.options.currentDocumentId();
+
+        if(docId !== 0){
+            httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data)=>{
+                let response = JSON.parse(data);
+            });
+        }
+    };
+
     // TEMPLATE FUNCTIONS
     funcs.librarySiteTemplate = (title, url, id) => {
         return `
@@ -64,6 +74,10 @@ window.ContentEditor = (() => {
         modifiedTimeout: undefined
     };
 
+    // Public
+    funcs.options = {
+      currentDocumentId: () => options.currentDocumentId
+    };
 
     // TODO add the missing ones
     // The keys below when pressed don't trigger the document to auto save because they don't modify the content

@@ -1,5 +1,7 @@
 package com.harystolho.sitehighlighter.model;
 
+import com.harystolho.sitehighlighter.utils.DocumentStatus;
+
 public class Document {
 
 	private int id;
@@ -7,6 +9,8 @@ public class Document {
 	private String title;
 	private String path;
 	private String highlights;
+
+	private DocumentStatus status = DocumentStatus.WOOD;
 
 	public Document(String title) {
 		this.title = title;
@@ -47,6 +51,14 @@ public class Document {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public DocumentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(DocumentStatus status) {
+		this.status = status;
 	}
 
 }

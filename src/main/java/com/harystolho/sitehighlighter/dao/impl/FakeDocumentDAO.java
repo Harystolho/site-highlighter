@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
+import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
 @Service
 public class FakeDocumentDAO implements DocumentDAO {
@@ -71,6 +72,15 @@ public class FakeDocumentDAO implements DocumentDAO {
 
 		if (document.isPresent()) {
 			document.get().setHighlights(text);
+		}
+	}
+
+	@Override
+	public void setDocumentStatus(int id, DocumentStatus status) {
+		Optional<Document> document = getDocumentById(null, id);
+
+		if (document.isPresent()) {
+			document.get().setStatus(status);
 		}
 	}
 

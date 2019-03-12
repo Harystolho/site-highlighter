@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.DocumentService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
 import com.harystolho.sitehighlighter.utils.API_Response;
 
-@Controller
+@RestController
 public class DocumentController {
 
 	private DocumentService documentService;
@@ -28,7 +29,6 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/documents")
-	@ResponseBody
 	public API_Response getDocuments(HttpServletRequest req) {
 		ServiceResponse<List<Document>> response = documentService.listDocuments(Arrays.asList(req.getCookies()));
 
@@ -43,7 +43,6 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/document/{id}")
-	@ResponseBody
 	public API_Response getDocument(HttpServletRequest req, @PathVariable int id) {
 		ServiceResponse<Document> response = documentService.getDocument(Arrays.asList(req.getCookies()), id);
 
@@ -58,7 +57,6 @@ public class DocumentController {
 	}
 
 	@PostMapping("/api/v1/document/save")
-	@ResponseBody
 	public API_Response saveDocument(HttpServletRequest req) {
 		ServiceResponse<Object> response = documentService.saveDocument(Arrays.asList(req.getCookies()),
 				req.getParameter("id"), req.getParameter("text"));
@@ -73,4 +71,19 @@ public class DocumentController {
 		return API_Response.of("OK", response.getResponse());
 	}
 
+	@PostMapping("/api/v1/document/status")
+	public API_Response changeDocumentStatus(HttpServletRequest req) {
+		ServiceResponse<Object> response = documentService.changeDocumentStatus(Arrays.asList(req.getCookies()),
+				req.getParameter("id"), req.getParameter("status"));
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return API_Response.of("FAIL", null);
+		default:
+			break;
+		}
+
+		return API_Response.of("OK", response.getResponse());
+	}
+	
 }

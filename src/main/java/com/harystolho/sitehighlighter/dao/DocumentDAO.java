@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
+import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
 public interface DocumentDAO {
 
@@ -19,5 +20,7 @@ public interface DocumentDAO {
 	Optional<Document> getDocumentById(List<Cookie> cookies, int id);
 
 	void updateDocumentText(int id, String text);
+
+	void setDocumentStatus(int id, DocumentStatus status);
 
 }
