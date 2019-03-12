@@ -2,7 +2,7 @@ import '../css/highlight.css';
 
 import * as common from "./common";
 
-let Highlight = (() => {
+window.Highlight = (() => {
     let funcs = {};
 
     let highlightHost = "https://localhost:8181";
@@ -249,7 +249,7 @@ let Highlight = (() => {
             if (c.tagName === undefined) { // If the child is not an html tag
                 completeInnerHTML += c.textContent;
             } else { // If the child is a html tag
-                completeInnerHTML += `<${c.tagName.toLowerCase()} ${getTagAttributes(c)}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
+                completeInnerHTML += `<${c.tagName.toLowerCase()} ${common.getTagAttributes(c)}>` + c.innerHTML + common.getClosingTag(c.tagName.toLowerCase());
             }
         });
 

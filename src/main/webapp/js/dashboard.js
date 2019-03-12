@@ -3,7 +3,7 @@ import * as common from './common';
 import '../css/bootstrap.min.css'
 import '../css/common.css'
 
-let Dashboard = (() => {
+window.Dashboard = (() => {
     let funcs = {};
 
     funcs.libraries = {
@@ -56,7 +56,7 @@ let Dashboard = (() => {
     return funcs;
 })(); // TODO show box to edit the link in an <a> tag
 
-let ContentEditor = (() => {
+window.ContentEditor = (() => {
     let funcs = {};
 
     let options = {
