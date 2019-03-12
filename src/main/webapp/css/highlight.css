@@ -1,0 +1,90 @@
+#highlightModal::before, #highlightModal::after{
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    transform: rotate(45deg);
+    left: 50%;
+    z-index: -1;
+}
+
+#highlightModal.up::before {
+    box-shadow: -3px -3px 4px #0000004d;
+    top: -17%;
+}
+
+#highlightModal.down::after {
+    box-shadow: 3px 3px 4px #0003;
+    top: 83%;
+}
+
+#highlightModal{
+    background-color: rgb(252, 252, 252);
+    display: none;
+    position: absolute;
+    padding: 5px 9px;
+    z-index: 999;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 6px 1px;
+    border-radius: 21px;
+}
+
+.highlightModal-icon{
+    width: 28px;
+    cursor: pointer;
+}
+
+#customSave-select{
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding: 3px
+}
+
+#highlightNotification{
+    position: fixed;
+    background-color: white;
+    z-index: 99999;
+    right: 0;
+    top: 78px;
+    padding: 9px 20px;
+    box-shadow: 0 0 5px #00000080;
+    border-radius: 6px 0 0 6px;
+    display: none;
+}
+
+#highlightCustomSave{
+    position: fixed;
+    width: 326px;
+    background-color: white;
+    top: 15vh;
+    right: 0px;
+    box-shadow: 0 0 11px 2px #0003;
+    border-radius: 7px 0 0 7px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#customSaveContent{
+    border: dashed 2px #0003;
+    padding: 2px;
+    margin-bottom: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+#customSave-saveButton{
+    background-color: #0070ff;
+    width: max-content;
+    align-self: center;
+    padding: 9px 7px;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 15px;
+    border: none;
+}
+
+#customSave-saveButton:hover {
+    box-shadow: 0 0 5px #0009;
+}
