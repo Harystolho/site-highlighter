@@ -1,10 +1,13 @@
 let path = require('path');
 
 module.exports = {
-    entry: './js/highlight.js',
+    entry: {
+        highlight: './js/highlight.js',
+        dashboard: './js/dashboard.js'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     watch: true,
     module: {

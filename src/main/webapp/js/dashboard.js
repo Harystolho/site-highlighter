@@ -1,3 +1,8 @@
+import * as common from './common';
+
+import '../css/bootstrap.min.css'
+import '../css/common.css'
+
 let Dashboard = (() => {
     let funcs = {};
 
@@ -178,7 +183,7 @@ let ContentEditor = (() => {
                 if (c.tagName === undefined) { // If the child is not an html tag
                     completeInnerHTML += c.textContent;
                 } else { // If the child is an html tag
-                    completeInnerHTML += `<${c.tagName.toLowerCase()}  ${getTagAttributes(c)}>` + c.innerHTML + getClosingTag(c.tagName.toLowerCase());
+                    completeInnerHTML += `<${c.tagName.toLowerCase()}  ${common.getTagAttributes(c)}>` + c.innerHTML + common.getClosingTag(c.tagName.toLowerCase());
                 }
             });
 
