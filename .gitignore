@@ -14,6 +14,7 @@ local
 .idea
 target/
 src/main/resources/
+src/main/webapp/note_modules
 
 # External tool builders
 .externalToolBuilders/

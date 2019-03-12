@@ -1,3 +1,5 @@
+import * as common from "./common";
+
 let Highlight = (() => {
     let funcs = {};
 

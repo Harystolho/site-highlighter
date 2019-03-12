@@ -1,0 +1,15 @@
+{
+  "name": "highlight",
+  "version": "0.0.1",
+  "description": "Highlight script",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack js/highlight.js -o dist/bundle.js"
+  },
+  "author": "Harystolho",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}

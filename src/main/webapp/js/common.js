@@ -22,9 +22,13 @@ function getClosingTag(tag) {
 function getTagAttributes(tag) {
     let attributes = "";
 
-    tag.getAttributeNames().forEach((attr)=>{
+    tag.getAttributeNames().forEach((attr) => {
         attributes += `${attr}="${tag.getAttribute(attr)}"`;
     });
 
     return attributes;
+}
+
+export {
+    getTagAttributes, getClosingTag
 }
