@@ -4,7 +4,7 @@
   "description": "Highlight script",
   "main": "index.js",
   "scripts": {
-    "build": "webpack js/highlight.js -o dist/bundle.js"
+    "build": "webpack js/highlight.js -o dist/bundle.js --watch"
   },
   "author": "Harystolho",
   "license": "ISC",
