@@ -1,10 +1,22 @@
 package com.harystolho.sitehighlighter.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.DbRefResolver;
+import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -17,6 +29,13 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
 
 	private ApplicationContext applicationContext;
 
+	private MongoDbFactory mongoDbFactory;
+	
+	@Autowired
+	public WebConfig(MongoDbFactory mongoDbFactory) {
+		this.mongoDbFactory = mongoDbFactory;
+	}
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
@@ -53,6 +72,32 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
 		return viewResolver;
 	}
 
+	@Bean
+	public MongoCustomConversions customConversions() {
+		final List<Converter<?, ?>> converters = new ArrayList<>();
+
+		//converters.add(new NoteWriterConverter());
+
+		return new MongoCustomConversions(converters);
+	}
+
+	@Bean
+	public MappingMongoConverter mongoConverter() throws Exception {
+		MongoMappingContext mappingContext = new MongoMappingContext();
+		DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory);
+
+		MappingMongoConverter mongoConverter = new MappingMongoConverter(dbRefResolver, mappingContext);
+		mongoConverter.setCustomConversions(customConversions());
+		mongoConverter.afterPropertiesSet();
+
+		return mongoConverter;
+	}
+
+	@Bean
+	public MongoTemplate mongoTemplate() throws Exception {
+		return new MongoTemplate(mongoDbFactory, mongoConverter());
+	}
+	
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;

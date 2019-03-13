@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import javax.servlet.http.Cookie;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
@@ -12,10 +15,16 @@ import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
 public class MongoDocumentDAO implements DocumentDAO {
 
+	private MongoOperations mongoOperations;
+	
+	@Autowired
+	public MongoDocumentDAO(MongoOperations mongoOperations) {
+		this.mongoOperations = mongoOperations;
+	}
+	
 	@Override
 	public void addHighlightToDocument(Highlight highlight) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
