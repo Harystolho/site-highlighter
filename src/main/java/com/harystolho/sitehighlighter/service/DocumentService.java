@@ -35,7 +35,7 @@ public class DocumentService {
 		return ServiceResponse.of(documentDao.getDocumentsByUser(cookies), ServiceStatus.OK);
 	}
 
-	public ServiceResponse<Document> getDocument(List<Cookie> cookies, int id) {
+	public ServiceResponse<Document> getDocumentById(List<Cookie> cookies, String id) {
 		Optional<Document> document = documentDao.getDocumentById(cookies, id);
 
 		if (document.isPresent()) {
@@ -51,12 +51,7 @@ public class DocumentService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		try {
-			documentDao.updateDocumentText(Integer.parseInt(id), text);
-		} catch (Exception e) {
-			logger.severe(String.format("Can't convert id to int [%s]", id));
-			return ServiceResponse.of(null, ServiceStatus.FAIL);
-		}
+		documentDao.setDocumentText(cookies, id, text);
 
 		return ServiceResponse.of("{}", ServiceStatus.OK);
 	}
@@ -68,15 +63,10 @@ public class DocumentService {
 	 * @param status the status is something similar to a priority for documents
 	 * @return
 	 */
-	public ServiceResponse<Object> changeDocumentStatus(List<Cookie> asList, String id, String status) {
+	public ServiceResponse<Object> changeDocumentStatus(List<Cookie> cookies, String id, String status) {
 		DocumentStatus docStatus = DocumentStatus.statusFromString(status);
 
-		try {
-			documentDao.setDocumentStatus(Integer.parseInt(id), docStatus);
-		} catch (Exception e) {
-			logger.severe(String.format("Can't convert id to int [%s]", id));
-			return ServiceResponse.of(null, ServiceStatus.FAIL);
-		}
+		documentDao.setDocumentStatus(cookies, id, docStatus);
 
 		return ServiceResponse.of("{}", ServiceStatus.OK);
 	}
@@ -84,7 +74,7 @@ public class DocumentService {
 	public ServiceResponse<ArrayNode> getDocumentsByStatus(List<Cookie> cookies, String status) {
 		ArrayNode array = new ArrayNode(new JsonNodeFactory(false));
 
-		List<Document> matches = documentDao.getDocumentsByStatus(DocumentStatus.statusFromString(status));
+		List<Document> matches = documentDao.getDocumentsByStatus(cookies, DocumentStatus.statusFromString(status));
 
 		matches.forEach((doc) -> {
 			ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
