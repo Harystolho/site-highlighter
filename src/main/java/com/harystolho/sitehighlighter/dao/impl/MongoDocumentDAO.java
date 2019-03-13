@@ -49,8 +49,11 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public Document getDocumentByPath(String accountId, String path) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = Query.query(Criteria.where("path").is(path).and("owner").is(accountId));
+
+		Document doc = mongoOperations.findOne(query, Document.class);
+
+		return doc;
 	}
 
 	@Override
