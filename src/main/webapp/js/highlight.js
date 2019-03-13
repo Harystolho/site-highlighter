@@ -39,9 +39,6 @@ window.Highlight = (() => {
     let customSaveDiv = `<div id="highlightCustomSave">
                     <select id="customSave-select">
                         <option value="0">${document.title}</option>
-                        <option>Common Document 1</option>
-                        <option>Common Document 2</option>
-                        <option>Common Document 3</option>
                     </select>
                     <div id="customSaveContent" contenteditable="true">
                     </div>
@@ -304,13 +301,20 @@ window.Highlight = (() => {
      * Adds the documents that have the DOCUMENT_STATUS.GOLD to the #customSave-select select
      */
     function addDocumentsToCustomSelect() {
-        let select = document.getElementById("customSave-select");
+        getDocumentsThatMatchStatus(DOCUMENT_STATUS.GOLD, (response) => {
+            let docs = response.data.data;
 
-        getDocumentsThatMatchStatus(DOCUMENT_STATUS.GOLD, (data)=>{
-            console.log(data);
+            let select = document.getElementById("customSave-select");
+
+            docs.forEach((doc) => {
+                let option = document.createElement("option");
+
+                option.innerHTML = doc.title;
+                option.value = doc.id;
+
+                select.appendChild(option);
+            });
         });
-
-
     }
 
     /**
@@ -319,8 +323,8 @@ window.Highlight = (() => {
      * @param cb
      */
     function getDocumentsThatMatchStatus(status, cb) {
-        axios.get(`${highlightHost}/api/v1/document/status/${status}`).then((response)=>{
-           cb(response);
+        axios.get(`${highlightHost}/api/v1/document/status/${status}`).then((response) => {
+            cb(response);
         });
     }
 

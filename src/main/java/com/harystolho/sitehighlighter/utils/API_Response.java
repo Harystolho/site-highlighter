@@ -2,8 +2,6 @@ package com.harystolho.sitehighlighter.utils;
 
 public class API_Response {
 
-	public static final String ERROR_NONE = "NONE";
-
 	private String error;
 	private Object data = "";
 

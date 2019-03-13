@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +91,7 @@ public class DocumentController {
 		return API_Response.of("OK", response.getResponse());
 	}
 
+	@CrossOrigin
 	@GetMapping("/api/v1/document/status/{status}")
 	public API_Response getDocumentsByStatus(HttpServletRequest req, @PathVariable String status) {
 		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());

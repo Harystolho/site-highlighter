@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -88,6 +89,7 @@ public class DocumentService {
 		matches.forEach((doc) -> {
 			ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
 
+			node.put("id", doc.getId());
 			node.put("title", doc.getTitle());
 
 			array.add(node);
