@@ -47,10 +47,12 @@ window.Dashboard = (() => {
             if (status === 'GOLD') { // Change status to WOOD
                 httpPost("/api/v1/document/status", `id=${docId}&status=wood`, (data) => {
                     document.getElementById("documentGoldStar").classList.remove("active");
+                    ContentEditor.setDocumentStatus('WOOD');
                 });
             } else { // Change status to GOLD
                 httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data) => {
                     document.getElementById("documentGoldStar").classList.add("active");
+                    ContentEditor.setDocumentStatus('GOLD');
                 });
             }
         }
@@ -231,6 +233,10 @@ window.ContentEditor = (() => {
             range.commonAncestorContainer.innerHTML = range.commonAncestorContainer.innerHTML.replace(EDITOR_SEPARATOR, completeInnerHTML);
         }
     }
+
+    funcs.setDocumentStatus = (status) =>{
+      options.status = status;
+    };
 
     // TODO fix this to remove the style
     funcs.removeSelectionFormatting = () => {
