@@ -31,6 +31,6 @@ public interface DocumentDAO {
 
 	List<Document> getDocumentsByStatus(String accountId, DocumentStatus status);
 
-	Document createDocument(String accountId, String docTitle);
+	Document createDocument(String accountId, String docTitle, String path);
 
 }

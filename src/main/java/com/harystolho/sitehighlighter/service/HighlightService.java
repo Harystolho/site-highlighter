@@ -31,16 +31,29 @@ public class HighlightService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
+		path = removeSlashAtTheEndOfPath(path);
+
 		Document document = documentDao.getDocumentByPath("123", path);
 
-		if (document != null) {
-			documentDao.addHighlightToDocument("123", document.getId(), new Highlight(text, path, title));
-		} else {
-			Document newDoc = documentDao.createDocument("123", title);
-			documentDao.addHighlightToDocument("123", newDoc.getId(), new Highlight(text, path, title));
+		if (document == null) {
+			document = documentDao.createDocument("123", title, path);
 		}
 
+		documentDao.addHighlightToDocument("123", document.getId(), new Highlight(text, path, title));
+
 		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
+	/**
+	 * If the last char of the path is a '/' remove it;
+	 * 
+	 * Example: java.com/ --> java.com
+	 * @param path
+	 * @return
+	 */
+	private String removeSlashAtTheEndOfPath(String path) {
+		path = path.trim();
+		return path.charAt(path.length() - 1) == '/' ? path.substring(0, path.length() - 1) : path;
 	}
 
 	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String docId, String text) {

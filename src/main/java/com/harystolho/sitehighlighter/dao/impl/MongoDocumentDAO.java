@@ -78,8 +78,8 @@ public class MongoDocumentDAO implements DocumentDAO {
 	}
 
 	@Override
-	public Document createDocument(String accountId, String docTitle) {
-		Document doc = new Document(docTitle, accountId);
+	public Document createDocument(String accountId, String docTitle, String path) {
+		Document doc = new Document(docTitle, accountId, path);
 		return mongoOperations.insert(doc);
 	}
 

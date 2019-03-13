@@ -1,6 +1,5 @@
 package com.harystolho.sitehighlighter.model;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import com.harystolho.sitehighlighter.utils.DocumentStatus;
@@ -19,9 +18,10 @@ public class Document {
 
 	private DocumentStatus status = DocumentStatus.WOOD;
 
-	public Document(String title, String owner) {
+	public Document(String title, String owner, String path) {
 		this.title = title;
 		this.owner = owner;
+		this.path = path;
 		highlights = "";
 	}
 
@@ -69,11 +69,11 @@ public class Document {
 		this.status = status;
 	}
 
-	public ObjectId getOwner() {
+	public String getOwner() {
 		return owner;
 	}
 
-	public void setOwner(ObjectId owner) {
+	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 
