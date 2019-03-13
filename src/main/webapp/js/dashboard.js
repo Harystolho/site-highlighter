@@ -63,7 +63,7 @@ window.Dashboard = (() => {
         return `
     <div class="library-template-container" data-id="${id}">
         <h5 class="library-template-title">
-            <span onclick="ContentEditor.displayDocumentContent(${id})">${title}</span>
+            <span onclick="ContentEditor.displayDocumentContent('${id}')">${title}</span>
             <a href="https://${url}" target="_blank">
                 <img class="library-template-external-link" src="/icons/external-link.png">
             </a>

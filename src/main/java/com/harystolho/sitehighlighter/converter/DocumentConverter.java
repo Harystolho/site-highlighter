@@ -13,6 +13,7 @@ public class DocumentConverter implements Converter<Document, DBObject> {
 
 	@Override
 	public DBObject convert(Document source) {
+		// TODO remove _class
 		return null;
 	}
 

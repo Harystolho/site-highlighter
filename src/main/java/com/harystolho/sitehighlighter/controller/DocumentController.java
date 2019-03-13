@@ -35,7 +35,9 @@ public class DocumentController {
 
 	@GetMapping("/api/v1/documents")
 	public API_Response getDocuments(HttpServletRequest req) {
-		ServiceResponse<List<Document>> response = documentService.listDocuments(Arrays.asList(req.getCookies()));
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+
+		ServiceResponse<List<Document>> response = documentService.listDocuments(cookies);
 
 		switch (response.getStatus()) {
 		case FAIL:
@@ -49,7 +51,9 @@ public class DocumentController {
 
 	@GetMapping("/api/v1/document/{id}")
 	public API_Response getDocument(HttpServletRequest req, @PathVariable String id) {
-		ServiceResponse<Document> response = documentService.getDocumentById(Arrays.asList(req.getCookies()), id);
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+
+		ServiceResponse<Document> response = documentService.getDocumentById(cookies, id);
 
 		switch (response.getStatus()) {
 		case FAIL:
@@ -63,8 +67,10 @@ public class DocumentController {
 
 	@PostMapping("/api/v1/document/save")
 	public API_Response saveDocument(HttpServletRequest req) {
-		ServiceResponse<Object> response = documentService.saveDocument(Arrays.asList(req.getCookies()),
-				req.getParameter("id"), req.getParameter("text"));
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+
+		ServiceResponse<Object> response = documentService.saveDocument(cookies, req.getParameter("id"),
+				req.getParameter("text"));
 
 		switch (response.getStatus()) {
 		case FAIL:
@@ -78,8 +84,10 @@ public class DocumentController {
 
 	@PostMapping("/api/v1/document/status")
 	public API_Response changeDocumentStatus(HttpServletRequest req) {
-		ServiceResponse<Object> response = documentService.changeDocumentStatus(Arrays.asList(req.getCookies()),
-				req.getParameter("id"), req.getParameter("status"));
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+
+		ServiceResponse<Object> response = documentService.changeDocumentStatus(cookies, req.getParameter("id"),
+				req.getParameter("status"));
 
 		switch (response.getStatus()) {
 		case FAIL:

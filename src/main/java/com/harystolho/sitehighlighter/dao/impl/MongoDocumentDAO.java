@@ -58,8 +58,11 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public Optional<Document> getDocumentById(String accountId, String docId) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
+
+		Document doc = mongoOperations.findOne(query, Document.class);
+
+		return Optional.of(doc);
 	}
 
 	@Override

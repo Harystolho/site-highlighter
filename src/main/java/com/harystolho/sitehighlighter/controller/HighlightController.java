@@ -63,7 +63,7 @@ public class HighlightController {
 			@RequestParam(name = "text") String text) {
 		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
 
-		ServiceResponse<Void> response = highlightService.saveHighlight(cookies, id, text);
+		ServiceResponse<Void> response = highlightService.saveHighlightToDocument(cookies, id, text);
 
 		switch (response.getStatus()) {
 		case FAIL:

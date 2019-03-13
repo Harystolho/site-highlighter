@@ -44,19 +44,7 @@ public class HighlightService {
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
-	/**
-	 * If the last char of the path is a '/' remove it;
-	 * 
-	 * Example: java.com/ --> java.com
-	 * @param path
-	 * @return
-	 */
-	private String removeSlashAtTheEndOfPath(String path) {
-		path = path.trim();
-		return path.charAt(path.length() - 1) == '/' ? path.substring(0, path.length() - 1) : path;
-	}
-
-	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String docId, String text) {
+	public ServiceResponse<Void> saveHighlightToDocument(List<Cookie> cookies, String docId, String text) {
 		if (!isHighlightTextValid(text)) {
 			logger.severe("text is null [" + docId + "]");
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
@@ -79,6 +67,19 @@ public class HighlightService {
 
 	public static boolean isHighlightTextValid(String text) {
 		return text != null && !text.trim().equals("");
+	}
+
+	/**
+	 * If the last char of the path is a '/' remove it;
+	 * 
+	 * Example: java.com/ --> java.com
+	 * 
+	 * @param path
+	 * @return
+	 */
+	private String removeSlashAtTheEndOfPath(String path) {
+		path = path.trim();
+		return path.charAt(path.length() - 1) == '/' ? path.substring(0, path.length() - 1) : path;
 	}
 
 }
