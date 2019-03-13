@@ -14,7 +14,7 @@ public class Document {
 	private String owner;
 
 	private String title;
-	private String path;
+	private String path; // Must be unique by user
 	private String highlights;
 
 	private DocumentStatus status = DocumentStatus.WOOD;

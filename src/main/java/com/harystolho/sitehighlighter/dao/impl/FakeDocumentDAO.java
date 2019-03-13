@@ -15,7 +15,6 @@ import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
 import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
-@Service
 public class FakeDocumentDAO implements DocumentDAO {
 
 	private List<Document> documents;

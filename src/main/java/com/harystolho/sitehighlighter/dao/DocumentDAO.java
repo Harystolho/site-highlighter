@@ -12,28 +12,25 @@ import com.harystolho.sitehighlighter.utils.DocumentStatus;
 public interface DocumentDAO {
 
 	/**
-	 * Adds the highlight to a document that has the same path
-	 * @param highlight
-	 */
-	void addHighlightToDocument(Highlight highlight);
-
-	/**
 	 * Adds the highlight to the document that has the same id
+	 * 
 	 * @param docId
 	 * @param highlight
 	 */
-	void addHighlightToDocument(int docId, Highlight highlight);
+	void addHighlightToDocument(String accountId, String docId, Highlight highlight);
 
-	Document getHighlightsByPath(String path);
+	Document getDocumentByPath(String accountId, String path);
 
-	List<Document> getDocumentsByUser(List<Cookie> cookies); // TODO remove cookie list from DAO
+	List<Document> getDocumentsByUser(String accountId); // TODO remove cookie list from DAO
 
-	Optional<Document> getDocumentById(List<Cookie> cookies, int id);
+	Optional<Document> getDocumentById(String accountId, String docId);
 
-	void updateDocumentText(int id, String text);
+	void setDocumentText(String accountId, String docId, String text);
 
-	void setDocumentStatus(int id, DocumentStatus status);
+	void setDocumentStatus(String accountId, String docId, DocumentStatus status);
 
-	List<Document> getDocumentsByStatus(DocumentStatus status);
+	List<Document> getDocumentsByStatus(String accountId, DocumentStatus status);
+
+	Document createDocument(String accountId, String docTitle);
 
 }

@@ -31,7 +31,14 @@ public class HighlightService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		documentDao.addHighlightToDocument(cookies, new Highlight(text, path, title));
+		Document document = documentDao.getDocumentByPath("123", path);
+
+		if (document != null) {
+			documentDao.addHighlightToDocument("123", document.getId(), new Highlight(text, path, title));
+		} else {
+			Document newDoc = documentDao.createDocument("123", title);
+			documentDao.addHighlightToDocument("123", newDoc.getId(), new Highlight(text, path, title));
+		}
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
@@ -42,13 +49,13 @@ public class HighlightService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		documentDao.addHighlightToDocument(cookies, docId, new Highlight(text, "", ""));
+		documentDao.addHighlightToDocument("123", docId, new Highlight(text, "", ""));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
 	public ServiceResponse<Document> listHighlights(List<Cookie> cookies, String path) {
-		Document document = documentDao.getDocumentByPath(cookies, path);
+		Document document = documentDao.getDocumentByPath("123", path);
 
 		if (document != null) {
 			return ServiceResponse.of(document, ServiceStatus.OK);

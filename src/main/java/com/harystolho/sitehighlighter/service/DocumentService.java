@@ -32,11 +32,11 @@ public class DocumentService {
 	}
 
 	public ServiceResponse<List<Document>> listDocuments(List<Cookie> cookies) {
-		return ServiceResponse.of(documentDao.getDocumentsByUser(cookies), ServiceStatus.OK);
+		return ServiceResponse.of(documentDao.getDocumentsByUser("123"), ServiceStatus.OK);
 	}
 
 	public ServiceResponse<Document> getDocumentById(List<Cookie> cookies, String id) {
-		Optional<Document> document = documentDao.getDocumentById(cookies, id);
+		Optional<Document> document = documentDao.getDocumentById("123", id);
 
 		if (document.isPresent()) {
 			return ServiceResponse.of(document.get(), ServiceStatus.OK);
@@ -51,7 +51,7 @@ public class DocumentService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		documentDao.setDocumentText(cookies, id, text);
+		documentDao.setDocumentText("123", id, text);
 
 		return ServiceResponse.of("{}", ServiceStatus.OK);
 	}
@@ -66,7 +66,7 @@ public class DocumentService {
 	public ServiceResponse<Object> changeDocumentStatus(List<Cookie> cookies, String id, String status) {
 		DocumentStatus docStatus = DocumentStatus.statusFromString(status);
 
-		documentDao.setDocumentStatus(cookies, id, docStatus);
+		documentDao.setDocumentStatus("123", id, docStatus);
 
 		return ServiceResponse.of("{}", ServiceStatus.OK);
 	}
@@ -74,7 +74,7 @@ public class DocumentService {
 	public ServiceResponse<ArrayNode> getDocumentsByStatus(List<Cookie> cookies, String status) {
 		ArrayNode array = new ArrayNode(new JsonNodeFactory(false));
 
-		List<Document> matches = documentDao.getDocumentsByStatus(cookies, DocumentStatus.statusFromString(status));
+		List<Document> matches = documentDao.getDocumentsByStatus("123", DocumentStatus.statusFromString(status));
 
 		matches.forEach((doc) -> {
 			ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
