@@ -48,8 +48,8 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/document/{id}")
-	public API_Response getDocument(HttpServletRequest req, @PathVariable int id) {
-		ServiceResponse<Document> response = documentService.getDocument(Arrays.asList(req.getCookies()), id);
+	public API_Response getDocument(HttpServletRequest req, @PathVariable String id) {
+		ServiceResponse<Document> response = documentService.getDocumentById(Arrays.asList(req.getCookies()), id);
 
 		switch (response.getStatus()) {
 		case FAIL:

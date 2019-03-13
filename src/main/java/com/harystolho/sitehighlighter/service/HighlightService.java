@@ -31,24 +31,24 @@ public class HighlightService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		documentDao.addHighlightToDocument(new Highlight(text, path, title));
+		documentDao.addHighlightToDocument(cookies, new Highlight(text, path, title));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, int docId, String text) {
+	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String docId, String text) {
 		if (!isHighlightTextValid(text)) {
 			logger.severe("text is null [" + docId + "]");
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		documentDao.addHighlightToDocument(docId, new Highlight(text, "", ""));
+		documentDao.addHighlightToDocument(cookies, docId, new Highlight(text, "", ""));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<Document> listHighlights(List<Cookie> asList, String path) {
-		Document document = documentDao.getHighlightsByPath(path);
+	public ServiceResponse<Document> listHighlights(List<Cookie> cookies, String path) {
+		Document document = documentDao.getDocumentByPath(cookies, path);
 
 		if (document != null) {
 			return ServiceResponse.of(document, ServiceStatus.OK);

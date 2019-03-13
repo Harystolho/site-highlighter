@@ -59,7 +59,7 @@ public class HighlightController {
 	 */
 	@CrossOrigin
 	@PostMapping("/api/v1/save/{id}")
-	public API_Response saveHighlightWithId(HttpServletRequest req, @PathVariable int id,
+	public API_Response saveHighlightWithId(HttpServletRequest req, @PathVariable String id,
 			@RequestParam(name = "text") String text) {
 		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
 
