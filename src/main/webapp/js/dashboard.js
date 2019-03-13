@@ -1,4 +1,5 @@
 import * as common from './common';
+import * as axios from 'axios';
 
 import '../css/bootstrap.min.css'
 import '../css/common.css'
@@ -55,6 +56,18 @@ window.Dashboard = (() => {
                     ContentEditor.setDocumentStatus('GOLD');
                 });
             }
+        }
+    };
+
+    funcs.deleteDocument = () => {
+        let docId = ContentEditor.options.currentDocumentId();
+
+        if (docId !== 0 || docId !== undefined) {
+            axios.delete(`/api/v1/document/${docId}`).then((response) => {
+                if (response.status === 200) {
+                    document.querySelector(`[data-id='${docId}']`).remove();
+                }
+            });
         }
     };
 
@@ -234,8 +247,8 @@ window.ContentEditor = (() => {
         }
     }
 
-    funcs.setDocumentStatus = (status) =>{
-      options.status = status;
+    funcs.setDocumentStatus = (status) => {
+        options.status = status;
     };
 
     // TODO fix this to remove the style

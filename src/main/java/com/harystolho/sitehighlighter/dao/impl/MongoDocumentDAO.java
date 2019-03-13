@@ -98,4 +98,10 @@ public class MongoDocumentDAO implements DocumentDAO {
 		return mongoOperations.insert(doc);
 	}
 
+	@Override
+	public void deleteDocument(String accountId, String docId) {
+		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
+		mongoOperations.remove(query, Document.class);
+	}
+
 }

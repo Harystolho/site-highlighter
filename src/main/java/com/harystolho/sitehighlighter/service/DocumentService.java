@@ -88,4 +88,10 @@ public class DocumentService {
 		return ServiceResponse.of(array, ServiceStatus.OK);
 	}
 
+	public ServiceResponse<Void> deleteDocument(List<Cookie> cookies, String id) {
+		documentDao.deleteDocument("123", id);
+
+		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
 }

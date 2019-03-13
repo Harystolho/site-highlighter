@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -105,6 +107,22 @@ public class DocumentController {
 		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
 
 		ServiceResponse<ArrayNode> response = documentService.getDocumentsByStatus(cookies, status);
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return API_Response.of("FAIL", null);
+		default:
+			break;
+		}
+
+		return API_Response.of("OK", response.getResponse());
+	}
+	
+	@DeleteMapping("/api/v1/document/{id}")
+	public API_Response deleteDocument(HttpServletRequest req, @PathVariable String id) {
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+		
+		ServiceResponse<Void> response = documentService.deleteDocument(cookies, id);
 
 		switch (response.getStatus()) {
 		case FAIL:

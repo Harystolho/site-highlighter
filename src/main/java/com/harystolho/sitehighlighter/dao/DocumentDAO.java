@@ -33,4 +33,6 @@ public interface DocumentDAO {
 
 	Document createDocument(String accountId, String docTitle, String path);
 
+	void deleteDocument(String accountId, String docId);
+
 }
