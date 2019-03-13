@@ -11,7 +11,18 @@ import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
 public interface DocumentDAO {
 
+	/**
+	 * Adds the highlight to a document that has the same path
+	 * @param highlight
+	 */
 	void addHighlightToDocument(Highlight highlight);
+
+	/**
+	 * Adds the highlight to the document that has the same id
+	 * @param docId
+	 * @param highlight
+	 */
+	void addHighlightToDocument(int docId, Highlight highlight);
 
 	Document getHighlightsByPath(String path);
 

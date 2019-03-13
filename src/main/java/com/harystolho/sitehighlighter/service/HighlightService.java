@@ -31,9 +31,18 @@ public class HighlightService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		// TODO add cookie verification
-
 		documentDao.addHighlightToDocument(new Highlight(text, path, title));
+
+		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
+	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, int docId, String text) {
+		if (!isHighlightTextValid(text)) {
+			logger.severe("text is null [" + docId + "]");
+			return ServiceResponse.of(null, ServiceStatus.FAIL);
+		}
+
+		documentDao.addHighlightToDocument(docId, new Highlight(text, "", ""));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}

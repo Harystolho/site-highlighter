@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harystolho.sitehighlighter.model.Document;
@@ -46,7 +48,32 @@ public class HighlightController {
 		res.addCookie(new Cookie("highlight_id", "5fgjvd8u9015dbsl"));
 
 		return API_Response.of("OK", null);
-	} // TODO button that converts the text to HTML 
+	}
+
+	/**
+	 * Appends the highlight to an existing document
+	 * 
+	 * @param req
+	 * @param id  {@link Document#getId()}
+	 * @return
+	 */
+	@CrossOrigin
+	@PostMapping("/api/v1/save/{id}")
+	public API_Response saveHighlightWithId(HttpServletRequest req, @PathVariable int id,
+			@RequestParam(name = "text") String text) {
+		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+
+		ServiceResponse<Void> response = highlightService.saveHighlight(cookies, id, text);
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return API_Response.of("FAIL", null);
+		default:
+			break;
+		}
+
+		return API_Response.of("OK", null);
+	}
 
 	@PostMapping("/api/v1/highlight")
 	public API_Response listHighlightsByPath(HttpServletRequest req) {

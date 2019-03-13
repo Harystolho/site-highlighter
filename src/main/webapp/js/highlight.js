@@ -183,7 +183,13 @@ window.Highlight = (() => {
     funcs.saveCustomModalText = () => {
         let content = document.querySelector("#customSaveContent").innerHTML;
 
-        sendSelectionToServer(content, (status) => {
+        let docId = parseInt(document.getElementById("customSave-select").value);
+
+        // TODO if 0 send normal save
+        if (docId === 0 || isNaN(docId))
+            return;
+
+        sendSelectionToServerWithDocumentId(content, docId, (status) => {
             document.querySelector("#highlightCustomSave").remove();
 
             if (status === "OK") {
@@ -242,6 +248,23 @@ window.Highlight = (() => {
         xhttp.send(`text=${encodeURIComponent(selection)}
             &path=${window.location.host + window.location.pathname}
             &title=${encodeURIComponent(document.title)}`);
+    }
+
+    /**
+     * Adds the {selection} to an existing document using it's id
+     * @param selection
+     * @param id the document's id
+     * @param cb
+     */
+    function sendSelectionToServerWithDocumentId(selection, id, cb) {
+        let formData = new FormData();
+        formData.append("text", selection);
+
+        axios.post(`${highlightHost}/api/v1/save/${id}`, formData, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        }).then((response) => {
+            cb(response);
+        });
     }
 
     function getSelectedText() {
