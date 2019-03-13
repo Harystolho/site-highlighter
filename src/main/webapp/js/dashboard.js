@@ -109,6 +109,10 @@ window.ContentEditor = (() => {
 
             resetDocumentOptions(id);
 
+            if(response.data.status === 'GOLD'){
+                document.getElementById("documentGoldStar").classList.add("active");
+            }
+
             document.querySelector("#content").innerHTML = response.data.highlights;
             document.querySelector("#content").setAttribute("data-document-id", id);
         });
@@ -117,6 +121,7 @@ window.ContentEditor = (() => {
     function resetDocumentOptions(docId) {
         options.currentDocumentId = docId;
         options.modifiedTimeout = undefined;
+        document.getElementById("documentGoldStar").classList.remove("active");
     }
 
     funcs.saveDocument = () => {

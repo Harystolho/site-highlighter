@@ -176,3 +176,8 @@ body {
 #highlightModal::after {
     top: 83%;
 }
+
+#documentGoldStar.active{
+    background-color: gold;
+    border-radius: 50%;
+}
