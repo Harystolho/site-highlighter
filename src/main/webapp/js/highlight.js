@@ -183,11 +183,8 @@ window.Highlight = (() => {
     funcs.saveCustomModalText = () => {
         let content = document.querySelector("#customSaveContent").innerHTML;
 
-        let docId = parseInt(document.getElementById("customSave-select").value);
-
-        if (isNaN(docId))
-            return;
-
+        let docId = document.getElementById("customSave-select").value;
+        
         // This means the selected document is the current page
         if (docId === 0) {
             return sendSelectionToServer(content, (status) => {

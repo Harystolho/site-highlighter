@@ -78,7 +78,6 @@ public class MongoDocumentDAO implements DocumentDAO {
 		} else {
 			logger.severe(String.format("Can't find document[%s] to set the text", doc.getId()));
 		}
-
 	}
 
 	@Override
@@ -90,8 +89,8 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public List<Document> getDocumentsByStatus(String accountId, DocumentStatus status) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = Query.query(Criteria.where("status").is(status).and("owner").is(accountId));
+		return mongoOperations.find(query, Document.class);
 	}
 
 	@Override
