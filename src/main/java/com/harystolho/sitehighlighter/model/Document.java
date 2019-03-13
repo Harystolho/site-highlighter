@@ -1,9 +1,13 @@
 package com.harystolho.sitehighlighter.model;
 
+import org.springframework.data.annotation.Id;
+
 import com.harystolho.sitehighlighter.utils.DocumentStatus;
 
+@org.springframework.data.mongodb.core.mapping.Document(collection = "documents")
 public class Document {
 
+	@Id
 	private int id;
 
 	private String title;

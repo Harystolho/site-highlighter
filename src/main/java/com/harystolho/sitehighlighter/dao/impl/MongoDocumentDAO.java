@@ -7,6 +7,8 @@ import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
@@ -16,12 +18,12 @@ import com.harystolho.sitehighlighter.utils.DocumentStatus;
 public class MongoDocumentDAO implements DocumentDAO {
 
 	private MongoOperations mongoOperations;
-	
+
 	@Autowired
 	public MongoDocumentDAO(MongoOperations mongoOperations) {
 		this.mongoOperations = mongoOperations;
 	}
-	
+
 	@Override
 	public void addHighlightToDocument(Highlight highlight) {
 		// TODO Auto-generated method stub
@@ -41,8 +43,7 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public List<Document> getDocumentsByUser(List<Cookie> cookies) {
-		// TODO Auto-generated method stub
-		return null;
+		return mongoOperations.findAll(Document.class);
 	}
 
 	@Override
