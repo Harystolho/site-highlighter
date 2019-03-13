@@ -185,11 +185,11 @@ window.Highlight = (() => {
 
         let docId = parseInt(document.getElementById("customSave-select").value);
 
-        if(isNaN(docId))
+        if (isNaN(docId))
             return;
 
         // This means the selected document is the current page
-        if(docId === 0 ){
+        if (docId === 0) {
             return sendSelectionToServer(content, (status) => {
                 serverResponse(status);
             });
@@ -339,8 +339,12 @@ window.Highlight = (() => {
 
             let select = document.getElementById("customSave-select");
 
+            // Remove existing options
+            Array.from(document.getElementsByClassName('gold-document')).forEach((opt) => opt.remove());
+
             docs.forEach((doc) => {
                 let option = document.createElement("option");
+                option.classList.add('gold-document');
 
                 option.innerHTML = doc.title;
                 option.value = doc.id;
