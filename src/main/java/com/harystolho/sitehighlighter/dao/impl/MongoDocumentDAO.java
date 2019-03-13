@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
@@ -67,14 +68,24 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public void setDocumentText(String accountId, String docId, String text) {
-		// TODO Auto-generated method stub
+		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
+
+		Document doc = mongoOperations.findOne(query, Document.class);
+
+		if (doc != null) {
+			doc.setHighlights(text);
+			mongoOperations.findAndReplace(query, doc);
+		} else {
+			logger.severe(String.format("Can't find document[%s] to set the text", doc.getId()));
+		}
 
 	}
 
 	@Override
 	public void setDocumentStatus(String accountId, String docId, DocumentStatus status) {
-		// TODO Auto-generated method stub
+		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
 
+		mongoOperations.findAndModify(query, Update.update("status", status), Document.class);
 	}
 
 	@Override
