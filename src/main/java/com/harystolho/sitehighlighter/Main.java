@@ -16,7 +16,6 @@ public class Main {
 }
 
 //TODO add share on social media
-//TODO add option to choose where what document to add the highlight
 
 //TODO show 'reload script' message on a modal instead of alert
 //TODO add frame to see highlight in the page

@@ -174,7 +174,7 @@ window.Highlight = (() => {
                 showNotificationModal("Error saving highlight", 5000);
             }
         });
-        ``
+
     };
 
     /**
@@ -185,21 +185,31 @@ window.Highlight = (() => {
 
         let docId = parseInt(document.getElementById("customSave-select").value);
 
-        // TODO if 0 send normal save
-        if (docId === 0 || isNaN(docId))
+        if(isNaN(docId))
             return;
 
-        sendSelectionToServerWithDocumentId(content, docId, (status) => {
+        // This means the selected document is the current page
+        if(docId === 0 ){
+            return sendSelectionToServer(content, (status) => {
+                serverResponse(status);
+            });
+        }
+
+        sendSelectionToServerWithDocumentId(content, docId, (response) => {
+            serverResponse(response.status);
+        });
+
+        function serverResponse(status) {
             document.querySelector("#highlightCustomSave").remove();
 
-            if (status === "OK") {
+            if (status === "OK" || status.status === 200) {
                 showNotificationModal();
                 highlightSelectionInPage(); // TODO fix this
                 window.getSelection().removeAllRanges();
             } else {
                 showNotificationModal("Error saving highlight", 5000);
             }
-        });
+        }
     };
 
     /**
