@@ -177,6 +177,10 @@ body {
     top: 83%;
 }
 
+#documentGoldStar{
+    transition: all 0.2s;
+}
+
 #documentGoldStar.active{
     background-color: gold;
     border-radius: 50%;

@@ -184,7 +184,7 @@ window.Highlight = (() => {
         let content = document.querySelector("#customSaveContent").innerHTML;
 
         let docId = document.getElementById("customSave-select").value;
-        
+
         // This means the selected document is the current page
         if (docId === 0) {
             return sendSelectionToServer(content, (status) => {
