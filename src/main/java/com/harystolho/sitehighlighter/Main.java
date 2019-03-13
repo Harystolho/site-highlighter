@@ -32,4 +32,7 @@ public class Main {
 
 //TODO add account/guest
 
+//TODO addon - key to turn on/off highlight addon
+//TODO addon - filter which pages the highlight work/doesn't work
+
 // https://just-comments.com/docs.html <- How to do authentication 
