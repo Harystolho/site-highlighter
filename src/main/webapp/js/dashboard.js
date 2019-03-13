@@ -39,13 +39,20 @@ window.Dashboard = (() => {
         document.querySelector(library).style.display = "block";
     };
 
-    funcs.makeDocumentGold = () => {
+    funcs.switchDocumentGoldStatus = () => {
         let docId = ContentEditor.options.currentDocumentId();
+        let status = ContentEditor.options.documentStatus();
 
         if (docId !== 0) {
-            httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data) => {
-                let response = JSON.parse(data);
-            });
+            if (status === 'GOLD') { // Change status to WOOD
+                httpPost("/api/v1/document/status", `id=${docId}&status=wood`, (data) => {
+                    document.getElementById("documentGoldStar").classList.remove("active");
+                });
+            } else { // Change status to GOLD
+                httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data) => {
+                    document.getElementById("documentGoldStar").classList.add("active");
+                });
+            }
         }
     };
 
@@ -71,12 +78,14 @@ window.ContentEditor = (() => {
 
     let options = {
         currentDocumentId: 0,
+        status: 'WOOD',
         modifiedTimeout: undefined
     };
 
     // Public
     funcs.options = {
-        currentDocumentId: () => options.currentDocumentId
+        currentDocumentId: () => options.currentDocumentId,
+        documentStatus: () => options.status
     };
 
     // TODO add the missing ones
@@ -104,16 +113,15 @@ window.ContentEditor = (() => {
     };
 
     funcs.displayDocumentContent = (id) => {
-        httpGet(`/api/v1/document/${id}`, (data) => {
-            let response = JSON.parse(data);
+        httpGet(`/api/v1/document/${id}`, (response) => {
+            let data = JSON.parse(response).data;
 
             resetDocumentOptions(id);
 
-            if(response.data.status === 'GOLD'){
-                document.getElementById("documentGoldStar").classList.add("active");
-            }
+            options.status = data.status;
+            updatePageBasedOnStatus();
 
-            document.querySelector("#content").innerHTML = response.data.highlights;
+            document.querySelector("#content").innerHTML = data.highlights;
             document.querySelector("#content").setAttribute("data-document-id", id);
         });
     };
@@ -121,7 +129,18 @@ window.ContentEditor = (() => {
     function resetDocumentOptions(docId) {
         options.currentDocumentId = docId;
         options.modifiedTimeout = undefined;
+        options.status = 'WOOD';
         document.getElementById("documentGoldStar").classList.remove("active");
+    }
+
+    function updatePageBasedOnStatus() {
+        switch (options.status) {
+            case 'WOOD':
+                break;
+            case 'GOLD':
+                document.getElementById("documentGoldStar").classList.add("active");
+                break;
+        }
     }
 
     funcs.saveDocument = () => {
