@@ -32,7 +32,6 @@ public class DocumentService {
 	}
 
 	public ServiceResponse<List<Document>> listDocuments(List<Cookie> cookies) {
-		// TODO fix for more users
 		return ServiceResponse.of(documentDao.getDocumentsByUser("123"), ServiceStatus.OK);
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.DbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
@@ -88,6 +89,9 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
 
 		MappingMongoConverter mongoConverter = new MappingMongoConverter(dbRefResolver, mappingContext);
 		mongoConverter.setCustomConversions(customConversions());
+		
+		// This removes the _class field in the document that is added by default
+		mongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
 		mongoConverter.afterPropertiesSet();
 
 		return mongoConverter;

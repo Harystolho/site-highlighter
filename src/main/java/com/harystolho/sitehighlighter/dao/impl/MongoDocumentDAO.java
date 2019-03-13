@@ -44,7 +44,6 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public List<Document> getDocumentsByUser(String accountId) {
-		// TODO filter by user id
 		return mongoOperations.findAll(Document.class);
 	}
 

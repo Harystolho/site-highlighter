@@ -75,19 +75,4 @@ public class HighlightController {
 		return API_Response.of("OK", null);
 	}
 
-	@PostMapping("/api/v1/highlight")
-	public API_Response listHighlightsByPath(HttpServletRequest req) {
-		ServiceResponse<Document> response = highlightService.listHighlights(Arrays.asList(req.getCookies()),
-				req.getParameter("path"));
-
-		switch (response.getStatus()) {
-		case FAIL:
-			return API_Response.of("FAIL", null);
-		default:
-			break;
-		}
-
-		return API_Response.of("OK", response.getResponse());
-	}
-
 }
