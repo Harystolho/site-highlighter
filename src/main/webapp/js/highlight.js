@@ -110,9 +110,11 @@ window.Highlight = (() => {
         modal.style.top = rect.y - modal.offsetHeight - modalOffset + window.scrollY + "px";
 
         //TODO center modal x on the selection
-        modal.style.left = `${rect.x}px`;
+        modal.style.left = `${rect.x + (rect.width / 2) - (modal.offsetWidth / 2)}px`;
         modal.classList.add("down");
         modal.classList.remove("up");
+
+        console.log(rect);
 
         modal.style.display = "flex";
     }
