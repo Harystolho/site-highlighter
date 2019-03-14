@@ -114,7 +114,7 @@ window.ContentEditor = (() => {
     // The keys below when pressed don't trigger the document to auto save because they don't modify the content
     const keysIgnoredOnContentEditor = [16 /*SHIFT*/, 17 /*CTRL*/, 18 /*ALT*/, 20 /*CAPS*/,
         27 /*ESC*/, 37 /*LEFT*/, 38 /*UP*/, 39 /*RIGHT*/, 40 /*DOWN*/];
-    
+
     /**
      * Waits some time after the user has typed something and then saves the document automatically. The document is saved
      * only if the user has typed some key and for 2 seconds no other keys have been pressed.

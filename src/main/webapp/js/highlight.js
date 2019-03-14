@@ -101,15 +101,16 @@ window.Highlight = (() => {
             return;
         }
 
-        // TODO don't show the modal if the user opened the custom save modal
+        // TODO don't show the modal inside the custom modal if the user opened the custom save modal
 
         const modalOffset = 15;
         let rect = getFirstRect(Array.from(window.getSelection().getRangeAt(0).getClientRects()));
 
+        //          text position |  modal height     |   padding      |   window y
         modal.style.top = rect.y - modal.offsetHeight - modalOffset + window.scrollY + "px";
 
-        //TODO fix modal x-axis position
-        modal.style.left = `${finalPos.x}px`;
+        //TODO center modal x on the selection
+        modal.style.left = `${rect.x}px`;
         modal.classList.add("down");
         modal.classList.remove("up");
 
