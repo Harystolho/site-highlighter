@@ -181,7 +181,7 @@ window.Highlight = (() => {
         let docId = document.getElementById("customSave-select").value;
 
         // This means the selected document is the current page
-        if (docId === 0) {
+        if (docId === '0') {
             return sendSelectionToServer(content, (status) => {
                 serverResponse(status);
             });
@@ -194,7 +194,7 @@ window.Highlight = (() => {
         function serverResponse(status) {
             document.querySelector("#highlightCustomSave").remove();
 
-            if (status === "OK" || status.status === 200) {
+            if (status === 200 || status === 'OK') {
                 showNotificationModal();
                 highlightSelectionInPage(); // TODO fix this
                 window.getSelection().removeAllRanges();
