@@ -78,12 +78,13 @@ window.Dashboard = (() => {
     <div class="library-template-container" data-id="${id}">
         <h5 class="library-template-title">
             <span onclick="ContentEditor.displayDocumentContent('${id}')">${title}</span>
-            <a href="https://${url}" target="_blank">
+            <!-- Most sites redirect to HTTPS-->
+            <a href="http://${url}" target="_blank"> 
                 <img class="library-template-external-link" src="/icons/external-link.png">
             </a>
         </h5>
     </div>
-    `; // TODO is the url always HTTPS?
+    `;
     };
 
     return funcs;
@@ -96,7 +97,7 @@ window.ContentEditor = (() => {
         currentDocumentId: 0,
         modifiedTimeout: undefined,
         getStatus: () => options._status,
-        setStatus(status){
+        setStatus(status) {
             options._status = status;
             updatePageBasedOnStatus();
         }
@@ -109,12 +110,11 @@ window.ContentEditor = (() => {
         setDocumentStatus: options.setStatus
     };
 
-    // TODO add the missing ones
+    // TODO add the missing keys
     // The keys below when pressed don't trigger the document to auto save because they don't modify the content
     const keysIgnoredOnContentEditor = [16 /*SHIFT*/, 17 /*CTRL*/, 18 /*ALT*/, 20 /*CAPS*/,
         27 /*ESC*/, 37 /*LEFT*/, 38 /*UP*/, 39 /*RIGHT*/, 40 /*DOWN*/];
-
-    // TODO if the user switches to another document before this one is saved, save it before
+    
     /**
      * Waits some time after the user has typed something and then saves the document automatically. The document is saved
      * only if the user has typed some key and for 2 seconds no other keys have been pressed.
@@ -138,8 +138,13 @@ window.ContentEditor = (() => {
             resetDocumentOptions(id);
 
             document.querySelector("#content").innerHTML = "";
-            document.querySelector("#content").setAttribute("data-document-id", id);
             return;
+        }
+
+        // The document being displayed was modified but not saved
+        if (options.modifiedTimeout !== undefined) {
+            clearTimeout(options.modifiedTimeout); // Clear the existing timeout so it doesn't save twice
+            funcs.saveDocument();
         }
 
         httpGet(`/api/v1/document/${id}`, (response) => {
@@ -150,7 +155,6 @@ window.ContentEditor = (() => {
             options.setStatus(data.status);
 
             document.querySelector("#content").innerHTML = data.highlights;
-            document.querySelector("#content").setAttribute("data-document-id", id);
         });
     };
 
@@ -178,7 +182,7 @@ window.ContentEditor = (() => {
 
         let content = document.querySelector("#content");
 
-        httpPost("/api/v1/document/save", `id=${content.getAttribute("data-document-id")}&text=${encodeURIComponent(content.innerHTML)}`, (data) => {
+        httpPost("/api/v1/document/save", `id=${options.currentDocumentId}&text=${encodeURIComponent(content.innerHTML)}`, (data) => {
             let response = JSON.parse(data);
 
             let tempStatusMsg = document.querySelector("#tempStatusMsg");
