@@ -106,17 +106,15 @@ window.Highlight = (() => {
         const modalOffset = 15;
         let rect = getFirstRect(Array.from(window.getSelection().getRangeAt(0).getClientRects()));
 
-        //          text position |  modal height     |   padding      |   window y
-        modal.style.top = rect.y - modal.offsetHeight - modalOffset + window.scrollY + "px";
-
-        //TODO center modal x on the selection
         modal.style.left = `${rect.x + (rect.width / 2) - (modal.offsetWidth / 2)}px`;
         modal.classList.add("down");
         modal.classList.remove("up");
 
-        console.log(rect);
-
+        // Display the modal before calling modal.offsetHeight() because otherwise it'd return 0
         modal.style.display = "flex";
+
+        //          text position |  modal height     |   padding      |   window y
+        modal.style.top = rect.y - modal.offsetHeight - modalOffset + window.scrollY + "px";
     }
 
     /**
