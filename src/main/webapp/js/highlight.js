@@ -22,17 +22,18 @@ window.Highlight = (() => {
     };
 
     //TODO improve highlight-plus icon
+    //TODO create icon sprite
     let modalDiv = `<div id="highlightModal">
                         <img class="highlightModal-icon" src="${highlightHost}/icons/highlight.png" 
                         onclick="Highlight.saveSelection()">
                         <img class="highlightModal-icon" src="${highlightHost}/icons/highlight-plus.png" style="margin: 0 0 0 5px;"
                         onclick="Highlight.openCustomSaveModal()">
                         <div id="highlightSocialMedia">
-                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/twitter-icon.png">
-                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png">
+                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/twitter-icon.png" onclick="Highlight.shareSelectionTwitter()">
+                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png" onclick="Highlight.shareSelectionFacebook()">
                         </div>
                         <img class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
-                        onclick="Highlight.tweetSelection()">
+                        onclick="">
                         <img class="highlightModal-icon" src="${highlightHost}/icons/gear.png" onclick="">
                     </div>`;
 
@@ -361,7 +362,14 @@ window.Highlight = (() => {
         });
     }
 
-    funcs.tweetSelection = () => {
+    funcs.shareSelectionFacebook = () =>{
+        let fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&
+        quote=${encodeURIComponent(window.getSelection().getRangeAt(0).cloneContents().textContent)}`;
+
+        window.open(fbUrl);
+    };
+
+    funcs.shareSelectionTwitter = () => {
         openTweetIntent(window.getSelection().getRangeAt(0).cloneContents().textContent, window.location.href);
     };
 
