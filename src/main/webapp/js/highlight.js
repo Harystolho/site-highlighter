@@ -2,11 +2,11 @@ import '../css/highlight.css';
 
 import * as common from "./common";
 import * as axios from 'axios';
+import * as templates from './templates';
+import {highlightHost} from './templates';
 
 window.Highlight = (() => {
     let funcs = {};
-
-    let highlightHost = "https://localhost:8181";
 
     let finalPos = {x: 0, y: 0};
 
@@ -14,43 +14,12 @@ window.Highlight = (() => {
         triedReload: false
     };
 
-    let socialMediaTimeOut;
-
     let shortcutKey = {
         keyCode: 73,
         altKey: true,
         shiftKey: false,
         ctrlKey: false
     };
-
-    //TODO improve highlight-plus icon
-    //TODO create icon sprite
-    let modalDiv = `<div id="highlightModal">
-                        <img class="highlightModal-icon" src="${highlightHost}/icons/highlight.png" 
-                        onclick="Highlight.saveSelection()">
-                        <img class="highlightModal-icon" src="${highlightHost}/icons/highlight-plus.png" style="margin: 0 0 0 5px;"
-                        onclick="Highlight.openCustomSaveModal()">
-                        <div id="highlightSocialMedia">
-                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/twitter-icon.png" onclick="Highlight.shareSelectionTwitter()">
-                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png" onclick="Highlight.shareSelectionFacebook()">
-                        </div>
-                        <img id="highlight_shareSocialIcon" class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
-                        onclick="Highlight.socialMediaIconOnHover()">
-                        <img class="highlightModal-icon" src="${highlightHost}/icons/gear.png" onclick="">
-                    </div>`;
-
-    let notificationDiv = `<div id="highlightNotification">
-                    Saved Highlight!
-                    </div>`;
-
-    let customSaveDiv = `<div id="highlightCustomSave">
-                    <select id="customSave-select">
-                        <option value="0">${document.title}</option>
-                    </select>
-                    <div id="customSaveContent" contenteditable="true">
-                    </div>
-                    <button id="customSave-saveButton" onclick="Highlight.saveCustomModalText()">Save Highlight</button>
-                    </div>`;
 
     const DOCUMENT_STATUS = {
         WOOD: "WOOD",
@@ -83,7 +52,7 @@ window.Highlight = (() => {
     function loadModal() {
         if (document.getElementById("highlightModal") === null) {
             console.log("Inserting Highlight Modal");
-            document.body.innerHTML += modalDiv;
+            document.body.innerHTML += templates.modalDiv;
         }
     }
 
@@ -93,7 +62,7 @@ window.Highlight = (() => {
      */
     function loadNotificationModal() {
         if (document.getElementById("highlightNotification") === null) {
-            document.body.innerHTML += notificationDiv;
+            document.body.innerHTML += templates.notificationDiv;
         }
     }
 
@@ -239,7 +208,7 @@ window.Highlight = (() => {
     }
 
     function loadCustomSaveModal() {
-        document.body.innerHTML += customSaveDiv;
+        document.body.innerHTML += templates.customSaveDiv;
     }
 
     function saveSelectionUsingShortcut() {
