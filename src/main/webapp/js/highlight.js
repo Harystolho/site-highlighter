@@ -14,6 +14,8 @@ window.Highlight = (() => {
         triedReload: false
     };
 
+    let socialMediaTimeOut;
+
     let shortcutKey = {
         keyCode: 73,
         altKey: true,
@@ -32,8 +34,8 @@ window.Highlight = (() => {
                             <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/twitter-icon.png" onclick="Highlight.shareSelectionTwitter()">
                             <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png" onclick="Highlight.shareSelectionFacebook()">
                         </div>
-                        <img class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
-                        onclick="">
+                        <img id="highlight_shareSocialIcon" class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
+                        onclick="Highlight.socialMediaIconOnHover()">
                         <img class="highlightModal-icon" src="${highlightHost}/icons/gear.png" onclick="">
                     </div>`;
 
@@ -356,6 +358,16 @@ window.Highlight = (() => {
             });
         });
     }
+
+    funcs.socialMediaIconOnHover = () => {
+        let container = document.getElementById("highlightSocialMedia");
+
+        if (container.classList.contains('social-show')) {
+            container.classList.remove('social-show');
+        } else {
+            container.classList.add('social-show');
+        }
+    };
 
     /**
      *

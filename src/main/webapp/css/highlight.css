@@ -96,8 +96,17 @@
     background-color: #fcfcfc;
     box-shadow: rgba(0, 0, 0, 0.4) 0 0 6px 1px;
     border-radius: 17px;
-    display: flex;
+    display: none;
     padding: 3px 7px;
+    cursor: pointer;
+}
+
+.highlightSocialMedia__icon:hover, .highlightModal-icon:hover {
+    transform: translateY(1px);
+}
+
+#highlightSocialMedia.social-show {
+    display: flex;
 }
 
 .highlightSocialMedia__icon {
