@@ -168,7 +168,13 @@ window.Highlight = (() => {
         sendSelectionToServer(selectedText, (status) => {
             if (status === "OK") {
                 showNotificationModal();
-                highlightSelectionInPage();
+
+                try {
+                    highlightSelectionInPage();
+                } catch (err) {
+                    // TODO select when there is more than one div
+                }
+
                 window.getSelection().removeAllRanges();
             } else {
                 showNotificationModal("Error saving highlight", 5000);
@@ -362,21 +368,25 @@ window.Highlight = (() => {
         });
     }
 
-    funcs.shareSelectionFacebook = () =>{
+    let socialMediaWindowFeatures = "width=580,height=720";
+
+    funcs.shareSelectionFacebook = () => {
         let fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&
         quote=${encodeURIComponent(window.getSelection().getRangeAt(0).cloneContents().textContent)}`;
 
-        window.open(fbUrl);
+
+        window.open(fbUrl, "", socialMediaWindowFeatures);
     };
 
     funcs.shareSelectionTwitter = () => {
         openTweetIntent(window.getSelection().getRangeAt(0).cloneContents().textContent, window.location.href);
+
+        function openTweetIntent(text, url = " ") {
+            let tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            window.open(tweetUrl, "", socialMediaWindowFeatures);
+        }
     };
 
-    function openTweetIntent(text, url = " ") {
-        let tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-        window.open(tweetUrl);
-    }
 
     return funcs;
 })();

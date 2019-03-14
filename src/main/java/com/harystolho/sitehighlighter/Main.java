@@ -33,3 +33,9 @@ public class Main {
 //TODO addon - filter which pages the highlight work/doesn't work
 
 // https://just-comments.com/docs.html <- How to do authentication 
+
+
+
+//
+// Ask: What if I had to change this? What would break? How can I absctract this?
+//
