@@ -50,11 +50,6 @@ window.Highlight = (() => {
         GOLD: "GOLD"
     };
 
-    setTimeout(() => {
-        console.log("timeout");
-
-    }, 1500);
-
     window.onload = () => {
         loadModal();
 
@@ -86,10 +81,13 @@ window.Highlight = (() => {
     }
 
     /**
-     * The notification modal is a div that appears when something is highlighted
+     * The notification modal is a div that appears when something is highlighted. Adds the highlight notificaiton modal
+     * to the DOM
      */
     function loadNotificationModal() {
-        document.body.innerHTML += notificationDiv;
+        if (document.getElementById("highlightNotification") === null) {
+            document.body.innerHTML += notificationDiv;
+        }
     }
 
     function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
