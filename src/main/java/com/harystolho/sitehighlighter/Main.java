@@ -24,7 +24,6 @@ public class Main {
 
 //TODO add tag to document
 //TODO add sort by tag
-//TODO delete document
 //TODO change document's name
 //TODO add calendar to remainder's doc
 

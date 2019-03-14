@@ -50,6 +50,11 @@ window.Highlight = (() => {
         GOLD: "GOLD"
     };
 
+    setTimeout(() => {
+        console.log("timeout");
+
+    }, 1500);
+
     window.onload = () => {
         loadModal();
 
@@ -70,22 +75,14 @@ window.Highlight = (() => {
         }
     };
 
-    function loadCommonScript() {
-        let script = document.createElement('script');
-        script.async = true;
-        script.type = 'text/javascript';
-        script.src = `${highlightHost}/js/common.js`;
-        let node = document.getElementsByTagName('script')[0];
-        node.parentNode.insertBefore(script, node);
-    }
-
     /**
-     * Creates the modal that shows up when something is selected
+     * Adds the modal div to the DOM
      */
     function loadModal() {
-        console.log("Inserting Highlight Modal");
-        // TODO make sure the modal is only inserted once
-        document.body.innerHTML += modalDiv;
+        if (document.getElementById("highlightModal") === null) {
+            console.log("Inserting Highlight Modal");
+            document.body.innerHTML += modalDiv;
+        }
     }
 
     /**
