@@ -27,6 +27,10 @@ window.Highlight = (() => {
                         onclick="Highlight.saveSelection()">
                         <img class="highlightModal-icon" src="${highlightHost}/icons/highlight-plus.png" style="margin: 0 0 0 5px;"
                         onclick="Highlight.openCustomSaveModal()">
+                        <div id="highlightSocialMedia">
+                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/twitter-icon.png">
+                            <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png">
+                        </div>
                         <img class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
                         onclick="Highlight.tweetSelection()">
                         <img class="highlightModal-icon" src="${highlightHost}/icons/gear.png" onclick="">
