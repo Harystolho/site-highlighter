@@ -48,12 +48,12 @@ window.Dashboard = (() => {
             if (status === 'GOLD') { // Change status to WOOD
                 httpPost("/api/v1/document/status", `id=${docId}&status=wood`, (data) => {
                     document.getElementById("documentGoldStar").classList.remove("active");
-                    ContentEditor.setDocumentStatus('WOOD');
+                    ContentEditor.options.setDocumentStatus('WOOD');
                 });
             } else { // Change status to GOLD
                 httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data) => {
                     document.getElementById("documentGoldStar").classList.add("active");
-                    ContentEditor.setDocumentStatus('GOLD');
+                    ContentEditor.options.setDocumentStatus('GOLD');
                 });
             }
         }
@@ -66,6 +66,7 @@ window.Dashboard = (() => {
             axios.delete(`/api/v1/document/${docId}`).then((response) => {
                 if (response.status === 200) {
                     document.querySelector(`[data-id='${docId}']`).remove();
+                    ContentEditor.displayDocumentContent(0);
                 }
             });
         }
@@ -93,14 +94,19 @@ window.ContentEditor = (() => {
 
     let options = {
         currentDocumentId: 0,
-        status: 'WOOD',
-        modifiedTimeout: undefined
+        modifiedTimeout: undefined,
+        getStatus: () => options._status,
+        setStatus(status){
+            options._status = status;
+            updatePageBasedOnStatus();
+        }
     };
 
     // Public
     funcs.options = {
         currentDocumentId: () => options.currentDocumentId,
-        documentStatus: () => options.status
+        documentStatus: options.getStatus,
+        setDocumentStatus: options.setStatus
     };
 
     // TODO add the missing ones
@@ -128,13 +134,20 @@ window.ContentEditor = (() => {
     };
 
     funcs.displayDocumentContent = (id) => {
+        if (id === 0) {
+            resetDocumentOptions(id);
+
+            document.querySelector("#content").innerHTML = "";
+            document.querySelector("#content").setAttribute("data-document-id", id);
+            return;
+        }
+
         httpGet(`/api/v1/document/${id}`, (response) => {
             let data = JSON.parse(response).data;
 
             resetDocumentOptions(id);
 
-            options.status = data.status;
-            updatePageBasedOnStatus();
+            options.setStatus(data.status);
 
             document.querySelector("#content").innerHTML = data.highlights;
             document.querySelector("#content").setAttribute("data-document-id", id);
@@ -144,12 +157,13 @@ window.ContentEditor = (() => {
     function resetDocumentOptions(docId) {
         options.currentDocumentId = docId;
         options.modifiedTimeout = undefined;
-        options.status = 'WOOD';
-        document.getElementById("documentGoldStar").classList.remove("active");
+        options.setStatus('WOOD');
     }
 
     function updatePageBasedOnStatus() {
-        switch (options.status) {
+        document.getElementById("documentGoldStar").classList.remove("active");
+
+        switch (options.getStatus()) {
             case 'WOOD':
                 break;
             case 'GOLD':
@@ -246,10 +260,6 @@ window.ContentEditor = (() => {
             range.commonAncestorContainer.innerHTML = range.commonAncestorContainer.innerHTML.replace(EDITOR_SEPARATOR, completeInnerHTML);
         }
     }
-
-    funcs.setDocumentStatus = (status) => {
-        options.status = status;
-    };
 
     // TODO fix this to remove the style
     funcs.removeSelectionFormatting = () => {
