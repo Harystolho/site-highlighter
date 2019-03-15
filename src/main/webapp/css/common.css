@@ -115,7 +115,7 @@ body {
     display: inline;
 }
 
-#documentLibrary_addNewDocument{
+#documentLibrary_addNewDocument {
     right: 0;
     position: absolute;
     width: 34px;
@@ -187,11 +187,59 @@ body {
     top: 83%;
 }
 
-#documentGoldStar{
+#documentGoldStar {
     transition: all 0.2s;
 }
 
-#documentGoldStar.active{
+#documentGoldStar.active {
     background-color: gold;
     border-radius: 50%;
+}
+
+#singleInputModal {
+    position: fixed;
+    background-color: white;
+    z-index: 1;
+    left: 41%;
+    top: 20%;
+    box-shadow: 0 0 5px #0009;
+    border-radius: 5px;
+    max-width: 500px;
+    padding: 7px;
+}
+
+.singleInputModal__header {
+    border-bottom: solid 1px #0000001a;
+}
+
+.singleInputModal__header h4 {
+    font-family: Raleway, serif;
+}
+
+.singleInputModal__content {
+    padding: 20px 0;
+    border-bottom: solid 1px #0000001a;
+}
+
+#singleInputModal_input {
+    border: none;
+    background-color: #ededed;
+    border-radius: 24px;
+    padding: 5px 9px;
+    width: 100%;
+}
+
+.singleInputModal__footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: end;
+}
+
+.singleInputModal__footer button{
+    border: none;
+    border-radius: 5px;
+    padding: 2px 13px;
+    box-shadow: 0 0 3px #535353b3;
+    margin: 0 4px;
+    font-family: Raleway, serif;
 }

@@ -1,5 +1,6 @@
 import * as common from './common';
 import * as axios from 'axios';
+import * as templates from './templates';
 
 import '../css/bootstrap.min.css'
 import '../css/common.css'
@@ -11,6 +12,9 @@ window.Dashboard = (() => {
         DOCUMENT: "#documentLibrary",
         TAG: "#tagLibrary"
     };
+
+    // Object used by the inputModals to call a callback function
+    funcs.functions = {};
 
     window.onload = () => {
         requestDocuments();
@@ -26,7 +30,7 @@ window.Dashboard = (() => {
             let library = document.querySelector("#documentLibraryList");
 
             response.data.forEach((doc) => {
-                library.innerHTML += funcs.librarySiteTemplate(doc.title, doc.path, doc.id);
+                library.innerHTML += templates.librarySiteTemplate(doc.title, doc.path, doc.id);
             });
         });
     }
@@ -72,20 +76,41 @@ window.Dashboard = (() => {
         }
     };
 
-    // TEMPLATE FUNCTIONS
-    funcs.librarySiteTemplate = (title, url, id) => {
-        return `
-    <div class="library-template-container" data-id="${id}">
-        <h5 class="library-template-title">
-            <span onclick="ContentEditor.displayDocumentContent('${id}')">${title}</span>
-            <!-- Most sites redirect to HTTPS-->
-            <a href="http://${url}" target="_blank"> 
-                <img class="library-template-external-link" src="/icons/external-link.png">
-            </a>
-        </h5>
-    </div>
-    `;
+    funcs.createNewDocument = () => {
+        displaySingleInputModal("How do you want your document to be named?", (name) => {
+            if (name.trim().length > 3) {
+                let formData = new FormData();
+                formData.append("text", name);
+
+                // Example dashboard.com/myBigTitle-1285682382
+                formData.append("path", `${window.location.host}/${name.trim().replace(/ /g, "")}-${parseInt(Math.random() * 999999)}`);
+                formData.append("title", name);
+
+                axios.post(`/api/v1/save/`, formData, {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                }).then((response) => {
+                    cb(response);
+                });
+            } else {
+                alert("Title has to have more than 3 characters");
+            }
+
+            document.getElementById('singleInputModal').remove();
+        });
     };
+
+    /**
+     * Displays the {#singleInputModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
+     * button is pressed it doesn't closed the modal, it just calls the callback.
+     * @param question {String} The text that appears on the header of the modal
+     * @param cb {Function} called when the 'Ok' button is pressed
+     */
+    function displaySingleInputModal(question, cb) {
+        document.body.innerHTML += templates.singleInputModal(question);
+
+        // This function is called when the 'Ok' button is pressed
+        Dashboard.functions.singleInputOk = cb;
+    }
 
     return funcs;
 })(); // TODO show box to edit the link in an <a> tag
