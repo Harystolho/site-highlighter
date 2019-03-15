@@ -112,6 +112,16 @@ body {
     font-variant: small-caps;
     margin-left: 6px;
     color: #0070ff;
+    display: inline;
+}
+
+#documentLibrary_addNewDocument{
+    right: 0;
+    position: absolute;
+    width: 34px;
+    margin-top: 3px;
+    margin-right: 5px;
+    cursor: pointer;
 }
 
 #menuIcons {
