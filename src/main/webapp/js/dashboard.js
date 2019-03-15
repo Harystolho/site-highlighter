@@ -89,7 +89,9 @@ window.Dashboard = (() => {
                 axios.post(`/api/v1/save/`, formData, {
                     headers: {'Content-Type': 'multipart/form-data'}
                 }).then((response) => {
-                    cb(response);
+                    // Remove existing documents
+                    Array.from(document.querySelector("#documentLibraryList").children).forEach(child => child.remove());
+                    requestDocuments();
                 });
             } else {
                 alert("Title has to have more than 3 characters");
