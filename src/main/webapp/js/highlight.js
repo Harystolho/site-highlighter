@@ -11,7 +11,8 @@ window.Highlight = (() => {
     let finalPos = {x: 0, y: 0};
 
     let options = {
-        triedReload: false
+        triedReload: false,
+        on: true /*If true, show highlight modal when something is selected*/
     };
 
     let shortcutKey = {
@@ -40,6 +41,9 @@ window.Highlight = (() => {
     };
 
     window.onkeyup = (event) => {
+        if (!isHighlightEnabled())
+            return;
+
         if (event.keyCode === shortcutKey.keyCode && event.altKey === shortcutKey.altKey
             && event.shiftKey === shortcutKey.shiftKey && event.ctrlKey === shortcutKey.ctrlKey) { // 'i'
             saveSelectionUsingShortcut();
@@ -84,6 +88,9 @@ window.Highlight = (() => {
      * @param event
      */
     function openHighlightModal(event) {
+        if (!isHighlightEnabled())
+            return;
+
         let modal = document.querySelector("#highlightModal");
 
         // If the click was inside the modal
@@ -372,6 +379,18 @@ window.Highlight = (() => {
         }
     };
 
+    /**
+     * If the highlight modal state is {true}(by default it is {true}), when something is selected the highlight modal
+     * appears above the selection. This is how you disable/enable the highlight modal
+     * @param state {String} 'ON' or 'OFF'
+     */
+    funcs.setHighlightModalState = (state) => {
+        options.on = state === 'ON';
+    };
+
+    function isHighlightEnabled() {
+        return options.on;
+    }
 
     return funcs;
 })();
