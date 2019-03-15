@@ -101,6 +101,9 @@ window.Highlight = (() => {
             return;
         }
 
+        // Hide social media container
+        document.getElementById("highlightSocialMedia").classList.remove('social-show');
+
         // TODO don't show the modal inside the custom modal if the user opened the custom save modal
 
         const modalOffset = 15;
