@@ -77,7 +77,7 @@ window.Dashboard = (() => {
     };
 
     funcs.createNewDocument = () => {
-        displaySingleInputModal("How do you want your document to be named?", (name) => {
+        singleInputModal.display("How do you want your document to be named?", (name) => {
             if (name.trim().length > 3) {
                 let formData = new FormData();
                 formData.append("text", name);
@@ -97,22 +97,27 @@ window.Dashboard = (() => {
                 alert("Title has to have more than 3 characters");
             }
 
-            document.getElementById('singleInputModal').remove();
+            singleInputModal.hide();
         });
     };
 
-    /**
-     * Displays the {#singleInputModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
-     * button is pressed it doesn't closed the modal, it just calls the callback.
-     * @param question {String} The text that appears on the header of the modal
-     * @param cb {Function} called when the 'Ok' button is pressed
-     */
-    function displaySingleInputModal(question, cb) {
-        document.body.innerHTML += templates.singleInputModal(question);
+    let singleInputModal = {
+        /**
+         * Displays the {#singleInputModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
+         * button is pressed it doesn't closed the modal, it just calls the callback.
+         * @param question {String} The text that appears on the header of the modal
+         * @param cb {Function} called when the 'Ok' button is pressed
+         */
+        display(question, cb) {
+            document.body.innerHTML += templates.singleInputModal(question);
 
-        // This function is called when the 'Ok' button is pressed
-        Dashboard.functions.singleInputOk = cb;
-    }
+            // This function is called when the 'Ok' button is pressed
+            Dashboard.functions.singleInputOk = cb;
+        },
+        hide() {
+            document.getElementById('singleInputModal').remove();
+        }
+    };
 
     return funcs;
 })(); // TODO show box to edit the link in an <a> tag
