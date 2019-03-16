@@ -244,6 +244,10 @@ body {
     font-family: Raleway, serif;
 }
 
+.dashboard-modal__footer button:hover {
+    box-shadow: 0 0 3px #050505;
+}
+
 .dashboard-modal{
     position: fixed;
     background-color: white;

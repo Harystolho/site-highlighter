@@ -15,7 +15,7 @@ public class Main {
 	}
 }
 
-//TODO add frame to see highlight in the page
+//TODO add frame to see highlights in the page
 
 //TODO add tag to document
 //TODO add sort by tag

@@ -69,7 +69,7 @@ window.Dashboard = (() => {
         if (docId !== 0 && docId !== undefined) {
             let title = document.querySelector(`[data-id='${docId}']`).querySelector("span").textContent;
 
-            confirmModal.display(`Delete document "${title}"`, () => {
+            confirmModal.display(`Delete "${title}"?`, () => {
                 axios.delete(`/api/v1/document/${docId}`).then((response) => {
                     if (response.status === 200) {
                         document.querySelector(`[data-id='${docId}']`).remove();
