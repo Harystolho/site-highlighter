@@ -15,7 +15,6 @@ public class Main {
 	}
 }
 
-//TODO show 'reload script' message on a modal instead of alert
 //TODO add frame to see highlight in the page
 
 //TODO add reminder

@@ -12,7 +12,8 @@ window.Highlight = (() => {
 
     let options = {
         triedReload: false,
-        on: true /*If true, show highlight modal when something is selected*/
+        on: true, /*If true, show highlight modal when something is selected*/
+        loadingTimeout: 7500 /*Time to wait before checking if the modal has been loaded correctly*/
     };
 
     let shortcutKey = {
@@ -31,6 +32,7 @@ window.Highlight = (() => {
         loadModal();
 
         loadNotificationModal();
+        checkModalLoaded();
     };
 
     window.onmouseup = (event) => {
@@ -70,6 +72,18 @@ window.Highlight = (() => {
         }
     }
 
+    /**
+     * Waits some seconds after the page has loaded and checks if the modal has been loaded correctly, if the modal is
+     * not loaded, a notification{#highlight-notLoadedNotification} is shown
+     */
+    function checkModalLoaded() {
+        setTimeout(()=>{
+            if(document.querySelector("#highlightModal") === null){
+                showNotLoadedNotification();
+            }
+        }, options.loadingTimeout);
+    }
+    
     function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
         let notif = document.querySelector("#highlightNotification");
 
@@ -103,10 +117,8 @@ window.Highlight = (() => {
             return;
         }
 
-        if (modal === null) {
-            displayNotLoadedNotification();
+        if (modal === null)
             return;
-        }
 
         // Hide social media container
         document.getElementById("highlightSocialMedia").classList.remove('social-show');
@@ -306,7 +318,7 @@ window.Highlight = (() => {
         return window.getSelection().anchorOffset !== window.getSelection().focusOffset;
     }
 
-    function displayNotLoadedNotification() {
+    function showNotLoadedNotification() {
         if (!options.triedReload) {
             document.body.innerHTML += templates.notLoadedNotification;
             options.triedReload = true;
