@@ -66,7 +66,7 @@ window.Dashboard = (() => {
     funcs.deleteDocument = () => {
         let docId = ContentEditor.options.currentDocumentId();
 
-        if (docId !== 0 || docId !== undefined) {
+        if (docId !== 0 && docId !== undefined) {
             axios.delete(`/api/v1/document/${docId}`).then((response) => {
                 if (response.status === 200) {
                     document.querySelector(`[data-id='${docId}']`).remove();

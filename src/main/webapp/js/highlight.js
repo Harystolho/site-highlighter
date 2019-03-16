@@ -315,6 +315,7 @@ window.Highlight = (() => {
         }
     }
 
+    //TODO show last used document first in custom save modal
     /**
      * Adds the documents that have the DOCUMENT_STATUS.GOLD to the #customSave-select select
      */
