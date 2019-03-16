@@ -64,10 +64,10 @@ let notLoadedNotification =
     `<div id="highlight-notLoadedNotification">
         <span style="margin-bottom: 8px;">The Highlight Modal has not been loaded correctly. Do you wish to reload it?</span>
         <div>
-            <button class="hl-nln-button" onclick="Highlight.reloadModal();">Reload</button>
-            <button class="hl-nln-button" onclick="document.getElementById('highlight-notLoadedNotification').remove();">No</button>
+            <button class="hl-nln-button" onclick="Highlight.notLoadedNotification.reload();">Reload</button>
+            <button class="hl-nln-button" onclick="Highlight.notLoadedNotification.close()">No</button>
             <div id="hl-nln-checkboxContainer">
-                <div id="hl-nln-checkbox"></div>
+                <div id="hl-nln-checkbox" onclick="Highlight.notLoadedNotification.rememberOption()"></div>
                 <span style="margin-left: 7px;">Remember option for this website</span>            
             </div>
         </div>

@@ -36,7 +36,7 @@ class Logger {
 
     log(msg) {
         if (this._enable)
-            console.log(`[Logger] ${msg}`);
+            console.log(`[Highlight] ${msg}`);
     }
 
     disable() {

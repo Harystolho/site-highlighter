@@ -12,7 +12,6 @@ window.Highlight = (() => {
     let finalPos = {x: 0, y: 0};
 
     let options = {
-        triedReload: false,
         on: true, /*If true, show highlight modal when something is selected*/
         loadingTimeout: 4500 /*Time to wait before checking if the modal has been loaded correctly*/
     };
@@ -60,7 +59,7 @@ window.Highlight = (() => {
      */
     function loadModal() {
         if (document.getElementById("highlightModal") === null) {
-            console.log("Inserting Highlight Modal");
+            Logger.log("Insert Highlight Modal");
             document.body.innerHTML += templates.modalDiv;
         }
     }
@@ -84,8 +83,15 @@ window.Highlight = (() => {
 
         setTimeout(() => {
             if (document.querySelector("#highlightModal") === null) {
-                Logger.log("Show Not Loaded Notification");
-                showNotLoadedNotification();
+                if (localStorage.getItem('hl-nln-autoReload') === "true") {
+                    Logger.log("Auto reload enabled [hl-nln-autoReload=true]");
+                    window.onload();
+                } else if (localStorage.getItem('hl-nln-autoReload') === "false") {
+                    Logger.log("Auto reload disabled [hl-nln-autoReload=false]");
+                } else {
+                    Logger.log("Show Not Loaded Notification");
+                    showNotLoadedNotification();
+                }
             }
         }, options.loadingTimeout);
     }
@@ -325,16 +331,8 @@ window.Highlight = (() => {
     }
 
     function showNotLoadedNotification() {
-        if (!options.triedReload) {
-            document.body.innerHTML += templates.notLoadedNotification;
-            options.triedReload = true;
-        }
+        document.body.innerHTML += templates.notLoadedNotification;
     }
-
-    funcs.reloadModal = () => {
-        window.onload();
-        document.getElementById('highlight-notLoadedNotification').remove();
-    };
 
     //TODO show last used document first in custom save modal
     /**
@@ -413,6 +411,31 @@ window.Highlight = (() => {
     function isHighlightEnabled() {
         return options.on;
     }
+
+    funcs.notLoadedNotification = {
+        remember: false,
+        close() {
+            if (this.remember)
+                localStorage.setItem('hl-nln-autoReload', false);
+
+            document.getElementById('highlight-notLoadedNotification').remove();
+        },
+        reload() {
+            window.onload();
+            funcs.notLoadedNotification.close();
+
+            // This has to come last because it calls close() and close sets the hl-nln-autoReload to false
+            if (this.remember)
+                localStorage.setItem('hl-nln-autoReload', true);
+        },
+        rememberOption(value = !this.remember) {
+            let checkbox = document.getElementById("hl-nln-checkbox");
+
+            value === true ? checkbox.classList.add('checked') : checkbox.classList.remove('checked');
+
+            this.remember = value;
+        }
+    };
 
     return funcs;
 })();
