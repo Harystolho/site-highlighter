@@ -1,6 +1,7 @@
 import '../css/highlight.css';
 
 import * as common from "./common";
+import {Logger as LoggerClass} from "./common";
 import * as axios from 'axios';
 import * as templates from './templates';
 import {highlightHost} from './templates';
@@ -13,7 +14,7 @@ window.Highlight = (() => {
     let options = {
         triedReload: false,
         on: true, /*If true, show highlight modal when something is selected*/
-        loadingTimeout: 7500 /*Time to wait before checking if the modal has been loaded correctly*/
+        loadingTimeout: 4500 /*Time to wait before checking if the modal has been loaded correctly*/
     };
 
     let shortcutKey = {
@@ -27,6 +28,8 @@ window.Highlight = (() => {
         WOOD: "WOOD",
         GOLD: "GOLD"
     };
+
+    let Logger = new LoggerClass();
 
     window.onload = () => {
         loadModal();
@@ -73,17 +76,20 @@ window.Highlight = (() => {
     }
 
     /**
-     * Waits some seconds after the page has loaded and checks if the modal has been loaded correctly, if the modal is
-     * not loaded, a notification{#highlight-notLoadedNotification} is shown
+     * Checks if the modal has been loaded correctly after {@link options.loadingTimeout} milliseconds. If the modal is
+     * not loaded a notification{templates#notLoadedNotification} is shown
      */
     function checkModalLoaded() {
-        setTimeout(()=>{
-            if(document.querySelector("#highlightModal") === null){
+        Logger.log("Start timeout to check if modal is loaded");
+
+        setTimeout(() => {
+            if (document.querySelector("#highlightModal") === null) {
+                Logger.log("Show Not Loaded Notification");
                 showNotLoadedNotification();
             }
         }, options.loadingTimeout);
     }
-    
+
     function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
         let notif = document.querySelector("#highlightNotification");
 
@@ -325,7 +331,7 @@ window.Highlight = (() => {
         }
     }
 
-    funcs.reloadModal = () =>{
+    funcs.reloadModal = () => {
         window.onload();
         document.getElementById('highlight-notLoadedNotification').remove();
     };

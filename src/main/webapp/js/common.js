@@ -29,6 +29,25 @@ function getTagAttributes(tag) {
     return attributes;
 }
 
+class Logger {
+    constructor() {
+        this._enable = true;
+    }
+
+    log(msg) {
+        if (this._enable)
+            console.log(`[Logger] ${msg}`);
+    }
+
+    disable() {
+        this._enable = false;
+    }
+
+    enable() {
+        this._enable = true;
+    }
+}
+
 export {
-    getTagAttributes, getClosingTag
+    getTagAttributes, getClosingTag, Logger
 }
