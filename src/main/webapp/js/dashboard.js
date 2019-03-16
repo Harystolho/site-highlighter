@@ -67,12 +67,16 @@ window.Dashboard = (() => {
         let docId = ContentEditor.options.currentDocumentId();
 
         if (docId !== 0 && docId !== undefined) {
-            confirmModal.display(`Delete document: ${docId}`, () => {
+            let title = document.querySelector(`[data-id='${docId}']`).querySelector("span").textContent;
+
+            confirmModal.display(`Delete document "${title}"`, () => {
                 axios.delete(`/api/v1/document/${docId}`).then((response) => {
                     if (response.status === 200) {
                         document.querySelector(`[data-id='${docId}']`).remove();
                         ContentEditor.displayDocumentContent(0);
                     }
+
+                    confirmModal.hide();
                 });
             });
         }

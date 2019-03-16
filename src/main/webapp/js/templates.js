@@ -52,7 +52,7 @@ let confirmModal = (question) => {
                             <h4>${question}</h4>
                         </div>
                         <div class="dashboard-modal__footer">
-                            <button onclick="Dashboard.functions.confirmOk()">Ok</button>
+                            <button onclick="Dashboard.functions.confirmOk()">Confirm</button>
                             <button onclick="document.getElementById('confirmModal').remove();">Close</button>
                         </div>
                         </div>`;
