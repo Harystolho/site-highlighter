@@ -104,7 +104,7 @@ window.Highlight = (() => {
         }
 
         if (modal === null) {
-            displayNotLoadedMessage();
+            displayNotLoadedNotification();
             return;
         }
 
@@ -306,14 +306,17 @@ window.Highlight = (() => {
         return window.getSelection().anchorOffset !== window.getSelection().focusOffset;
     }
 
-    function displayNotLoadedMessage() {
+    function displayNotLoadedNotification() {
         if (!options.triedReload) {
-            if (confirm("Highlight script is not loaded correctly. Try to load again?")) {
-                window.onload();
-            }
+            document.body.innerHTML += templates.notLoadedNotification;
             options.triedReload = true;
         }
     }
+
+    funcs.reloadModal = () =>{
+        window.onload();
+        document.getElementById('highlight-notLoadedNotification').remove();
+    };
 
     //TODO show last used document first in custom save modal
     /**

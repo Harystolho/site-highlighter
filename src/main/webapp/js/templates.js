@@ -60,6 +60,19 @@ let librarySiteTemplate = (title, url, id) => {
     `;
 };
 
+let notLoadedNotification =
+    `<div id="highlight-notLoadedNotification">
+        <span style="margin-bottom: 8px;">The Highlight Modal has not been loaded correctly. Do you wish to reload it?</span>
+        <div>
+            <button class="hl-nln-button" onclick="Highlight.reloadModal();">Reload</button>
+            <button class="hl-nln-button" onclick="document.getElementById('highlight-notLoadedNotification').remove();">No</button>
+            <div id="hl-nln-checkboxContainer">
+                <div id="hl-nln-checkbox"></div>
+                <span style="margin-left: 7px;">Remember option for this website</span>            
+            </div>
+        </div>
+    </div>`;
+
 export {
-    modalDiv, notificationDiv, customSaveDiv, singleInputModal, librarySiteTemplate
+    modalDiv, notificationDiv, customSaveDiv, singleInputModal, librarySiteTemplate, notLoadedNotification
 }

@@ -52,7 +52,7 @@
     display: none;
 }
 
-#highlightCustomSave {
+#highlightCustomSave, #highlight-notLoadedNotification {
     position: fixed;
     width: 326px;
     background-color: white;
@@ -112,4 +112,28 @@
 .highlightSocialMedia__icon {
     width: 28px;
     margin: 0 4px;
+}
+
+#hl-nln-checkbox{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    box-shadow: 0 0 5px #f009;
+    border-radius: 50%;
+}
+
+#hl-nln-checkbox.checked{
+    background-color: green;
+    box-shadow: 0 0 5px #588758;
+}
+
+#hl-nln-checkboxContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+}
+
+.hl-nln-button{
+    width: 49%;
 }
