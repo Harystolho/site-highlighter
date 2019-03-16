@@ -17,22 +17,20 @@ public class Main {
 
 //TODO add frame to see highlight in the page
 
-//TODO add reminder
-
 //TODO add tag to document
 //TODO add sort by tag
 //TODO change document's name
-//TODO add calendar to remainder's doc
-
-//TODO show error if site has csp
 
 //TODO add account/guest
 
+//TODO add reminder
+//TODO add calendar to remainder's doc
+
 //TODO addon - filter which pages the highlight work/doesn't work
 
+//TODO show error if site has csp
+
 // https://just-comments.com/docs.html <- How to do authentication 
-
-
 
 //
 // Ask: What if I had to change this? What would break? How can I absctract this?

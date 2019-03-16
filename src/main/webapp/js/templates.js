@@ -32,16 +32,28 @@ let customSaveDiv = `<div id="highlightCustomSave">
                     </div>`;
 
 let singleInputModal = (question) => {
-    return `<div id="singleInputModal">
-                        <div class="singleInputModal__header">
+    return `<div id="singleInputModal" class="dashboard-modal">
+                        <div class="dashboard-modal__header">
                             <h4>${question}</h4>
                         </div>
-                        <div class="singleInputModal__content">
+                        <div class="dashboard-modal__content">
                             <input id="singleInputModal_input" type="text"> 
                         </div>
-                        <div class="singleInputModal__footer">
+                        <div class="dashboard-modal__footer">
                             <button onclick="Dashboard.functions.singleInputOk(document.getElementById('singleInputModal_input').value)">Ok</button>
                             <button onclick="document.getElementById('singleInputModal').remove();">Close</button>
+                        </div>
+                        </div>`;
+};
+
+let confirmModal = (question) => {
+    return `<div id="confirmModal" class="dashboard-modal">
+                        <div class="dashboard-modal__header">
+                            <h4>${question}</h4>
+                        </div>
+                        <div class="dashboard-modal__footer">
+                            <button onclick="Dashboard.functions.confirmOk()">Ok</button>
+                            <button onclick="document.getElementById('confirmModal').remove();">Close</button>
                         </div>
                         </div>`;
 };
@@ -74,5 +86,5 @@ let notLoadedNotification =
     </div>`;
 
 export {
-    modalDiv, notificationDiv, customSaveDiv, singleInputModal, librarySiteTemplate, notLoadedNotification
+    modalDiv, notificationDiv, customSaveDiv, singleInputModal, librarySiteTemplate, notLoadedNotification, confirmModal
 }

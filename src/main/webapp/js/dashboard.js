@@ -67,11 +67,13 @@ window.Dashboard = (() => {
         let docId = ContentEditor.options.currentDocumentId();
 
         if (docId !== 0 && docId !== undefined) {
-            axios.delete(`/api/v1/document/${docId}`).then((response) => {
-                if (response.status === 200) {
-                    document.querySelector(`[data-id='${docId}']`).remove();
-                    ContentEditor.displayDocumentContent(0);
-                }
+            confirmModal.display(`Delete document: ${docId}`, () => {
+                axios.delete(`/api/v1/document/${docId}`).then((response) => {
+                    if (response.status === 200) {
+                        document.querySelector(`[data-id='${docId}']`).remove();
+                        ContentEditor.displayDocumentContent(0);
+                    }
+                });
             });
         }
     };
@@ -116,6 +118,24 @@ window.Dashboard = (() => {
         },
         hide() {
             document.getElementById('singleInputModal').remove();
+        }
+    };
+
+    let confirmModal = {
+        /**
+         * Displays the {#confirmModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
+         * button is pressed it doesn't closed the modal, it just calls the callback.
+         * @param question {String} The text that appears on the header of the modal
+         * @param cb {Function} called when the 'Ok' button is pressed
+         */
+        display(question, cb) {
+            document.body.innerHTML += templates.confirmModal(question);
+
+            // This function is called when the 'Ok' button is pressed
+            Dashboard.functions.confirmOk = cb;
+        },
+        hide() {
+            document.getElementById('confirmModal').remove();
         }
     };
 
