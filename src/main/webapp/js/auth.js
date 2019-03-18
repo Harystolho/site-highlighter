@@ -43,7 +43,7 @@ let authContainer = {
             let email = document.getElementById('authContainerEmail').value;
             let password = document.getElementById('authContainerPassword').value;
 
-            if(email.length <= 6 || password.length <= 6){
+            if(email.length <= 6 || password.length < 4){
                 authContainer.showError("Email and password can't be empty");
                 return;
             }
@@ -79,8 +79,15 @@ let authContainer = {
             if (!isPasswordValid(password))
                 return;
 
+            let formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", password);
 
-            console.log("valid");
+            axios.post('/auth/signup', formData, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then((response) => {
+
+            });
         }
         ,
         showError(msg) {

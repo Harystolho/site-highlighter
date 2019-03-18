@@ -24,5 +24,5 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	protected String getDatabaseName() {
 		return "highlight";
 	}
-
+	
 }
