@@ -57,7 +57,11 @@ let authContainer = {
             axios.post('/auth/signin', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then((response) => {
+                response = response.data;
 
+                if(response.error === 'OK'){
+                    window.location.replace('/dashboard');
+                }
             });
         }
         ,
@@ -86,7 +90,11 @@ let authContainer = {
             axios.post('/auth/signup', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then((response) => {
+                response = response.data;
 
+                if(response.error === 'OK'){
+                    window.location.replace('/dashboard');
+                }
             });
         }
         ,

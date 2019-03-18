@@ -44,12 +44,6 @@ public class AccountController {
 		ServiceResponse<ObjectNode> response = accountService.signIn(req, email, password);
 
 		switch (response.getStatus()) {
-		case OK:
-			try {
-				res.sendRedirect("/dashboard");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		case FAIL:
 			return API_Response.of("FAIL", response.getResponse());
 		default:
