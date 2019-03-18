@@ -1,8 +1,10 @@
 package com.harystolho.sitehighlighter.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,13 +38,25 @@ public class AccountController {
 
 	@ResponseBody
 	@PostMapping("/auth/signin")
-	public API_Response signIn(HttpServletRequest req, @RequestParam(name = "email") String email,
-			@RequestParam(name = "password") String password) {
+	public API_Response signIn(HttpServletRequest req, HttpServletResponse res,
+			@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
 
-		System.out.println(email);
-		System.out.println(password);
+		ServiceResponse<ObjectNode> response = accountService.signIn(req, email, password);
 
-		return API_Response.of(null, "{}");
+		switch (response.getStatus()) {
+		case OK:
+			try {
+				res.sendRedirect("/dashboard");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		case FAIL:
+			return API_Response.of("FAIL", response.getResponse());
+		default:
+			break;
+		}
+
+		return API_Response.of("OK", response.getResponse());
 	}
 
 	@ResponseBody
@@ -54,12 +68,12 @@ public class AccountController {
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return API_Response.of("FAIL", response.getResponse());
 		default:
 			break;
 		}
 
-		return API_Response.of("OK", response);
+		return API_Response.of("OK", response.getResponse());
 	}
 
 }

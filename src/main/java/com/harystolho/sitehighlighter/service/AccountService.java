@@ -44,12 +44,28 @@ public class AccountService {
 			return ServiceResponse.of(node, ServiceStatus.FAIL);
 		}
 
-		Account account = new Account(email, password);
+		Account account = new Account(email, encryptPassword(password));
 
 		accountDao.save(account);
 
 		// set cookie using req and redirect
 		node.put("cookie", "123");
+		return ServiceResponse.of(node, ServiceStatus.OK);
+	}
+
+	public ServiceResponse<ObjectNode> signIn(HttpServletRequest req, String email, String password) {
+		ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
+
+		email = sanitizeEmail(email);
+
+		Account account = accountDao.getAccountByEmailAndPassword(email, encryptPassword(password));
+
+		if (account == null) {
+			node.put("error", "INVALID_EMAIL_OR_PASSWORD");
+			return ServiceResponse.of(node, ServiceStatus.FAIL);
+		}
+
+		// set cookie using req and redirect
 		return ServiceResponse.of(node, ServiceStatus.OK);
 	}
 
@@ -66,6 +82,10 @@ public class AccountService {
 			return false;
 
 		return true;
+	}
+
+	private String encryptPassword(String former) {
+		return String.valueOf(former.hashCode());
 	}
 
 	private boolean isEmailUnique(String email) {

@@ -10,4 +10,6 @@ public interface AccountDAO {
 
 	Account getAccountByEmail(String email);
 
+	Account getAccountByEmailAndPassword(String email, String password);
+
 }

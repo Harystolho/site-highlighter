@@ -35,4 +35,11 @@ public class MongoAccountDAO implements AccountDAO {
 		return mongoOperations.findOne(query, Account.class);
 	}
 
+	@Override
+	public Account getAccountByEmailAndPassword(String email, String password) {
+		Query query = Query.query(Criteria.where("email").is(email).and("password").is(password));
+
+		return mongoOperations.findOne(query, Account.class);
+	}
+
 }
