@@ -2,12 +2,16 @@ package com.harystolho.sitehighlighter.service;
 
 import java.util.logging.Logger;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.harystolho.sitehighlighter.cookie.CookieService;
 import com.harystolho.sitehighlighter.dao.AccountDAO;
 import com.harystolho.sitehighlighter.model.Account;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
@@ -18,13 +22,15 @@ public class AccountService {
 	private static final Logger logger = Logger.getLogger(AccountService.class.getName());
 
 	private AccountDAO accountDao;
+	private CookieService cookieService;
 
 	@Autowired
-	public AccountService(AccountDAO accountDao) {
+	public AccountService(AccountDAO accountDao, CookieService cookieService) {
 		this.accountDao = accountDao;
+		this.cookieService = cookieService;
 	}
 
-	public ServiceResponse<ObjectNode> signUp(HttpServletRequest req, String email, String password) {
+	public ServiceResponse<ObjectNode> signUp(String email, String password) {
 		ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
 
 		email = sanitizeEmail(email);
@@ -48,12 +54,10 @@ public class AccountService {
 
 		accountDao.save(account);
 
-		// set cookie using req and redirect
-		node.put("cookie", "123");
 		return ServiceResponse.of(node, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<ObjectNode> signIn(HttpServletRequest req, String email, String password) {
+	public ServiceResponse<ObjectNode> signIn(HttpServletResponse res, String email, String password) {
 		ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
 
 		email = sanitizeEmail(email);
@@ -65,10 +69,19 @@ public class AccountService {
 			return ServiceResponse.of(node, ServiceStatus.FAIL);
 		}
 
-		// set cookie using req and redirect
+		Cookie cookie = cookieService.createCookie(account.getId());
+		res.addCookie(cookie);
+		
 		return ServiceResponse.of(node, ServiceStatus.OK);
 	}
 
+	/**
+	 * Standardizes the email. Make it lower case so it's easier to find accounts by
+	 * email on the database
+	 * 
+	 * @param email
+	 * @return
+	 */
 	private String sanitizeEmail(String email) {
 		return email.trim().toLowerCase();
 	}

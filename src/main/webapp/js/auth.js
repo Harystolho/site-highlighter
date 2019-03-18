@@ -43,7 +43,7 @@ let authContainer = {
             let email = document.getElementById('authContainerEmail').value;
             let password = document.getElementById('authContainerPassword').value;
 
-            if(email.length <= 6 || password.length < 4){
+            if (email.length <= 6 || password.length < 4) {
                 authContainer.showError("Email and password can't be empty");
                 return;
             }
@@ -59,7 +59,7 @@ let authContainer = {
             }).then((response) => {
                 response = response.data;
 
-                if(response.error === 'OK'){
+                if (response.error === 'OK') {
                     window.location.replace('/dashboard');
                 }
             });
@@ -92,8 +92,9 @@ let authContainer = {
             }).then((response) => {
                 response = response.data;
 
-                if(response.error === 'OK'){
-                    window.location.replace('/dashboard');
+                if (response.error === 'OK') {
+                    // Redirect to login page
+                    window.location.replace('/auth?mode=SIGN_IN');
                 }
             });
         }

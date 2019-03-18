@@ -38,36 +38,32 @@ public class AccountController {
 
 	@ResponseBody
 	@PostMapping("/auth/signin")
-	public API_Response signIn(HttpServletRequest req, HttpServletResponse res,
-			@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
+	public API_Response signIn(HttpServletResponse res, @RequestParam(name = "email") String email,
+			@RequestParam(name = "password") String password) {
 
-		ServiceResponse<ObjectNode> response = accountService.signIn(req, email, password);
+		ServiceResponse<ObjectNode> response = accountService.signIn(res, email, password);
 
 		switch (response.getStatus()) {
 		case FAIL:
 			return API_Response.of("FAIL", response.getResponse());
 		default:
-			break;
+			return API_Response.of("OK", response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
 	@ResponseBody
 	@PostMapping("/auth/signup")
-	public API_Response signUp(HttpServletRequest req, @RequestParam(name = "email") String email,
+	public API_Response signUp(@RequestParam(name = "email") String email,
 			@RequestParam(name = "password") String password) {
 
-		ServiceResponse<ObjectNode> response = accountService.signUp(req, email, password);
+		ServiceResponse<ObjectNode> response = accountService.signUp(email, password);
 
 		switch (response.getStatus()) {
 		case FAIL:
 			return API_Response.of("FAIL", response.getResponse());
 		default:
-			break;
+			return API_Response.of("OK", response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
 }
