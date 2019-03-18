@@ -9,14 +9,13 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.harystolho.sitehighlighter.dao.AccountDAO;
+import com.harystolho.sitehighlighter.model.Account;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
 
 @Service
 public class AccountService {
 
 	private static final Logger logger = Logger.getLogger(AccountService.class.getName());
-
-	private String EMAIL_REGEX = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/";
 
 	private AccountDAO accountDao;
 
@@ -28,6 +27,8 @@ public class AccountService {
 	public ServiceResponse<ObjectNode> signUp(HttpServletRequest req, String email, String password) {
 		ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
 
+		email = sanitizeEmail(email);
+
 		if (!isPasswordValid(password)) {
 			node.put("error", "INVALID_PASSWORD");
 			return ServiceResponse.of(node, ServiceStatus.FAIL);
@@ -38,11 +39,25 @@ public class AccountService {
 			return ServiceResponse.of(node, ServiceStatus.FAIL);
 		}
 
-		return null;
+		if (!isEmailUnique(email)) {
+			node.put("error", "EMAIL_ALREADY_EXISTS");
+			return ServiceResponse.of(node, ServiceStatus.FAIL);
+		}
+
+		Account account = new Account(email, password);
+
+		accountDao.save(account);
+
+		// set cookie using req and redirect
+		node.put("cookie", "123");
+		return ServiceResponse.of(node, ServiceStatus.OK);
+	}
+
+	private String sanitizeEmail(String email) {
+		return email.trim().toLowerCase();
 	}
 
 	private boolean isEmailValid(String email) {
-		//TODO check if email is valid
 		return true;
 	}
 
@@ -51,6 +66,16 @@ public class AccountService {
 			return false;
 
 		return true;
+	}
+
+	private boolean isEmailUnique(String email) {
+		Account account = accountDao.getAccountByEmail(email);
+
+		// There is not account with this email
+		if (account == null)
+			return true;
+
+		return false;
 	}
 
 }
