@@ -109,5 +109,12 @@ body {
     font-size: 23px;
 }
 
+.authContainer__error-container {
+    display: flex;
+    justify-content: center;
+}
 
-
+#authContainerError {
+    color: #bc0000;
+    max-width: 360px;
+}
