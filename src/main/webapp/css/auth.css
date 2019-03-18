@@ -1,0 +1,113 @@
+:root {
+    --auth-border-radius: 5px;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: hidden;
+}
+
+#rootContainer {
+    background-image: url("https://images.unsplash.com/photo-1481007553706-bde1ba8e91fd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+#authContainer {
+    margin: 150px auto auto auto;
+    background-color: #fff;
+    min-width: 450px;
+    border-radius: var(--auth-border-radius);
+}
+
+.authContainer__header {
+    display: flex;
+    flex-direction: column;
+    background-color: #424242;
+    border-radius: var(--auth-border-radius) var(--auth-border-radius) 0 0;
+    color: white;
+}
+
+.authContainer__header__title {
+    align-self: center;
+    margin: 22px 0;
+    font-family: Raleway, serif;
+}
+
+.authContainer__header__options {
+    display: flex;
+    text-align: center;
+}
+
+.authContainer__header__options div {
+    width: 50%;
+    background-color: #0094ff;
+    font-family: Raleway, serif;
+    font-size: 30px;
+    padding: 2px 0;
+}
+
+.authContainer__header__options_signup.active, .authContainer__header__options_login.active {
+    background-color: #0076cc;
+}
+
+.authContainer__credentials {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.authContainer__credentials input {
+    width: 80%;
+    align-self: center;
+    padding: 10px 16px;
+    border: 1px solid #d8d8d8;
+    border-radius: 3px;
+    margin-bottom: 12px;
+}
+
+.authContainer__credentials input:focus {
+    border: 1px solid #42b35e;
+}
+
+#authContainer.login #authContainerConfirmEmail, #authContainer.login #authContainerSignUp {
+    display: none;
+}
+
+#authContainer:not(.login) .authContainer__header__options_signup, #authContainer.login .authContainer__header__options_login {
+    background-color: #0078cf;
+}
+
+#authContainer:not(.login) #authContainerSignIn {
+    display: none;
+}
+
+.authContainer__auth-message {
+    text-align: center;
+    padding: 27px;
+}
+
+.authContainer__auth-message span {
+    font-size: 22px;
+    font-family: Raleway, serif;
+}
+
+.authContainer__buttons {
+    text-align: center;
+    padding: 14px 0;
+}
+
+.authContainer__buttons-btn {
+    border: none;
+    padding: 4px 20px;
+    background-color: #424242;
+    color: white;
+    border-radius: 4px;
+    font-family: Raleway, serif;
+    font-size: 23px;
+}
+
+
+

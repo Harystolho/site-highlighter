@@ -117,7 +117,6 @@ window.Dashboard = (() => {
         display(question, cb) {
             document.body.innerHTML += templates.singleInputModal(question);
 
-            // This function is called when the 'Ok' button is pressed
             Dashboard.functions.singleInputOk = cb;
         },
         hide() {
@@ -135,7 +134,6 @@ window.Dashboard = (() => {
         display(question, cb) {
             document.body.innerHTML += templates.confirmModal(question);
 
-            // This function is called when the 'Ok' button is pressed
             Dashboard.functions.confirmOk = cb;
         },
         hide() {

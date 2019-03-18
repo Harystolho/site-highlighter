@@ -38,7 +38,8 @@
 #customSave-select {
     margin-bottom: 10px;
     font-size: 14px;
-    padding: 3px
+    padding: 3px;
+	display: block;
 }
 
 #highlightNotification {

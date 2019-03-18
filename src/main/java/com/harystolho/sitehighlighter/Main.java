@@ -15,6 +15,8 @@ public class Main {
 	}
 }
 
+//TODO delete moves documents to trash collection
+
 //TODO add frame to see highlights in the page
 
 //TODO add tag to document
