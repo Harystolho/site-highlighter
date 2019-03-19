@@ -23,8 +23,6 @@ public class Main {
 //TODO add sort by tag
 //TODO change document's name
 
-//TODO add account/guest
-
 //TODO add reminder
 //TODO add calendar to remainder's doc
 
