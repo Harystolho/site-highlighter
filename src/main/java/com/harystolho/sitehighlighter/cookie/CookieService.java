@@ -1,6 +1,5 @@
 package com.harystolho.sitehighlighter.cookie;
 
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,7 +12,7 @@ import com.harystolho.sitehighlighter.model.Account;
 @Service
 public class CookieService {
 
-	private static final String HIGHLIGHT_ID = "highlight_id";
+	public static final String HIGHLIGHT_ID = "highlight_id";
 	private static final int COOKIE_EXPIRATION = 60 * 60 * 24 * 7; // 7 DAYS
 
 	// Cookie Identifier, Account Id

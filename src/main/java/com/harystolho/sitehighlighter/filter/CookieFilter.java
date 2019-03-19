@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,10 +34,16 @@ public class CookieFilter extends AbstractFilter {
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
+		String source = req.getParameter("path");
+
 		if (cookieService.isUserLoggedIn(req.getCookies())) {
 			chain.doFilter(req, res);
 		} else {
-			res.sendRedirect("/auth");
+			if (source == null) { // Requests from the website
+				res.sendRedirect("/auth");
+			} else { // Requests using the script or addon
+				res.addCookie(cookieService.createCookie("123abc"));
+			}
 		}
 	}
 

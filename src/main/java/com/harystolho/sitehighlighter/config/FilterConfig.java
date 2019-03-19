@@ -24,7 +24,7 @@ public class FilterConfig {
 		FilterRegistrationBean<CookieFilter> filter = new FilterRegistrationBean<>();
 		
 		filter.setFilter(cookieFilter);
-		filter.addUrlPatterns("/dashboard/*");
+		filter.addUrlPatterns("/dashboard/*", "/api/*");
 		// TODO add filter to API
 		
 		
