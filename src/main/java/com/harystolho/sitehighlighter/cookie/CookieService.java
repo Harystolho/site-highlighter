@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.cookie;
 
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,6 +41,21 @@ public class CookieService {
 
 	public String getAccountId(Cookie cookie) {
 		return cookies.get(cookie.getValue());
+	}
+
+	public boolean isUserLoggedIn(Cookie[] cookies) {
+		if (cookies == null)
+			return false;
+
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals(HIGHLIGHT_ID)) {
+				if (this.cookies.containsKey(cookie.getValue())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 }
