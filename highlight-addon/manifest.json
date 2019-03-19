@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-	  "exclude_matches": ["*://localhost/*"],
+	  "exclude_matches": ["*://localhost/*", "*://page-highlight.com/*"],
       "js": ["script.js"]
     }
   ]
