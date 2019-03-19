@@ -141,6 +141,27 @@ window.Dashboard = (() => {
         }
     };
 
+    /**
+     * Deletes the cookie that is used by the server to identify the user and redirects to the home page
+     */
+    funcs.logOut = () => {
+        let cookies = document.cookie.split("; "); // Get all cookies
+
+        let finalCookie = "";
+
+        cookies.forEach((cookie) => {
+            // If the cookie is not the one used by the server, add it to the final cookie
+            if (cookie.includes(common.HIGHLIGHT_COOKIE)) {
+                finalCookie += cookie + '; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            } else {
+                finalCookie += cookie + '; ';
+            }
+
+        });
+
+        document.cookie = finalCookie;
+    };
+
     return funcs;
 })(); // TODO show box to edit the link in an <a> tag
 

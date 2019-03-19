@@ -69,9 +69,8 @@ public class AccountService {
 			return ServiceResponse.of(node, ServiceStatus.FAIL);
 		}
 
-		Cookie cookie = cookieService.createCookie(account.getId());
-		res.addCookie(cookie);
-		
+		res.addCookie(cookieService.createCookie(account.getId()));
+
 		return ServiceResponse.of(node, ServiceStatus.OK);
 	}
 

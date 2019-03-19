@@ -48,6 +48,8 @@ class Logger {
     }
 }
 
+const HIGHLIGHT_COOKIE = "highlight_id";
+
 export {
-    getTagAttributes, getClosingTag, Logger
+    getTagAttributes, getClosingTag, Logger, HIGHLIGHT_COOKIE
 }
