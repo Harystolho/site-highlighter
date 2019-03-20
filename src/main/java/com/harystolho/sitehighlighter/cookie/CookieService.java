@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.cookie;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,19 +43,24 @@ public class CookieService {
 		return cookies.get(cookie.getValue());
 	}
 
-	public boolean isUserLoggedIn(Cookie[] cookies) {
+	/**
+	 * @param cookies
+	 * @return the session identifier if the user is logged in or an
+	 *         {@link Optional#empty()} if he is not
+	 */
+	public Optional<String> getSessionIdentifier(Cookie[] cookies) {
 		if (cookies == null)
-			return false;
+			return Optional.empty();
 
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals(HIGHLIGHT_ID)) {
 				if (this.cookies.containsKey(cookie.getValue())) {
-					return true;
+					return Optional.of(cookie.getValue());
 				}
 			}
 		}
 
-		return false;
+		return Optional.empty();
 	}
 
 }

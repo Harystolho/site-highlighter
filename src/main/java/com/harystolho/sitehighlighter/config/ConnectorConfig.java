@@ -4,7 +4,9 @@ import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,16 @@ public class ConnectorConfig {
 		};
 		tomcat.addAdditionalTomcatConnectors(redirectConnector());
 		return tomcat;
+	}
+
+	@Bean
+	public WebServerFactoryCustomizer<TomcatServletWebServerFactory> webServerFactoryCustomizer() {
+		return container -> {
+			if (container instanceof TomcatServletWebServerFactory) {
+				TomcatServletWebServerFactory tomcat = (TomcatServletWebServerFactory) container;
+				tomcat.addContextCustomizers(context -> context.setCookieProcessor(new LegacyCookieProcessor()));
+			}
+		};
 	}
 
 	private Connector redirectConnector() {

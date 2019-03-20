@@ -34,17 +34,18 @@ public class CookieFilter extends AbstractFilter {
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String source = req.getParameter("path");
-
+		
+		req.setAttribute("highlight.identifier", "123");
+		
+		cookieService.getSessionIdentifier(req.getCookies());
+		
 		if (cookieService.isUserLoggedIn(req.getCookies())) {
 			chain.doFilter(req, res);
 		} else {
-			if (source == null) { // Requests from the website
-				res.sendRedirect("/auth");
-			} else { // Requests using the script or addon
-				res.addCookie(cookieService.createCookie("123abc"));
-			}
+			Cookie cookie = cookieService.createCookie("123abc");
+			res.addCookie(cookie);
+			// res.addHeader("P3P", "CP=\"NOI DSP COR NID CURa ADMa DEVa PSAa PSDa OUR BUS
+			// COM INT OTC PUR STA\"");
 		}
 	}
-	
 }

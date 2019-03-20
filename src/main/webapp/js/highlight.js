@@ -280,7 +280,8 @@ window.Highlight = (() => {
         formData.append("text", selection);
 
         axios.post(`${highlightHost}/api/v1/save/${id}`, formData, {
-            headers: {'Content-Type': 'multipart/form-data'}
+            headers: {'Content-Type': 'multipart/form-data'},
+            withCredentials: true
         }).then((response) => {
             cb(response);
         });
@@ -375,7 +376,9 @@ window.Highlight = (() => {
      * @param cb
      */
     function getDocumentsThatMatchStatus(status, cb) {
-        axios.get(`${highlightHost}/api/v1/document/status/${status}`).then((response) => {
+        axios.get(`${highlightHost}/api/v1/document/status/${status}`, {
+            withCredentials: true
+        }).then((response) => {
             cb(response);
         });
     }

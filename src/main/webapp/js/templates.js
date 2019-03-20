@@ -1,6 +1,6 @@
 let Highlight = {}; // Just to make it easier to create templates
 
-export let highlightHost = "https://localhost:8181";
+export let highlightHost = "https://page-highlight.com:8181";
 
 //TODO improve highlight-plus icon
 //TODO create icon sprite
