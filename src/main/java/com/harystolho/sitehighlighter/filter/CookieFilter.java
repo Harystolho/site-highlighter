@@ -72,8 +72,19 @@ public class CookieFilter extends AbstractFilter {
 		String authHeader = req.getHeader("Authorization");
 
 		if (authHeader != null) {
-			req.setAttribute("highlight.accountId", "123"); // TODO
-			chain.doFilter(req, res);
+			Optional<String> accountId = cookieService.getAccountIdByAuthenticationToken(authHeader);
+
+			if (accountId.isPresent()) {
+				req.setAttribute("highlight.accountId", accountId.get());
+
+				chain.doFilter(req, res);
+			} else {
+				// Allow other origins to read the response
+				res.addHeader("Access-Control-Allow-Origin", "*");
+
+				res.sendError(401); // = Unauthorized
+			}
+
 		} else {
 			// Allow other origins to read the response
 			res.addHeader("Access-Control-Allow-Origin", "*");

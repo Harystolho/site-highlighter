@@ -35,6 +35,8 @@ window.Highlight = (() => {
     window.onload = () => {
         loadModal();
 
+        showAuthenticateModal();
+
         loadNotificationModal();
         checkModalLoaded();
     };
@@ -284,13 +286,13 @@ window.Highlight = (() => {
         axios.post(`${highlightHost}/api/v1/save/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': authToken
             },
         }).then((response) => {
             cb(response);
-        }).catch((error)=>{
-            if(error.response){
-                console.log(error.response);
+        }).catch((error) => {
+            if (error.response) {
+                showAuthenticateModal();
             }
         });
     }
@@ -343,6 +345,10 @@ window.Highlight = (() => {
         document.body.innerHTML += templates.notLoadedNotification;
     }
 
+    function showAuthenticateModal() {
+        document.body.innerHTML += templates.authenticateModal;
+    }
+
     //TODO show last used document first in custom save modal
     /**
      * Adds the documents that have the DOCUMENT_STATUS.GOLD to the #customSave-select select
@@ -385,12 +391,12 @@ window.Highlight = (() => {
      */
     function getDocumentsThatMatchStatus(status, cb) {
         axios.get(`${highlightHost}/api/v1/document/status/${status}`, {
-            headers: {'Authorization': `Bearer ${authToken}`}
+            headers: {'Authorization': authToken}
         }).then((response) => {
             cb(response);
         }).catch((error) => {
             if (error.response) {
-                console.log(error.response);
+                showAuthenticateModal();
             }
         });
     }

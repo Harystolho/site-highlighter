@@ -39,7 +39,7 @@
     margin-bottom: 10px;
     font-size: 14px;
     padding: 3px;
-	display: block;
+    display: block;
 }
 
 #highlightNotification {
@@ -54,12 +54,12 @@
     display: none;
 }
 
-#highlightCustomSave, #highlight-notLoadedNotification {
+#highlightCustomSave, #highlight-notLoadedNotification, #highlight-authenticateModal {
     position: fixed;
     width: 326px;
     background-color: white;
     top: 15vh;
-    right: 0px;
+    right: 0;
     box-shadow: 0 0 11px 2px #0003;
     border-radius: 7px 0 0 7px;
     padding: 10px;
@@ -116,7 +116,7 @@
     margin: 0 4px;
 }
 
-#hl-nln-checkbox{
+#hl-nln-checkbox {
     width: 20px;
     height: 20px;
     background-color: red;
@@ -124,18 +124,52 @@
     border-radius: 50%;
 }
 
-#hl-nln-checkbox.checked{
+#hl-nln-checkbox.checked {
     background-color: green;
     box-shadow: 0 0 5px #588758;
 }
 
-#hl-nln-checkboxContainer{
+#hl-nln-checkboxContainer {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 7px;
 }
 
-.hl-nln-button{
+.hl-nln-button {
     width: 49%;
+}
+
+#highlight-authenticateModal {
+    top: unset;
+    bottom: 4vh;
+}
+
+.authModal-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.authModal-button {
+    padding: 19px 51px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.authModal-button.login {
+    background-color: #a636ff;
+    color: white;
+    box-shadow: 0 0 5px #800080b5;
+}
+
+.authModal-button.guest {
+    background-color: orange;
+    box-shadow: 0 0 5px orange;
+}
+
+.authModal-heading{
+    font-family: initial;
+    font-variant: small-caps;
+    margin-bottom: 7px;
 }

@@ -59,6 +59,10 @@ public class CookieService {
 		return Optional.empty();
 	}
 
+	public Optional<String> getAccountIdByAuthenticationToken(String token) {
+		return getAccountIdByIdentifier(token);
+	}
+	
 	/**
 	 * @param cookies
 	 * @return the session identifier if the user is logged in or an

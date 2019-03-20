@@ -35,5 +35,5 @@ public class Main {
 // https://just-comments.com/docs.html <- How to do authentication 
 
 //
-// Ask: What if I had to change this? What would break? How can I absctract this?
+// Ask: What if I had to change this? What would break? How can I abstract this?
 //

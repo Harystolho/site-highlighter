@@ -85,6 +85,22 @@ let notLoadedNotification =
         </div>
     </div>`;
 
+let authenticateModal =
+    `<div id="highlight-authenticateModal">
+        <div class="authModal-heading">Use Highlight as:</div>
+        <div class="authModal-container">
+            <div class="authModal-button login">User</div>
+            <div class="authModal-button guest">Guest</div>        
+        </div>
+    </div>`;
+
 export {
-    modalDiv, notificationDiv, customSaveDiv, singleInputModal, librarySiteTemplate, notLoadedNotification, confirmModal
+    modalDiv,
+    notificationDiv,
+    customSaveDiv,
+    singleInputModal,
+    librarySiteTemplate,
+    notLoadedNotification,
+    confirmModal,
+    authenticateModal
 }
