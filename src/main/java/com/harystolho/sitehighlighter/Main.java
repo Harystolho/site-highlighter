@@ -30,6 +30,8 @@ public class Main {
 
 //TODO show error if site has csp
 
+//TODO replate API_REsponse wih REsponseEntity
+
 // https://just-comments.com/docs.html <- How to do authentication 
 
 //

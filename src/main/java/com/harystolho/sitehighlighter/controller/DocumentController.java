@@ -5,17 +5,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.harystolho.sitehighlighter.cookie.CookieService;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.DocumentService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
@@ -32,9 +33,9 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/documents")
-	public API_Response getDocuments(@CookieValue(CookieService.HIGHLIGHT_ID) String cookieValue) {
-		ServiceResponse<List<Document>> response = documentService.listDocuments(cookieValue);
-		
+	public API_Response getDocuments(@RequestAttribute("highlight.accountId") String accountId) {
+		ServiceResponse<List<Document>> response = documentService.listDocuments(accountId);
+
 		switch (response.getStatus()) {
 		case FAIL:
 			return API_Response.of("FAIL", null);
@@ -46,9 +47,9 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/document/{id}")
-	public API_Response getDocument(@CookieValue(CookieService.HIGHLIGHT_ID) String cookieValue,
+	public API_Response getDocument(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String id) {
-		ServiceResponse<Document> response = documentService.getDocumentById(cookieValue, id);
+		ServiceResponse<Document> response = documentService.getDocumentById(accountId, id);
 
 		switch (response.getStatus()) {
 		case FAIL:
@@ -61,9 +62,9 @@ public class DocumentController {
 	}
 
 	@PostMapping("/api/v1/document/save")
-	public API_Response saveDocument(@CookieValue(CookieService.HIGHLIGHT_ID) String cookieValue,
+	public API_Response saveDocument(@RequestAttribute("highlight.accountId") String accountId,
 			HttpServletRequest req) {
-		ServiceResponse<Object> response = documentService.saveDocument(cookieValue, req.getParameter("id"),
+		ServiceResponse<Object> response = documentService.saveDocument(accountId, req.getParameter("id"),
 				req.getParameter("text"));
 
 		switch (response.getStatus()) {
@@ -77,9 +78,9 @@ public class DocumentController {
 	}
 
 	@PostMapping("/api/v1/document/status")
-	public API_Response changeDocumentStatus(@CookieValue(CookieService.HIGHLIGHT_ID) String cookieValue,
+	public API_Response changeDocumentStatus(@RequestAttribute("highlight.accountId") String accountId,
 			HttpServletRequest req) {
-		ServiceResponse<Object> response = documentService.changeDocumentStatus(cookieValue, req.getParameter("id"),
+		ServiceResponse<Object> response = documentService.changeDocumentStatus(accountId, req.getParameter("id"),
 				req.getParameter("status"));
 
 		switch (response.getStatus()) {
@@ -96,8 +97,7 @@ public class DocumentController {
 	@GetMapping("/api/v1/document/status/{status}")
 	/*
 	 * public API_Response
-	 * getDocumentsByStatus(@CookieValue(CookieService.HIGHLIGHT_ID) String
-	 * cookieValue,
+	 * getDocumentsByStatus(@accountId(CookieService.HIGHLIGHT_ID) String accountId,
 	 * 
 	 * @PathVariable String status) {
 	 */
@@ -115,9 +115,9 @@ public class DocumentController {
 	}
 
 	@DeleteMapping("/api/v1/document/{id}")
-	public API_Response deleteDocument(@CookieValue(CookieService.HIGHLIGHT_ID) String cookieValue,
+	public API_Response deleteDocument(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String id) {
-		ServiceResponse<Void> response = documentService.deleteDocument(cookieValue, id);
+		ServiceResponse<Void> response = documentService.deleteDocument(accountId, id);
 
 		switch (response.getStatus()) {
 		case FAIL:

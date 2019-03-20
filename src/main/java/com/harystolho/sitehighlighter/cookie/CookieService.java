@@ -39,8 +39,24 @@ public class CookieService {
 		return cookie;
 	}
 
-	public String getAccountId(Cookie cookie) {
-		return cookies.get(cookie.getValue());
+	public Optional<String> getAccountIdByCookie(Cookie[] cookies) {
+		Optional<String> identifier = getSessionIdentifier(cookies);
+
+		if (identifier.isPresent()) {
+			return getAccountIdByIdentifier(identifier.get());
+		} else {
+			return Optional.empty();
+		}
+	}
+
+	public Optional<String> getAccountIdByIdentifier(String identifier) {
+		String accountId = cookies.get(identifier);
+
+		if (accountId != null) {
+			return Optional.of(accountId);
+		}
+
+		return Optional.empty();
 	}
 
 	/**

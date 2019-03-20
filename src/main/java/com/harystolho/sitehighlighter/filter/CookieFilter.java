@@ -1,6 +1,7 @@
 package com.harystolho.sitehighlighter.filter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,16 +35,17 @@ public class CookieFilter extends AbstractFilter {
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		
-		req.setAttribute("highlight.identifier", "123");
-		
-		cookieService.getSessionIdentifier(req.getCookies());
-		
-		if (cookieService.isUserLoggedIn(req.getCookies())) {
+		Optional<String> accountId = cookieService.getAccountIdByCookie(req.getCookies());
+
+		if (accountId.isPresent()) { // User is logged in
+			// Set the accountId for the controllers to use
+			req.setAttribute("highlight.accountId", accountId.get());
+			
 			chain.doFilter(req, res);
-		} else {
-			Cookie cookie = cookieService.createCookie("123abc");
-			res.addCookie(cookie);
+		} else { // User is not logged in
+			//Cookie cookie = cookieService.createCookie("123abc");
+			//res.addCookie(cookie);
+			res.sendRedirect("/auth");
 			// res.addHeader("P3P", "CP=\"NOI DSP COR NID CURa ADMa DEVa PSAa PSDa OUR BUS
 			// COM INT OTC PUR STA\"");
 		}
