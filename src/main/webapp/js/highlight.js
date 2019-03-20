@@ -377,9 +377,12 @@ window.Highlight = (() => {
      */
     function getDocumentsThatMatchStatus(status, cb) {
         axios.get(`${highlightHost}/api/v1/document/status/${status}`, {
-            withCredentials: true
         }).then((response) => {
             cb(response);
+        }).catch((error)=>{
+            if(error.response){
+                console.log(error.response);
+            }
         });
     }
 

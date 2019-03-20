@@ -35,19 +35,40 @@ public class CookieFilter extends AbstractFilter {
 	@Override
 	public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
+		String origin = req.getHeader("origin");
+
+		if (origin == null) { // Request from page-highlight.com
+			handleSameOriginRequest(req, res, chain);
+		} else { // Request from another origin/page
+			handlerCrossOriginRequest(req, res, chain);
+		}
+	}
+
+	private void handleSameOriginRequest(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
 		Optional<String> accountId = cookieService.getAccountIdByCookie(req.getCookies());
 
 		if (accountId.isPresent()) { // User is logged in
 			// Set the accountId for the controllers to use
 			req.setAttribute("highlight.accountId", accountId.get());
-			
+
 			chain.doFilter(req, res);
 		} else { // User is not logged in
-			//Cookie cookie = cookieService.createCookie("123abc");
-			//res.addCookie(cookie);
 			res.sendRedirect("/auth");
-			// res.addHeader("P3P", "CP=\"NOI DSP COR NID CURa ADMa DEVa PSAa PSDa OUR BUS
-			// COM INT OTC PUR STA\"");
 		}
+	}
+
+	/**
+	 * CrossOrigin requests use an authentication token to identify the users
+	 * 
+	 * @param req
+	 * @param res
+	 * @param chain
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void handlerCrossOriginRequest(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+
 	}
 }

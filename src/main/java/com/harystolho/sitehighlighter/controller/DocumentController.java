@@ -5,12 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -93,14 +90,14 @@ public class DocumentController {
 		return API_Response.of("OK", response.getResponse());
 	}
 
-	@CrossOrigin
-	@GetMapping("/api/v1/document/status/{status}")
 	/*
 	 * public API_Response
 	 * getDocumentsByStatus(@accountId(CookieService.HIGHLIGHT_ID) String accountId,
 	 * 
 	 * @PathVariable String status) {
 	 */
+	@CrossOrigin(origins = "*")
+	@GetMapping("/api/v1/document/status/{status}")
 	public API_Response getDocumentsByStatus(@PathVariable String status) {
 		ServiceResponse<ArrayNode> response = documentService.getDocumentsByStatus("123", status);
 
