@@ -1,4 +1,4 @@
-package com.harystolho.sitehighlighter.cookie;
+package com.harystolho.sitehighlighter.auth;
 
 import java.util.Optional;
 import java.util.UUID;

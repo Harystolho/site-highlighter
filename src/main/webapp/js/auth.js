@@ -54,13 +54,23 @@ let authContainer = {
             formData.append("email", email);
             formData.append("password", password);
 
+            let tempId = new URLSearchParams(window.location.search).get('temporary_id');
+
+            if (tempId !== null) {
+                formData.append("temporary-id", tempId);
+            }
+
             axios.post('/auth/signin', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then((response) => {
                 response = response.data;
 
                 if (response.error === 'OK') {
-                    window.location.replace('/dashboard');
+                    if (tempId === null) { // Normal login
+                        window.location.replace('/dashboard');
+                    } else { // Login from script to authenticate
+                        window.close();
+                    }
                 } else if (response.error === 'FAIL') {
                     if (response.data.error === 'INVALID_EMAIL_OR_PASSWORD') {
                         authContainer.showError("Email or password are invalid");

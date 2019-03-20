@@ -459,11 +459,17 @@ window.Highlight = (() => {
     };
 
     funcs.authenticateModal = {
+        temporaryId: undefined,
         asUser() {
-            window.open(`${templates.highlightHost}/auth/?redirect_uri=${encodeURIComponent(window.location.href)}`);
+            axios.post(`${highlightHost}/auth/temporary-id`).then((response) => {
+                this.temporaryId = response.data.data;
+
+                window.open(`${templates.highlightHost}/auth/?temporary_id=${this.temporaryId}`);
+            }).catch((error) => {
+            });
         },
         asGuest() {
-
+            console.log(this.temporaryId);
         }
     };
 

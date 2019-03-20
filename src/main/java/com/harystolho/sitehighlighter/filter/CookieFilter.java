@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.harystolho.sitehighlighter.cookie.CookieService;
+import com.harystolho.sitehighlighter.auth.CookieService;
 
 /**
  * Some pages requires the user to be logged in, this filter checks if the user

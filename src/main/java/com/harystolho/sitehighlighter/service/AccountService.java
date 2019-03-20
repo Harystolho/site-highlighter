@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.service;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
@@ -8,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ValueConstants;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.harystolho.sitehighlighter.cookie.CookieService;
+import com.harystolho.sitehighlighter.auth.AuthenticationService;
+import com.harystolho.sitehighlighter.auth.CookieService;
 import com.harystolho.sitehighlighter.dao.AccountDAO;
 import com.harystolho.sitehighlighter.model.Account;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
@@ -23,11 +26,14 @@ public class AccountService {
 
 	private AccountDAO accountDao;
 	private CookieService cookieService;
+	private AuthenticationService authenticationService;
 
 	@Autowired
-	public AccountService(AccountDAO accountDao, CookieService cookieService) {
+	public AccountService(AccountDAO accountDao, CookieService cookieService,
+			AuthenticationService authenticationService) {
 		this.accountDao = accountDao;
 		this.cookieService = cookieService;
+		this.authenticationService = authenticationService;
 	}
 
 	public ServiceResponse<ObjectNode> signUp(String email, String password) {
@@ -57,7 +63,16 @@ public class AccountService {
 		return ServiceResponse.of(node, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<ObjectNode> signIn(HttpServletResponse res, String email, String password) {
+	/**
+	 * 
+	 * @param res
+	 * @param email
+	 * @param password
+	 * @param tempId   {@link AuthenticationService AuthenticationService read the
+	 *                 documentation}
+	 * @return
+	 */
+	public ServiceResponse<ObjectNode> signIn(HttpServletResponse res, String email, String password, String tempId) {
 		ObjectNode node = new ObjectNode(new JsonNodeFactory(false));
 
 		email = sanitizeEmail(email);
@@ -69,7 +84,12 @@ public class AccountService {
 			return ServiceResponse.of(node, ServiceStatus.FAIL);
 		}
 
-		res.addCookie(cookieService.createCookie(account.getId()));
+		Cookie cookie = cookieService.createCookie(account.getId());
+		res.addCookie(cookie);
+
+		if (tempId != ValueConstants.DEFAULT_NONE) {
+			authenticationService.bindCookie(tempId, cookie);
+		}
 
 		return ServiceResponse.of(node, ServiceStatus.OK);
 	}
@@ -108,6 +128,10 @@ public class AccountService {
 			return true;
 
 		return false;
+	}
+
+	public ServiceResponse<String> createTemporaryId() {
+		return ServiceResponse.of(authenticationService.generateId(), ServiceStatus.OK);
 	}
 
 }
