@@ -90,15 +90,10 @@ public class DocumentController {
 		return API_Response.of("OK", response.getResponse());
 	}
 
-	/*
-	 * public API_Response
-	 * getDocumentsByStatus(@accountId(CookieService.HIGHLIGHT_ID) String accountId,
-	 * 
-	 * @PathVariable String status) {
-	 */
-	@CrossOrigin(origins = "*")
+	@CrossOrigin()
 	@GetMapping("/api/v1/document/status/{status}")
-	public API_Response getDocumentsByStatus(@PathVariable String status) {
+	public API_Response getDocumentsByStatus(@RequestAttribute("highlight.accountId") String accountId,
+			@PathVariable String status) {
 		ServiceResponse<ArrayNode> response = documentService.getDocumentsByStatus("123", status);
 
 		switch (response.getStatus()) {

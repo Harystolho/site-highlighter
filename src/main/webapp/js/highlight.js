@@ -30,6 +30,8 @@ window.Highlight = (() => {
 
     let Logger = new LoggerClass();
 
+    let authToken = "a4b9@yb20o_1j44v8d15dm4k0";
+
     window.onload = () => {
         loadModal();
 
@@ -280,10 +282,16 @@ window.Highlight = (() => {
         formData.append("text", selection);
 
         axios.post(`${highlightHost}/api/v1/save/${id}`, formData, {
-            headers: {'Content-Type': 'multipart/form-data'},
-            withCredentials: true
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${authToken}`
+            },
         }).then((response) => {
             cb(response);
+        }).catch((error)=>{
+            if(error.response){
+                console.log(error.response);
+            }
         });
     }
 
@@ -377,10 +385,11 @@ window.Highlight = (() => {
      */
     function getDocumentsThatMatchStatus(status, cb) {
         axios.get(`${highlightHost}/api/v1/document/status/${status}`, {
+            headers: {'Authorization': `Bearer ${authToken}`}
         }).then((response) => {
             cb(response);
-        }).catch((error)=>{
-            if(error.response){
+        }).catch((error) => {
+            if (error.response) {
                 console.log(error.response);
             }
         });

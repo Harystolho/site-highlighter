@@ -69,6 +69,23 @@ public class CookieFilter extends AbstractFilter {
 	 */
 	private void handlerCrossOriginRequest(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
+		String authHeader = req.getHeader("Authorization");
 
+		if (authHeader != null) {
+			req.setAttribute("highlight.accountId", "123"); // TODO
+			chain.doFilter(req, res);
+		} else {
+			// Allow other origins to read the response
+			res.addHeader("Access-Control-Allow-Origin", "*");
+
+			// Before making a CORS request the browser will send a OPTIONS request to know
+			// what headers and origins are allowed
+			if (req.getMethod().equals("OPTIONS")) {
+				res.addHeader("Access-Control-Allow-Headers", "authorization");
+			} else {
+				res.sendError(401); // = Unauthorized
+			}
+
+		}
 	}
 }
