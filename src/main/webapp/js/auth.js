@@ -61,8 +61,8 @@ let authContainer = {
 
                 if (response.error === 'OK') {
                     window.location.replace('/dashboard');
-                } else if(response.error === 'FAIL'){
-                    if(response.data.error === 'INVALID_EMAIL_OR_PASSWORD'){
+                } else if (response.error === 'FAIL') {
+                    if (response.data.error === 'INVALID_EMAIL_OR_PASSWORD') {
                         authContainer.showError("Email or password are invalid");
                     }
                 }

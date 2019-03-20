@@ -89,8 +89,8 @@ let authenticateModal =
     `<div id="highlight-authenticateModal">
         <div class="authModal-heading">Use Highlight as:</div>
         <div class="authModal-container">
-            <div class="authModal-button login">User</div>
-            <div class="authModal-button guest">Guest</div>        
+            <div class="authModal-button login" onclick="Highlight.authenticateModal.asUser()">User</div>
+            <div class="authModal-button guest" onclick="Highlight.authenticateModal.asGuest()">Guest</div>        
         </div>
     </div>`;
 

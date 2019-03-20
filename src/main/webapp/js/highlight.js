@@ -458,5 +458,14 @@ window.Highlight = (() => {
         }
     };
 
+    funcs.authenticateModal = {
+        asUser() {
+            window.open(`${templates.highlightHost}/auth/?redirect_uri=${encodeURIComponent(window.location.href)}`);
+        },
+        asGuest() {
+
+        }
+    };
+
     return funcs;
 })();
