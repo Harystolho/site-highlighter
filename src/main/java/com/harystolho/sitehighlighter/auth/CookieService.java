@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.Cookie;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.CookieGenerator;
 
 import com.harystolho.sitehighlighter.model.Account;
 
@@ -30,7 +31,7 @@ public class CookieService {
 	 * @return
 	 */
 	public Cookie createCookie(String id) {
-		Cookie cookie = new Cookie(HIGHLIGHT_ID, UUID.randomUUID().toString());
+		Cookie cookie = new Cookie(HIGHLIGHT_ID, generateCookieValue());
 		cookie.setPath("/");
 		cookie.setMaxAge(COOKIE_EXPIRATION);
 
@@ -62,7 +63,7 @@ public class CookieService {
 	public Optional<String> getAccountIdByAuthenticationToken(String token) {
 		return getAccountIdByIdentifier(token);
 	}
-	
+
 	/**
 	 * @param cookies
 	 * @return the session identifier if the user is logged in or an
@@ -81,6 +82,17 @@ public class CookieService {
 		}
 
 		return Optional.empty();
+	}
+
+	private String generateCookieValue() {
+		// Generate a big string
+		String cookieValue = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replaceAll("-", "");
+
+		if (cookies.containsKey(cookieValue)) {
+			return generateCookieValue();
+		} else {
+			return cookieValue;
+		}
 	}
 
 }

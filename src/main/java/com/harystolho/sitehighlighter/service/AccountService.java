@@ -125,7 +125,7 @@ public class AccountService {
 	private boolean isEmailUnique(String email) {
 		Account account = accountDao.getAccountByEmail(email);
 
-		// There is not account with this email
+		// There is no account with this email
 		if (account == null)
 			return true;
 

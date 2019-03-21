@@ -23,7 +23,8 @@ import org.springframework.stereotype.Service;
  * - The next time the user tries to send a request to the server, the script
  * first checks if there is a temporary-id, if there is, it requests the token
  * associated with the temporary-id and uses that to make other requests<br>
- * - The token value is stored in the localStorage in the browser as 'highlight.authToken'
+ * - The token value is stored in the localStorage in the browser as
+ * 'highlight.authToken'
  * 
  * @author Harystolho
  *
@@ -40,7 +41,8 @@ public class AuthenticationService {
 	}
 
 	public String generateId() {
-		String newId = UUID.randomUUID().toString().replaceAll("-", "");
+		String newId = UUID.randomUUID().toString().replaceAll("-", "")
+				+ UUID.randomUUID().toString().replaceAll("-", "");
 
 		if (temporaryIds.containsKey(newId)) {
 			return generateId();
