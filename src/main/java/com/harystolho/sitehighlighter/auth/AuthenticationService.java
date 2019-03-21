@@ -68,7 +68,7 @@ public class AuthenticationService {
 		if (token == null) {
 			return null;
 		} else if (token != INVALID_TOKEN) {
-			return Optional.of(token);
+			return Optional.of(token); // remove from map
 		} else {
 			return Optional.empty();
 		}

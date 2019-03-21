@@ -30,7 +30,7 @@ window.Highlight = (() => {
 
     let Logger = new LoggerClass();
 
-    let authToken = "a4b9@yb20o_1j44v8d15dm4k0";
+    let authToken = undefined;
 
     window.onload = () => {
         loadModal();
@@ -475,13 +475,15 @@ window.Highlight = (() => {
             console.log(authToken);
         },
         async getTokenUsingTemporaryId() {
-            let tries = 0;
+            let tries = 1;
 
             while (this.temporaryId !== undefined && tries < this.maxTries) {
                 let response = await axios.get(`${highlightHost}/auth/token/${this.temporaryId}`);
 
                 if (response.status === 200) { // The user logged in successfully
                     authToken = response.data.token;
+
+                    showNotificationModal("Successful Authentication", 3000);
 
                     this.temporaryId = undefined; // Breaks loop
                 } else if (response.status === 202) { // The login window was opened but the user has not logged in yet
@@ -491,8 +493,14 @@ window.Highlight = (() => {
                 } else { // The user didn't login or the temporary-id is invalid
                     Logger.log("Server timed out. Can't get the authentication token");
 
+                    showNotificationModal("Failed Authentication", 3000);
+
                     this.temporaryId = undefined; // Breaks loop
                 }
+            }
+
+            if (tries === this.maxTries) { // Loop stopped because the auth window was opened but the user didn't log in
+                showNotificationModal("Failed Authentication", 3000);
             }
 
             function sleep(ms) {
