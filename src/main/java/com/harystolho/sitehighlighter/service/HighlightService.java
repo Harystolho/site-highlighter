@@ -25,7 +25,7 @@ public class HighlightService {
 		documentDao = highlightDAO;
 	}
 
-	public ServiceResponse<Void> saveHighlight(List<Cookie> cookies, String text, String path, String title) {
+	public ServiceResponse<Void> saveHighlight(String accountId, String text, String path, String title) {
 		if (!isHighlightTextValid(text)) {
 			logger.severe("text is null");
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
@@ -44,7 +44,7 @@ public class HighlightService {
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<Void> saveHighlightToDocument(List<Cookie> cookies, String docId, String text) {
+	public ServiceResponse<Void> saveHighlightToDocument(String accountId, String docId, String text) {
 		if (!isHighlightTextValid(text)) {
 			logger.severe("text is null [" + docId + "]");
 			return ServiceResponse.of(null, ServiceStatus.FAIL);

@@ -206,8 +206,8 @@ window.Highlight = (() => {
             });
         }
 
-        sendSelectionToServerWithDocumentId(content, docId, (response) => {
-            serverResponse(response.status);
+        sendSelectionToServerWithDocumentId(content, docId, (status) => {
+            serverResponse(status);
         });
 
         function serverResponse(status) {
@@ -290,7 +290,7 @@ window.Highlight = (() => {
                 'Authorization': getAuthToken()
             },
         }).then((response) => {
-            cb(response);
+            cb(response.status);
         }).catch((error) => {
             if (error.response) {
                 showAuthenticateModal();

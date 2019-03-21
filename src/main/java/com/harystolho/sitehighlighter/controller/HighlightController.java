@@ -1,17 +1,12 @@
 package com.harystolho.sitehighlighter.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +16,7 @@ import com.harystolho.sitehighlighter.service.ServiceResponse;
 import com.harystolho.sitehighlighter.utils.API_Response;
 
 @RestController
+@CrossOrigin
 public class HighlightController {
 
 	private HighlightService highlightService;
@@ -30,24 +26,18 @@ public class HighlightController {
 		this.highlightService = highlightService;
 	}
 
-	@CrossOrigin
 	@PostMapping("/api/v1/save")
-	public API_Response saveHighlight(HttpServletRequest req, HttpServletResponse res) {
-		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+	public ResponseEntity<Object> saveHighlight(@RequestAttribute("highlight.accountId") String accountId,
+			@RequestParam("text") String text, @RequestParam("path") String path, @RequestParam("title") String title) {
 
-		ServiceResponse<Void> response = highlightService.saveHighlight(cookies, req.getParameter("text"),
-				req.getParameter("path"), req.getParameter("title"));
+		ServiceResponse<Void> response = highlightService.saveHighlight(accountId, text, path, title);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
-
-		res.addCookie(new Cookie("highlight_id", "5fgjvd8u9015dbsl"));
-
-		return API_Response.of("OK", null);
 	}
 
 	/**
@@ -57,22 +47,20 @@ public class HighlightController {
 	 * @param id  {@link Document#getId()}
 	 * @return
 	 */
-	@CrossOrigin
 	@PostMapping("/api/v1/save/{id}")
-	public API_Response saveHighlightWithId(HttpServletRequest req, @PathVariable String id,
-			@RequestParam(name = "text") String text) {
-		List<Cookie> cookies = req.getCookies() == null ? new ArrayList<>() : Arrays.asList(req.getCookies());
+	public ResponseEntity<Object> saveHighlightWithId(@RequestAttribute("highlight.accountId") String accountId,
+			@PathVariable String id, @RequestParam("text") String text) {
 
-		ServiceResponse<Void> response = highlightService.saveHighlightToDocument(cookies, id, text);
+		ServiceResponse<Void> response = highlightService.saveHighlightToDocument(accountId, id, text);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
 			break;
 		}
 
-		return API_Response.of("OK", null);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 }
