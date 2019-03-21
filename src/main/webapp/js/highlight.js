@@ -174,7 +174,7 @@ window.Highlight = (() => {
         closeHighlightModal();
 
         sendSelectionToServer(selectedText, (status) => {
-            if (status === "OK") {
+            if (status === 200) {
                 showNotificationModal();
 
                 try {
@@ -213,7 +213,7 @@ window.Highlight = (() => {
         function serverResponse(status) {
             document.querySelector("#highlightCustomSave").remove();
 
-            if (status === 200 || status === 'OK') {
+            if (status === 200) {
                 showNotificationModal();
                 highlightSelectionInPage(); // TODO fix this
                 window.getSelection().removeAllRanges();
@@ -255,20 +255,23 @@ window.Highlight = (() => {
     }
 
     function sendSelectionToServer(selection, cb) {
-        let xhttp = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("text", selection);
+        formData.append("path", window.location.host + window.location.pathname);
+        formData.append("title", document.title);
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                let response = JSON.parse(this.responseText);
-                cb(response.error);
+        axios.post(`${highlightHost}/api/v1/save/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': getAuthToken()
             }
-        };
-
-        xhttp.open("POST", `${highlightHost}/api/v1/save`, true);
-        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhttp.send(`text=${encodeURIComponent(selection)}
-            &path=${window.location.host + window.location.pathname}
-            &title=${encodeURIComponent(document.title)}`);
+        }).then((response)=>{
+            cb(response.status);
+        }).catch((error)=>{
+            if (error.response) {
+                showAuthenticateModal();
+            }
+        });
     }
 
     /**
@@ -389,7 +392,7 @@ window.Highlight = (() => {
      */
     function getDocumentsThatMatchStatus(status, cb) {
         axios.get(`${highlightHost}/api/v1/document/status/${status}`, {
-            headers: {'Authorization': authToken}
+            headers: {'Authorization': getAuthToken()}
         }).then((response) => {
             cb(response);
         }).catch((error) => {
@@ -470,7 +473,7 @@ window.Highlight = (() => {
             });
         },
         asGuest() {
-            console.log(authToken);
+
         },
         async getTokenUsingTemporaryId() {
             let tries = 1;
@@ -510,6 +513,7 @@ window.Highlight = (() => {
     };
 
     function getAuthToken() {
+        // TODO if the item is null?
         return localStorage.getItem('highlight.authToken');
     }
 
