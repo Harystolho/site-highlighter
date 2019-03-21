@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
-	private Map<String, String> temporaryIds;
+	private Map<String, String> temporaryIds; // TODO add expiry date to ids
 
 	private String INVALID_TOKEN = "invalid_token";
 
@@ -68,7 +68,8 @@ public class AuthenticationService {
 		if (token == null) {
 			return null;
 		} else if (token != INVALID_TOKEN) {
-			return Optional.of(token); // remove from map
+			temporaryIds.remove(temporaryId);
+			return Optional.of(token);
 		} else {
 			return Optional.empty();
 		}

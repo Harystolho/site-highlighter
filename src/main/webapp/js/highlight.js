@@ -478,6 +478,7 @@ window.Highlight = (() => {
             let tries = 1;
 
             while (this.temporaryId !== undefined && tries < this.maxTries) {
+                // Try to get authentication token
                 let response = await axios.get(`${highlightHost}/auth/token/${this.temporaryId}`);
 
                 if (response.status === 200) { // The user logged in successfully
@@ -485,23 +486,24 @@ window.Highlight = (() => {
 
                     showNotificationModal("Successful Authentication", 3000);
 
-                    this.temporaryId = undefined; // Breaks loop
+                    this.temporaryId = undefined; // Break loop
                 } else if (response.status === 202) { // The login window was opened but the user has not logged in yet
                     await sleep(2000);
 
                     tries++;
                 } else { // The user didn't login or the temporary-id is invalid
                     Logger.log("Server timed out. Can't get the authentication token");
-
-                    showNotificationModal("Failed Authentication", 3000);
-
-                    this.temporaryId = undefined; // Breaks loop
+                    showNotificationModal("Failed Authentication", 5000);
+                    this.temporaryId = undefined; // Break loop
                 }
             }
 
-            if (tries === this.maxTries) { // Loop stopped because the auth window was opened but the user didn't log in
-                showNotificationModal("Failed Authentication", 3000);
+            // Loop stopped because the auth window was opened but the user didn't sign in
+            if (tries === this.maxTries) {
+                showNotificationModal("Failed Authentication", 5000);
             }
+
+            this.temporaryId = undefined;
 
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
