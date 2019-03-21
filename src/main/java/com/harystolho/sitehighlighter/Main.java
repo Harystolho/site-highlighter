@@ -15,7 +15,7 @@ public class Main {
 	}
 }
 
-//TODO delete moves documents to trash collection
+//TODO add guest
 
 //TODO add frame to see highlights in the page
 
@@ -30,7 +30,7 @@ public class Main {
 
 //TODO show error if site has csp
 
-//TODO replate API_REsponse wih REsponseEntity
+//TODO replate API_REsponse wih REsponseEntity			
 
 // https://just-comments.com/docs.html <- How to do authentication 
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.HighlightService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
-import com.harystolho.sitehighlighter.utils.API_Response;
 
 @RestController
 @CrossOrigin
@@ -57,10 +56,9 @@ public class HighlightController {
 		case FAIL:
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 }

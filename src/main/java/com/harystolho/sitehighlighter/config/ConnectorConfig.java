@@ -31,16 +31,6 @@ public class ConnectorConfig {
 		return tomcat;
 	}
 
-	@Bean
-	public WebServerFactoryCustomizer<TomcatServletWebServerFactory> webServerFactoryCustomizer() {
-		return container -> {
-			if (container instanceof TomcatServletWebServerFactory) {
-				TomcatServletWebServerFactory tomcat = (TomcatServletWebServerFactory) container;
-				tomcat.addContextCustomizers(context -> context.setCookieProcessor(new LegacyCookieProcessor()));
-			}
-		};
-	}
-
 	private Connector redirectConnector() {
 		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
 		connector.setScheme("http");

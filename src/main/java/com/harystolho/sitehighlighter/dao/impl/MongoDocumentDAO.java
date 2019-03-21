@@ -75,7 +75,7 @@ public class MongoDocumentDAO implements DocumentDAO {
 			doc.setHighlights(text);
 			mongoOperations.findAndReplace(query, doc);
 		} else {
-			logger.severe(String.format("Can't find document[%s] to set the text", doc.getId()));
+			logger.severe(String.format("Can't find document[%s] to set the text", docId));
 		}
 	}
 
@@ -101,6 +101,10 @@ public class MongoDocumentDAO implements DocumentDAO {
 	@Override
 	public void deleteDocument(String accountId, String docId) {
 		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
+		Document doc = mongoOperations.findOne(query, Document.class);
+
+		mongoOperations.save(doc, "trash");
+
 		mongoOperations.remove(query, Document.class);
 	}
 

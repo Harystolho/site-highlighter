@@ -21,6 +21,9 @@ public class CookieService {
 
 	public CookieService() {
 		cookies = new ConcurrentHashMap<>();
+
+		// Temp
+		cookies.put("6702e445eee7437a9f45271cf06bec64ad576e04d4c446d5b34624b16708417f", "123");
 	}
 
 	/**

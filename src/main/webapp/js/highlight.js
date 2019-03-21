@@ -33,8 +33,6 @@ window.Highlight = (() => {
     window.onload = () => {
         loadModal();
 
-        showAuthenticateModal();
-
         loadNotificationModal();
         checkModalLoaded();
     };
@@ -168,6 +166,10 @@ window.Highlight = (() => {
         return lowest;
     }
 
+    funcs.withAuthentication = (method) => {
+
+    };
+
     funcs.saveSelection = function () {
         let selectedText = getSelectedText();
 
@@ -265,9 +267,9 @@ window.Highlight = (() => {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': getAuthToken()
             }
-        }).then((response)=>{
+        }).then((response) => {
             cb(response.status);
-        }).catch((error)=>{
+        }).catch((error) => {
             if (error.response) {
                 showAuthenticateModal();
             }
