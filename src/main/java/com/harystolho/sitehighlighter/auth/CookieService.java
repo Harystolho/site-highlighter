@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.Cookie;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.CookieGenerator;
 
 import com.harystolho.sitehighlighter.model.Account;
 
@@ -17,7 +16,7 @@ public class CookieService {
 	public static final String HIGHLIGHT_ID = "highlight_id";
 	private static final int COOKIE_EXPIRATION = 60 * 60 * 24 * 7; // 7 DAYS
 
-	// Cookie Identifier, Account Id
+	// Cookie Identifier(value stored in the cookie), Account Id
 	private ConcurrentHashMap<String, String> cookies;
 
 	public CookieService() {
@@ -25,10 +24,10 @@ public class CookieService {
 	}
 
 	/**
-	 * Binds the {@link Cookie}'s value to an {@link Account#getId()}
+	 * Binds {@link Cookie#getValue()} to an {@link Account#getId()}
 	 * 
 	 * @param id {@link Account#id}
-	 * @return
+	 * @return the {@link Cookie} that was created
 	 */
 	public Cookie createCookie(String id) {
 		Cookie cookie = new Cookie(HIGHLIGHT_ID, generateCookieValue());
@@ -60,11 +59,21 @@ public class CookieService {
 		return Optional.empty();
 	}
 
+	/**
+	 * At the moment the authentication token is basically the same thing as a
+	 * cookie, the difference is that its value is sent in the 'Authentication'
+	 * request header
+	 * 
+	 * @param token
+	 * @return
+	 */
 	public Optional<String> getAccountIdByAuthenticationToken(String token) {
 		return getAccountIdByIdentifier(token);
 	}
 
 	/**
+	 * Session identifier is the value in the highlight cookie
+	 * 
 	 * @param cookies
 	 * @return the session identifier if the user is logged in or an
 	 *         {@link Optional#empty()} if he is not

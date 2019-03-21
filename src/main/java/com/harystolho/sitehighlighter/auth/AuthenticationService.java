@@ -1,10 +1,8 @@
 package com.harystolho.sitehighlighter.auth;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -14,15 +12,17 @@ import org.springframework.stereotype.Service;
 /**
  * If a person using the highlight script/addon wants to authenticate with the
  * server, this is how it works: <br>
- * - The script makes a request to '/auth/temporary-id', the server creates a
+ * - The script makes a request to '/auth/temporaryId', the server creates a
  * temporary id and returns it <br>
  * - the script opens a new window/tab at the URL
- * '/auth/?temporary-id={id_here}', then the user signs in the normal way <br>
+ * '/auth/?temporary-id={id_here}', now the user should sign in<br>
  * - If the login is successful the window is closed and the server attaches a
  * token to the {temp_id} specified in the query URL <br>
- * - The next time the user tries to send a request to the server, the script
- * first checks if there is a temporary-id, if there is, it requests the token
- * associated with the temporary-id and uses that to make other requests<br>
+ * - When the window/tab is opened a loop also starts at the user's browser, the
+ * loop sends requests to '/auth/token/{temporary-id}' to check if the user has
+ * signed in, if he has the server returns a token, if he hasn't the server
+ * returns a 202 status for some minutes(the loop keeps sending requests until
+ * the server returns a 4XX error)<br>
  * - The token value is stored in the localStorage in the browser as
  * 'highlight.authToken'
  * 
