@@ -1,13 +1,9 @@
 package com.harystolho.sitehighlighter.controller;
 
-import java.util.Random;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,14 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ValueConstants;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.harystolho.sitehighlighter.service.AccountService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
 import com.harystolho.sitehighlighter.utils.API_Response;
 
-@Controller
+@RestController
 public class AccountController {
 
 	private AccountService accountService;
@@ -33,12 +29,6 @@ public class AccountController {
 		this.accountService = accountService;
 	}
 
-	@GetMapping(path = { "/auth", "/login", "/register" })
-	public String authPage() {
-		return "auth";
-	}
-
-	@ResponseBody
 	@PostMapping("/auth/signin")
 	public API_Response signIn(HttpServletResponse res, @RequestParam(name = "email") String email,
 			@RequestParam(name = "password") String password,
@@ -53,7 +43,6 @@ public class AccountController {
 		}
 	}
 
-	@ResponseBody
 	@PostMapping("/auth/signup")
 	public API_Response signUp(@RequestParam(name = "email") String email,
 			@RequestParam(name = "password") String password) {
@@ -69,8 +58,7 @@ public class AccountController {
 	}
 
 	@CrossOrigin
-	@ResponseBody
-	@PostMapping("/auth/temporary-id")
+	@PostMapping("/auth/temporaryId")
 	public API_Response createTemporaryId() {
 		ServiceResponse<String> response = accountService.createTemporaryId();
 
@@ -83,7 +71,6 @@ public class AccountController {
 	}
 
 	@CrossOrigin
-	@ResponseBody
 	@GetMapping("/auth/token/{temporaryId}")
 	public ResponseEntity<Object> getTokenUsingTemporaryId(@PathVariable String temporaryId) {
 		ServiceResponse<ObjectNode> response = accountService.getTokenByTemporaryId(temporaryId);

@@ -30,8 +30,6 @@ window.Highlight = (() => {
 
     let Logger = new LoggerClass();
 
-    let authToken = undefined;
-
     window.onload = () => {
         loadModal();
 
@@ -286,7 +284,7 @@ window.Highlight = (() => {
         axios.post(`${highlightHost}/api/v1/save/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': authToken
+                'Authorization': getAuthToken()
             },
         }).then((response) => {
             cb(response);
@@ -462,7 +460,7 @@ window.Highlight = (() => {
         temporaryId: undefined,
         maxTries: 15,
         asUser() {
-            axios.post(`${highlightHost}/auth/temporary-id`).then((response) => {
+            axios.post(`${highlightHost}/auth/temporaryId`).then((response) => {
                 this.temporaryId = response.data.data;
 
                 window.open(`${templates.highlightHost}/auth/?temporary_id=${this.temporaryId}`);
@@ -482,7 +480,7 @@ window.Highlight = (() => {
                 let response = await axios.get(`${highlightHost}/auth/token/${this.temporaryId}`);
 
                 if (response.status === 200) { // The user logged in successfully
-                    authToken = response.data.token;
+                    localStorage.setItem('highlight.authToken', response.data.token);
 
                     showNotificationModal("Successful Authentication", 3000);
 
@@ -510,6 +508,10 @@ window.Highlight = (() => {
             }
         }
     };
+
+    function getAuthToken() {
+        return localStorage.getItem('highlight.authToken');
+    }
 
     return funcs;
 })();

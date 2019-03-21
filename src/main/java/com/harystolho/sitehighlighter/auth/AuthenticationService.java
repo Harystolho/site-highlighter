@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
  * temporary id and returns it <br>
  * - the script opens a new window/tab at the URL
  * '/auth/?temporary-id={id_here}', then the user signs in the normal way <br>
- * - If the login is successful the window is closed and the server attaches the
- * cookie to the {temp_id} specified in the query URL <br>
+ * - If the login is successful the window is closed and the server attaches a
+ * token to the {temp_id} specified in the query URL <br>
  * - The next time the user tries to send a request to the server, the script
- * first checks if there is a temporary-id, if there is, it requests the cookie
+ * first checks if there is a temporary-id, if there is, it requests the token
  * associated with the temporary-id and uses that to make other requests<br>
- * - The cookie value is stored in the localStorage in the browser
+ * - The token value is stored in the localStorage in the browser as 'highlight.authToken'
  * 
  * @author Harystolho
  *
