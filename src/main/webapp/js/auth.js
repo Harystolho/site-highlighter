@@ -56,9 +56,8 @@ let authContainer = {
 
             let tempId = new URLSearchParams(window.location.search).get('temporary_id');
 
-            if (tempId !== null) {
+            if (tempId !== null)
                 formData.append("temporary-id", tempId);
-            }
 
             axios.post('/auth/signin', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}

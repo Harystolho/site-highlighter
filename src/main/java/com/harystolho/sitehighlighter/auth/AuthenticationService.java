@@ -3,6 +3,7 @@ package com.harystolho.sitehighlighter.auth;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,6 +33,8 @@ public class AuthenticationService {
 
 	private Map<String, String> temporaryIds;
 
+	private String INVALID_TOKEN = "invalid_token";
+
 	public AuthenticationService() {
 		this.temporaryIds = new HashMap<>();
 	}
@@ -42,13 +45,33 @@ public class AuthenticationService {
 		if (temporaryIds.containsKey(newId)) {
 			return generateId();
 		} else {
-			temporaryIds.put(newId, null);
+			temporaryIds.put(newId, INVALID_TOKEN);
 			return newId;
 		}
 	}
 
 	public void bindCookie(String tempId, Cookie cookie) {
 		temporaryIds.put(tempId, cookie.getValue());
+	}
+
+	/**
+	 * 
+	 * @param temporaryId
+	 * @return <code>null</code> if there wasn't a request with this {temporaryId}.
+	 *         <code>Optional.of(token)</code> If the user signed in successfully.
+	 *         <code>Optional.empty()</code> If there was a request with this
+	 *         {temporaryId} but the user hasn't signed in yet
+	 */
+	public Optional<String> getAuthToken(String temporaryId) {
+		String token = temporaryIds.get(temporaryId);
+
+		if (token == null) {
+			return null;
+		} else if (token != INVALID_TOKEN) {
+			return Optional.of(token);
+		} else {
+			return Optional.empty();
+		}
 	}
 
 	// TODO if the user is already logged in ?

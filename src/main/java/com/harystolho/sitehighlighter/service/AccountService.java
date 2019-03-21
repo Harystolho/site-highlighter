@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.service;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -18,6 +19,7 @@ import com.harystolho.sitehighlighter.auth.CookieService;
 import com.harystolho.sitehighlighter.dao.AccountDAO;
 import com.harystolho.sitehighlighter.model.Account;
 import com.harystolho.sitehighlighter.service.ServiceResponse.ServiceStatus;
+import com.harystolho.sitehighlighter.utils.JsonResponse;
 
 @Service
 public class AccountService {
@@ -132,6 +134,18 @@ public class AccountService {
 
 	public ServiceResponse<String> createTemporaryId() {
 		return ServiceResponse.of(authenticationService.generateId(), ServiceStatus.OK);
+	}
+
+	public ServiceResponse<ObjectNode> getTokenByTemporaryId(String temporaryId) {
+		Optional<String> token = authenticationService.getAuthToken(temporaryId);
+
+		if (token == null) {
+			return ServiceResponse.of(JsonResponse.error("temporary-id is not valid"), ServiceStatus.FAIL);
+		} else if (token.isPresent()) {
+			return ServiceResponse.of(JsonResponse.object("token", token.get()), ServiceStatus.OK);
+		} else {
+			return ServiceResponse.of(null, ServiceStatus.PROCESSING);
+		}
 	}
 
 }

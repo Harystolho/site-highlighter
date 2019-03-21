@@ -3,7 +3,7 @@ package com.harystolho.sitehighlighter.service;
 public class ServiceResponse<T> {
 
 	public static enum ServiceStatus {
-		OK, FAIL
+		OK, FAIL, PROCESSING
 	}
 
 	private T response;

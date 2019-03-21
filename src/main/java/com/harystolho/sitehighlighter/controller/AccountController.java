@@ -6,11 +6,13 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,6 +79,22 @@ public class AccountController {
 			return API_Response.of("FAIL", "{}");
 		default:
 			return API_Response.of("OK", response.getResponse());
+		}
+	}
+
+	@CrossOrigin
+	@ResponseBody
+	@GetMapping("/auth/token/{temporaryId}")
+	public ResponseEntity<Object> getTokenUsingTemporaryId(@PathVariable String temporaryId) {
+		ServiceResponse<ObjectNode> response = accountService.getTokenByTemporaryId(temporaryId);
+
+		switch (response.getStatus()) {
+		case PROCESSING:
+			return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+		case FAIL:
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getResponse());
+		default:
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
 	}
 

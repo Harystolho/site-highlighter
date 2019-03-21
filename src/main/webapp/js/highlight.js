@@ -460,16 +460,44 @@ window.Highlight = (() => {
 
     funcs.authenticateModal = {
         temporaryId: undefined,
+        maxTries: 15,
         asUser() {
             axios.post(`${highlightHost}/auth/temporary-id`).then((response) => {
                 this.temporaryId = response.data.data;
 
                 window.open(`${templates.highlightHost}/auth/?temporary_id=${this.temporaryId}`);
+
+                this.getTokenUsingTemporaryId();
             }).catch((error) => {
             });
         },
         asGuest() {
-            console.log(this.temporaryId);
+            console.log(authToken);
+        },
+        async getTokenUsingTemporaryId() {
+            let tries = 0;
+
+            while (this.temporaryId !== undefined && tries < this.maxTries) {
+                let response = await axios.get(`${highlightHost}/auth/token/${this.temporaryId}`);
+
+                if (response.status === 200) { // The user logged in successfully
+                    authToken = response.data.token;
+
+                    this.temporaryId = undefined; // Breaks loop
+                } else if (response.status === 202) { // The login window was opened but the user has not logged in yet
+                    await sleep(2000);
+
+                    tries++;
+                } else { // The user didn't login or the temporary-id is invalid
+                    Logger.log("Server timed out. Can't get the authentication token");
+
+                    this.temporaryId = undefined; // Breaks loop
+                }
+            }
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
         }
     };
 
