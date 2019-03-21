@@ -33,6 +33,8 @@ window.Highlight = (() => {
     window.onload = () => {
         loadModal();
 
+        showAuthenticateModal();
+
         loadNotificationModal();
         checkModalLoaded();
     };
@@ -166,8 +168,16 @@ window.Highlight = (() => {
         return lowest;
     }
 
-    funcs.withAuthentication = (method) => {
-
+    /**
+     * Checks if the user is authenticated before calling the [func]
+     * @param func
+     */
+    funcs.withAuthentication = (func) => {
+        if (getAuthToken() === null) { // User is not authenticated
+            showAuthenticateModal();
+        } else {
+            func();
+        }
     };
 
     funcs.saveSelection = function () {
@@ -176,7 +186,7 @@ window.Highlight = (() => {
         closeHighlightModal();
 
         sendSelectionToServer(selectedText, (status) => {
-            if (status === 200) {
+            if (status >= 200 && status <= 299) { // 2XX
                 showNotificationModal();
 
                 try {
@@ -215,7 +225,7 @@ window.Highlight = (() => {
         function serverResponse(status) {
             document.querySelector("#highlightCustomSave").remove();
 
-            if (status === 200) {
+            if (status >= 200 && status <= 299) { // 2XX
                 showNotificationModal();
                 highlightSelectionInPage(); // TODO fix this
                 window.getSelection().removeAllRanges();
@@ -349,7 +359,8 @@ window.Highlight = (() => {
     }
 
     function showAuthenticateModal() {
-        document.body.innerHTML += templates.authenticateModal;
+        if (document.getElementById("highlight-authenticateModal") === null)
+            document.body.innerHTML += templates.authenticateModal;
     }
 
     //TODO show last used document first in custom save modal
@@ -518,6 +529,12 @@ window.Highlight = (() => {
         // TODO if the item is null?
         return localStorage.getItem('highlight.authToken');
     }
+
+    funcs.closeBackgroundCover = () => {
+        document.querySelectorAll(".highlight-modal.highlight-cover").forEach((node)=>{
+           node.remove();
+        });
+    };
 
     return funcs;
 })();

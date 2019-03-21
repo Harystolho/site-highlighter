@@ -35,7 +35,7 @@ public class HighlightController {
 		case FAIL:
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			return ResponseEntity.status(HttpStatus.OK).build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 
@@ -56,7 +56,7 @@ public class HighlightController {
 		case FAIL:
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			return ResponseEntity.status(HttpStatus.OK).build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 
 	}

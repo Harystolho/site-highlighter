@@ -6,9 +6,9 @@ export let highlightHost = "https://page-highlight.com:8181";
 //TODO create icon sprite
 let modalDiv = `<div id="highlightModal">
                     <img class="highlightModal-icon" src="${highlightHost}/icons/highlight.png" 
-                    onclick="Highlight.saveSelection()">
+                    onclick="Highlight.withAuthentication(Highlight.saveSelection)">
                     <img class="highlightModal-icon" src="${highlightHost}/icons/highlight-plus.png" style="margin: 0 0 0 5px;"
-                    onclick="Highlight.openCustomSaveModal()">
+                    onclick="Highlight.withAuthentication(Highlight.openCustomSaveModal)">
                     <div id="highlightSocialMedia">
                         <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/twitter-icon.png" onclick="Highlight.shareSelectionTwitter()">
                         <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png" onclick="Highlight.shareSelectionFacebook()">
@@ -86,7 +86,8 @@ let notLoadedNotification =
     </div>`;
 
 let authenticateModal =
-    `<div id="highlight-authenticateModal">
+    `<div id="highlight-backgroundCover" class="highlight-modal highlight-cover" onclick="Highlight.closeBackgroundCover()"></div>
+    <div id="highlight-authenticateModal" class="highlight-modal highlight-cover">
         <div class="authModal-heading">Use Highlight as:</div>
         <div class="authModal-container">
             <div class="authModal-button login" onclick="Highlight.authenticateModal.asUser()">User</div>

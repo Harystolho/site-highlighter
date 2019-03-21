@@ -141,8 +141,12 @@
 }
 
 #highlight-authenticateModal {
-    top: unset;
-    bottom: 4vh;
+    top: 32%;
+    left: 40%;
+    z-index: 1001;
+    width: 347px;
+    padding: 22px;
+    border-radius: 7px;
 }
 
 .authModal-container{
@@ -172,4 +176,14 @@
     font-family: initial;
     font-variant: small-caps;
     margin-bottom: 7px;
+}
+
+#highlight-backgroundCover{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0009;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
 }
