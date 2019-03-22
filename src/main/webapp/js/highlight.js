@@ -98,12 +98,20 @@ window.Highlight = (() => {
         }, options.loadingTimeout);
     }
 
+    /**
+     *
+     * @param msg
+     * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
+     */
     function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
         let notif = document.querySelector("#highlightNotification");
 
         if (notif !== null) {
             notif.innerHTML = msg;
             notif.style.display = "block";
+
+            if (duration < 0)
+                return;
 
             setTimeout(() => {
                 notif.style.display = "none";
@@ -477,6 +485,8 @@ window.Highlight = (() => {
         maxTries: 15,
         asUser() {
             funcs.closeBackgroundCover();
+
+            showNotificationModal("Waiting for Authentication... Please Sign In using the window/tab that has been opened.", -1);
 
             axios.post(`${highlightHost}/auth/temporaryId`).then((response) => {
                 this.temporaryId = response.data.data;

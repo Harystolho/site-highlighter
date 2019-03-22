@@ -52,6 +52,7 @@
     box-shadow: 0 0 5px #00000080;
     border-radius: 6px 0 0 6px;
     display: none;
+    max-width: 350px;
 }
 
 #highlightCustomSave, #highlight-notLoadedNotification, #highlight-authenticateModal {
