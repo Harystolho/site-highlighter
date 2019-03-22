@@ -39,12 +39,12 @@ window.Highlight = (() => {
      */
     let userMode;
 
-    window.onload = () => {
-        loadModal();
 
-        loadNotificationModal();
-        checkModalLoaded();
-    };
+    window.addEventListener('message', (event) => {
+        if (event.origin === window.location.origin && event.data === 'highlight.load') {
+            funcs.load();
+        }
+    }, false);
 
     window.onmouseup = (event) => {
         finalPos.x = event.pageX;
@@ -64,6 +64,16 @@ window.Highlight = (() => {
     };
 
     /**
+     * Loads the Highlight script
+     */
+    funcs.load = () => {
+        loadModal();
+
+        loadNotificationModal();
+        checkModalLoaded();
+    };
+
+    /**
      * Adds the modal div to the DOM
      */
     function loadModal() {
@@ -78,9 +88,8 @@ window.Highlight = (() => {
      * to the DOM
      */
     function loadNotificationModal() {
-        if (document.getElementById("highlightNotification") === null) {
+        if (document.getElementById("highlightNotification") === null)
             document.body.innerHTML += templates.notificationDiv;
-        }
     }
 
     /**
