@@ -141,8 +141,10 @@
 }
 
 #highlight-authenticateModal {
-    top: 32%;
-    left: 40%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 1001;
     width: 347px;
     padding: 22px;

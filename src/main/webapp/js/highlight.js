@@ -476,6 +476,8 @@ window.Highlight = (() => {
         temporaryId: undefined,
         maxTries: 15,
         asUser() {
+            funcs.closeBackgroundCover();
+
             axios.post(`${highlightHost}/auth/temporaryId`).then((response) => {
                 this.temporaryId = response.data.data;
 
@@ -486,7 +488,7 @@ window.Highlight = (() => {
             });
         },
         asGuest() {
-
+            funcs.closeBackgroundCover();
         },
         async getTokenUsingTemporaryId() {
             let tries = 1;
@@ -531,8 +533,8 @@ window.Highlight = (() => {
     }
 
     funcs.closeBackgroundCover = () => {
-        document.querySelectorAll(".highlight-modal.highlight-cover").forEach((node)=>{
-           node.remove();
+        document.querySelectorAll(".highlight-modal.highlight-cover").forEach((node) => {
+            node.remove();
         });
     };
 
