@@ -5,7 +5,7 @@ export let highlightHost = "https://page-highlight.com:8181";
 //TODO improve highlight-plus icon
 //TODO create icon sprite
 let modalDiv = `<div id="highlightModal">
-                    <img class="highlightModal-icon" src="${highlightHost}/icons/highlight.png" 
+                    <img id="highlightModal-iconSave" class="highlightModal-icon" src="${highlightHost}/icons/highlight.png"
                     onclick="Highlight.saveSelection()">
                     <img class="highlightModal-icon" src="${highlightHost}/icons/highlight-plus.png" style="margin: 0 0 0 5px;"
                     onclick="Highlight.openCustomSaveModal()">

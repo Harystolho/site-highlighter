@@ -37,8 +37,7 @@ window.Highlight = (() => {
      * GUEST: Used when the user chooses to user the Highlight script as a guest, the highlights are stored in
      *  the local browser. {@link guestMode}
      */
-    let userMode;
-
+    let userMode = undefined;
 
     window.addEventListener('message', (event) => {
         if (event.origin === window.location.origin && event.data === 'highlight.load') {
@@ -70,6 +69,7 @@ window.Highlight = (() => {
         loadModal();
 
         loadNotificationModal();
+
         checkModalLoaded();
     };
 
@@ -210,11 +210,7 @@ window.Highlight = (() => {
                 if (status >= 200 && status <= 299) { // 2XX
                     showNotificationModal();
 
-                    try {
-                        highlightSelectionInPage();
-                    } catch (err) {
-                        // TODO select when there is more than one div
-                    }
+                    highlightSelectionInPage();
 
                     window.getSelection().removeAllRanges();
                 } else {
@@ -223,21 +219,69 @@ window.Highlight = (() => {
             });
         }
         ,
+        /**
+         * Saves the text from the custom save modal(#highlightCustomSave)
+         */
         saveCustomModalText() {
+            let content = document.querySelector("#customSaveContent").innerHTML;
 
+            let docId = document.getElementById("customSave-select").value;
+
+            // This means the selected document is the current page
+            if (docId === '0') {
+                return sendSelectionToServer(content, (status) => {
+                    serverResponse(status);
+                });
+            }
+
+            sendSelectionToServerWithDocumentId(content, docId, (status) => {
+                serverResponse(status);
+            });
+
+            function serverResponse(status) {
+                document.querySelector("#highlightCustomSave").remove();
+
+                if (status >= 200 && status <= 299) { // 2XX
+                    showNotificationModal();
+                    highlightSelectionInPage();
+                    window.getSelection().removeAllRanges();
+                } else {
+                    showNotificationModal("Error saving highlight", 5000);
+                }
+            }
+        },
+        openCustomSaveModal() {
+            let selectedText = getSelectedText();
+
+            // Don't add this before getting the text because it removes all ranges when it adds
+            if (document.querySelector("#highlightCustomSave") === null)
+                loadCustomSaveModal();
+
+            closeHighlightModal();
+
+            addDocumentsToCustomSelect();
+
+            document.querySelector("#customSaveContent").innerHTML = selectedText;
         }
     };
 
     let guestMode = {
         saveSelection(selectedText) {
-            alert(selectedText);
+            showNotificationModal();
+            highlightSelectionInPage();
+            window.getSelection().removeAllRanges();
         },
         saveCustomModalText() {
-
+            // This feature doesn't work for guests
+        },
+        openCustomSaveModal() {
+            showNotificationModal("This feature doesn't work for guest accounts", 4000);
         }
     };
 
     funcs.saveSelection = function () {
+        console.log("1");
+
         if (isUserModeUndefined())
             return;
 
@@ -246,36 +290,11 @@ window.Highlight = (() => {
         userMode.saveSelection(getSelectedText());
     };
 
-    /**
-     * Saves the text from the custom save modal(#highlightCustomSave)
-     */
     funcs.saveCustomModalText = () => {
-        let content = document.querySelector("#customSaveContent").innerHTML;
+        if (isUserModeUndefined())
+            return;
 
-        let docId = document.getElementById("customSave-select").value;
-
-        // This means the selected document is the current page
-        if (docId === '0') {
-            return sendSelectionToServer(content, (status) => {
-                serverResponse(status);
-            });
-        }
-
-        sendSelectionToServerWithDocumentId(content, docId, (status) => {
-            serverResponse(status);
-        });
-
-        function serverResponse(status) {
-            document.querySelector("#highlightCustomSave").remove();
-
-            if (status >= 200 && status <= 299) { // 2XX
-                showNotificationModal();
-                highlightSelectionInPage(); // TODO fix this
-                window.getSelection().removeAllRanges();
-            } else {
-                showNotificationModal("Error saving highlight", 5000);
-            }
-        }
+        userMode.saveSelection(saveCustomModalText());
     };
 
     /**
@@ -285,17 +304,7 @@ window.Highlight = (() => {
         if (isUserModeUndefined())
             return;
 
-        let selectedText = getSelectedText();
-
-        // Don't add this before getting the text because it removes all ranges when it adds
-        if (document.querySelector("#highlightCustomSave") === null)
-            loadCustomSaveModal();
-
-        closeHighlightModal();
-
-        addDocumentsToCustomSelect();
-
-        document.querySelector("#customSaveContent").innerHTML = selectedText;
+        userMode.openCustomSaveModal();
     };
 
     function closeHighlightModal() {
@@ -381,7 +390,11 @@ window.Highlight = (() => {
 
         highlightSpan.style.backgroundColor = "#fffd7c";
 
-        window.getSelection().getRangeAt(0).surroundContents(highlightSpan);
+        try {
+            window.getSelection().getRangeAt(0).surroundContents(highlightSpan);
+        } catch (err) {
+            // TODO fix when there is more than 1 div
+        }
     }
 
     /**
