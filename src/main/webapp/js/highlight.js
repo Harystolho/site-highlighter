@@ -46,14 +46,14 @@ window.Highlight = (() => {
         }
     }, false);
 
-    window.onmouseup = (event) => {
+    window.addEventListener('mouseup', (event) => {
         finalPos.x = event.pageX;
         finalPos.y = event.pageY;
 
         openHighlightModal(event);
-    };
+    }, false);
 
-    window.onkeyup = (event) => {
+    window.addEventListener('keyup', (event) => {
         if (!isHighlightEnabled())
             return;
 
@@ -61,7 +61,7 @@ window.Highlight = (() => {
             && event.shiftKey === shortcutKey.shiftKey && event.ctrlKey === shortcutKey.ctrlKey) { // 'i'
             saveSelectionUsingShortcut();
         }
-    };
+    }, false);
 
     /**
      * Loads the Highlight script
@@ -103,7 +103,7 @@ window.Highlight = (() => {
             if (document.querySelector("#highlightModal") === null) {
                 if (localStorage.getItem('hl-nln-autoReload') === "true") {
                     Logger.log("Auto reload enabled [hl-nln-autoReload=true]");
-                    window.onload();
+                    funcs.load();
                 } else if (localStorage.getItem('hl-nln-autoReload') === "false") {
                     Logger.log("Auto reload disabled [hl-nln-autoReload=false]");
                 } else {
@@ -502,7 +502,7 @@ window.Highlight = (() => {
             document.getElementById('highlight-notLoadedNotification').remove();
         },
         reload() {
-            window.onload();
+            funcs.load();
             funcs.notLoadedNotification.close();
 
             // This has to come last because it calls close() and close sets the hl-nln-autoReload to false
