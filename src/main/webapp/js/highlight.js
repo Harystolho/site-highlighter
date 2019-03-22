@@ -30,10 +30,17 @@ window.Highlight = (() => {
 
     let Logger = new LoggerClass();
 
+    /**
+     * Reference to an object that has the functions used to highlight the page.
+     *
+     * USER: Used when the user is authenticated, the requests are sent to the server. {@link accountMode}
+     * GUEST: Used when the user chooses to user the Highlight script as a guest, the highlights are stored in
+     *  the local browser. {@link guestMode}
+     */
+    let userMode;
+
     window.onload = () => {
         loadModal();
-
-        showAuthenticateModal();
 
         loadNotificationModal();
         checkModalLoaded();
@@ -188,27 +195,46 @@ window.Highlight = (() => {
         }
     };
 
+    let accountMode = {
+        saveSelection(selectedText) {
+            sendSelectionToServer(selectedText, (status) => {
+                if (status >= 200 && status <= 299) { // 2XX
+                    showNotificationModal();
+
+                    try {
+                        highlightSelectionInPage();
+                    } catch (err) {
+                        // TODO select when there is more than one div
+                    }
+
+                    window.getSelection().removeAllRanges();
+                } else {
+                    showNotificationModal("Error saving highlight", 5000);
+                }
+            });
+        }
+        ,
+        saveCustomModalText() {
+
+        }
+    };
+
+    let guestMode = {
+        saveSelection(selectedText) {
+            alert(selectedText);
+        },
+        saveCustomModalText() {
+
+        }
+    };
+
     funcs.saveSelection = function () {
-        let selectedText = getSelectedText();
+        if (isUserModeUndefined())
+            return;
 
         closeHighlightModal();
 
-        sendSelectionToServer(selectedText, (status) => {
-            if (status >= 200 && status <= 299) { // 2XX
-                showNotificationModal();
-
-                try {
-                    highlightSelectionInPage();
-                } catch (err) {
-                    // TODO select when there is more than one div
-                }
-
-                window.getSelection().removeAllRanges();
-            } else {
-                showNotificationModal("Error saving highlight", 5000);
-            }
-        });
-
+        userMode.saveSelection(getSelectedText());
     };
 
     /**
@@ -247,6 +273,9 @@ window.Highlight = (() => {
      * Opens the Custom Save modal to edit the highlight before saving it
      */
     funcs.openCustomSaveModal = () => {
+        if (isUserModeUndefined())
+            return;
+
         let selectedText = getSelectedText();
 
         // Don't add this before getting the text because it removes all ranges when it adds
@@ -499,6 +528,7 @@ window.Highlight = (() => {
         },
         asGuest() {
             funcs.closeBackgroundCover();
+            userMode = guestMode;
         },
         async getTokenUsingTemporaryId() {
             let tries = 1;
@@ -509,6 +539,7 @@ window.Highlight = (() => {
 
                 if (response.status === 200) { // The user logged in successfully
                     localStorage.setItem('highlight.authToken', response.data.token);
+                    userMode = accountMode;
 
                     showNotificationModal("Successful Authentication", 3000);
 
@@ -547,6 +578,13 @@ window.Highlight = (() => {
             node.remove();
         });
     };
+
+    function isUserModeUndefined() {
+        if (userMode === undefined)
+            showAuthenticateModal();
+
+        return userMode === undefined;
+    }
 
     return funcs;
 })();
