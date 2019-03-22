@@ -98,8 +98,8 @@ window.Highlight = (() => {
         }, options.loadingTimeout);
     }
 
+    //TODO add options to change bg color
     /**
-     *
      * @param msg
      * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
      */

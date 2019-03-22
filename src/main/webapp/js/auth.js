@@ -12,6 +12,8 @@ window.onload = () => {
     document.getElementById('authContainerSignUp').onclick = authContainer.signUp;
 
     authContainer.signFunction = authContainer.signIn;
+
+    // TODO check if url query has mode=SIGN_IN and display header saying "sign in now"
 };
 
 window.onkeyup = (event) => {
