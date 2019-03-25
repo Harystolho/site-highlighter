@@ -98,18 +98,11 @@ let authenticateModal =
 let displayer = `
     <div id="highlight-displayer">
         <div>
-        <h5 style="font-variant: small-caps;">Highlights</h5>
-        </div>s
+        <h5 id="hl-displayer-header">Highlights</h5>
+        <span onclick="highlightDisplayer.hide()">todo</span>
+        </div>
         <div id="hl-displayerList">
-            <div class="hl-highlight">
-                been a wild and winding road, but my rock ’n’ roll-or-bust story contains plenty of lessons for entrepreneurs in
-            </div>
-            <div class="hl-highlight">
-                been a wild and winding road, but my rock ’n’ roll-or-bust story contains plenty of lessons for entrepreneurs in
-            </div>
-            <div class="hl-highlight">
-                been a wild and winding road, but my rock ’n’ roll-or-bust story contains plenty of lessons for entrepreneurs in
-            </div>
+            <!--Highlights go here-->
         </div>
         <div>
             <a>See all your Highlights -></a>

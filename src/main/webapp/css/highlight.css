@@ -24,7 +24,7 @@
     display: none;
     position: absolute;
     padding: 5px 9px;
-    z-index: 999;
+    z-index: 1060;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 6px 1px;
     border-radius: 21px;
 }
@@ -198,21 +198,31 @@
     font-style: italic;
 }
 
-#highlight-displayer{
+#highlight-displayer {
     position: fixed;
     right: 0;
-    top: 150px;
-    max-width: 300px;
+    top: 70px;
+    max-width: 360px;
+    overflow-y: auto;
     background-color: #fff;
     box-shadow: 0 0 5px #00000080;
     border-radius: 7px 0 0 7px;
-    padding: 0px 8px;
+    padding-left: 8px;
+    z-index: 1030;
 }
 
-#hl-displayerList{
-
+#hl-displayerList {
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
-.hl-highlight{
+.hl-highlight {
     margin: 7px 0;
+}
+
+#hl-displayer-header {
+    font-variant: small-caps;
+    font-weight: bold;
+    color: gray;
+    display: inline-block;
 }

@@ -617,7 +617,7 @@ window.Highlight = (() => {
 let HighlightDisplayer = (() => {
     let funcs = {};
 
-    window.display = funcs.display = () => {
+    funcs.display = () => {
         if (document.getElementById('highlight-displayer') === null)
             document.body.innerHTML += templates.displayer;
     };
@@ -625,6 +625,8 @@ let HighlightDisplayer = (() => {
     funcs.hide = () => {
         document.getElementById('highlight-displayer').remove();
     };
+
+    funcs
 
     // Global functions.
     window.highlightDisplayer = {display: funcs.display, hide: funcs.hide};
