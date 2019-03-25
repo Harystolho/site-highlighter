@@ -235,7 +235,7 @@ body {
     justify-content: end;
 }
 
-.dashboard-modal__footer button{
+.dashboard-modal__footer button {
     border: none;
     border-radius: 5px;
     padding: 2px 13px;
@@ -248,15 +248,18 @@ body {
     box-shadow: 0 0 3px #050505;
 }
 
-.dashboard-modal{
+.dashboard-modal {
     position: fixed;
     background-color: white;
     z-index: 1;
-    left: 41%;
-    top: 20%;
     box-shadow: 0 0 5px #0009;
     border-radius: 5px;
     max-width: 500px;
     padding: 7px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 30%;
 }
 
