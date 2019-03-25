@@ -152,7 +152,7 @@
     border-radius: 7px;
 }
 
-.authModal-container{
+.authModal-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -175,13 +175,13 @@
     box-shadow: 0 0 5px orange;
 }
 
-.authModal-heading{
+.authModal-heading {
     font-family: initial;
     font-variant: small-caps;
     margin-bottom: 7px;
 }
 
-#highlight-backgroundCover{
+#highlight-backgroundCover {
     position: fixed;
     top: 0;
     left: 0;
@@ -189,4 +189,11 @@
     width: 100vw;
     height: 100vh;
     z-index: 999;
+}
+
+#savedHighlightMsg {
+    font-size: 12px;
+    color: #878787;
+    cursor: pointer;
+    font-style: italic;
 }

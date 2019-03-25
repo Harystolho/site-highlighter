@@ -10,6 +10,7 @@ window.Highlight = (() => {
     let funcs = {};
 
     let finalPos = {x: 0, y: 0};
+    let savedHighlightMsg = `Saved Highlight!<br><div id="savedHighlightMsg">View my Highlights</div>`;
 
     let options = {
         on: true, /*If true, show highlight modal when something is selected*/
@@ -119,19 +120,17 @@ window.Highlight = (() => {
      * @param msg
      * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
      */
-    function showNotificationModal(msg = "Saved Highlight!", duration = 1000) {
-        let notif = document.querySelector("#highlightNotification");
+    function showNotificationModal(msg = savedHighlightMsg, duration = 3000) {
+        let notification = document.querySelector("#highlightNotification");
 
-        if (notif !== null) {
-            notif.innerHTML = msg;
-            notif.style.display = "block";
+        if (notification !== null) {
+            notification.innerHTML = msg;
+            notification.style.display = "block";
 
-            if (duration < 0)
-                return;
-
-            setTimeout(() => {
-                notif.style.display = "none";
-            }, duration);
+            if (duration > 0)
+                setTimeout(() => {
+                    notification.style.display = "none";
+                }, duration);
         }
     }
 
@@ -280,8 +279,6 @@ window.Highlight = (() => {
     };
 
     funcs.saveSelection = function () {
-        console.log("1");
-
         if (isUserModeUndefined())
             return;
 
