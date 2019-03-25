@@ -95,6 +95,27 @@ let authenticateModal =
         </div>
     </div>`;
 
+let displayer = `
+    <div id="highlight-displayer">
+        <div>
+        <h5 style="font-variant: small-caps;">Highlights</h5>
+        </div>s
+        <div id="hl-displayerList">
+            <div class="hl-highlight">
+                been a wild and winding road, but my rock ’n’ roll-or-bust story contains plenty of lessons for entrepreneurs in
+            </div>
+            <div class="hl-highlight">
+                been a wild and winding road, but my rock ’n’ roll-or-bust story contains plenty of lessons for entrepreneurs in
+            </div>
+            <div class="hl-highlight">
+                been a wild and winding road, but my rock ’n’ roll-or-bust story contains plenty of lessons for entrepreneurs in
+            </div>
+        </div>
+        <div>
+            <a>See all your Highlights -></a>
+        </div>
+    </div>`;
+
 export {
     modalDiv,
     notificationDiv,
@@ -103,5 +124,6 @@ export {
     librarySiteTemplate,
     notLoadedNotification,
     confirmModal,
-    authenticateModal
+    authenticateModal,
+    displayer
 }

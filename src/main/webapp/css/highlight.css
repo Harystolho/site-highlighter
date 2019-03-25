@@ -197,3 +197,22 @@
     cursor: pointer;
     font-style: italic;
 }
+
+#highlight-displayer{
+    position: fixed;
+    right: 0;
+    top: 150px;
+    max-width: 300px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #00000080;
+    border-radius: 7px 0 0 7px;
+    padding: 0px 8px;
+}
+
+#hl-displayerList{
+
+}
+
+.hl-highlight{
+    margin: 7px 0;
+}

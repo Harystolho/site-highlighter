@@ -6,11 +6,13 @@ import * as axios from 'axios';
 import * as templates from './templates';
 import {highlightHost} from './templates';
 
+let Logger = new LoggerClass();
+
 window.Highlight = (() => {
     let funcs = {};
 
     let finalPos = {x: 0, y: 0};
-    let savedHighlightMsg = `Saved Highlight!<br><div id="savedHighlightMsg">View my Highlights</div>`;
+    let savedHighlightMsg = `Saved Highlight!<br><div id="savedHighlightMsg" onclick="highlightDisplayer.display()">View my Highlights</div>`;
 
     let options = {
         on: true, /*If true, show highlight modal when something is selected*/
@@ -29,8 +31,6 @@ window.Highlight = (() => {
         GOLD: "GOLD"
     };
 
-    let Logger = new LoggerClass();
-
     /**
      * Reference to an object that has the functions used to highlight the page.
      *
@@ -38,7 +38,7 @@ window.Highlight = (() => {
      * GUEST: Used when the user chooses to user the Highlight script as a guest, the highlights are stored in
      *  the local browser. {@link guestMode}
      */
-    let userMode = undefined;
+    //let userMode = undefined;
 
     window.addEventListener('message', (event) => {
         if (event.origin === window.location.origin && event.data === 'highlight.load') {
@@ -129,7 +129,7 @@ window.Highlight = (() => {
 
             if (duration > 0)
                 setTimeout(() => {
-                    notification.style.display = "none";
+                    document.querySelector("#highlightNotification").style.display = "none";
                 }, duration);
         }
     }
@@ -277,6 +277,8 @@ window.Highlight = (() => {
             showNotificationModal("This feature doesn't work for guest accounts", 4000);
         }
     };
+
+    let userMode = guestMode;
 
     funcs.saveSelection = function () {
         if (isUserModeUndefined())
@@ -604,6 +606,28 @@ window.Highlight = (() => {
 
         return userMode === undefined;
     }
+
+
+    return funcs;
+})();
+
+/**
+ * Manages the container that displays the highlights made in the current page
+ */
+let HighlightDisplayer = (() => {
+    let funcs = {};
+
+    window.display = funcs.display = () => {
+        if (document.getElementById('highlight-displayer') === null)
+            document.body.innerHTML += templates.displayer;
+    };
+
+    funcs.hide = () => {
+        document.getElementById('highlight-displayer').remove();
+    };
+
+    // Global functions.
+    window.highlightDisplayer = {display: funcs.display, hide: funcs.hide};
 
     return funcs;
 })();
