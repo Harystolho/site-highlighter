@@ -109,6 +109,14 @@ let displayer = `
         </div>
     </div>`;
 
+let displayerHighlight = (content) => {
+    return `
+    <div class="hl-highlight">
+        ${content}
+    </div>
+    `;
+};
+
 export {
     modalDiv,
     notificationDiv,
@@ -118,5 +126,6 @@ export {
     notLoadedNotification,
     confirmModal,
     authenticateModal,
-    displayer
+    displayer,
+    displayerHighlight
 }

@@ -617,19 +617,54 @@ window.Highlight = (() => {
 let HighlightDisplayer = (() => {
     let funcs = {};
 
+    let highlights = [new HighlightObj("No value.No connection.No nurture.No furthering of the relationship."), new HighlightObj("aving a ton of potential connection on the table by not making the emails themselves valuable.Essentially, only the people who clicke")];
+
     funcs.display = () => {
-        if (document.getElementById('highlight-displayer') === null)
+        if (document.getElementById('highlight-displayer') === null) {
             document.body.innerHTML += templates.displayer;
+        } else {
+            // Remove existing highlights
+            document.querySelectorAll('.hl-highlight').forEach(node => node.remove());
+        }
+
+        highlights.forEach(hl => displayHighlight(hl));
     };
 
     funcs.hide = () => {
         document.getElementById('highlight-displayer').remove();
     };
 
-    funcs
+    /**
+     * Displays the highlight in the HighlightDisplayer
+     * @param hl {@Link HighlightObj}
+     */
+    funcs.addHighlight = (hl) => {
+        highlights.push(hl);
+        displayHighlight(hl);
+    };
+
+    /**
+     * @param hl [@Link HighlightObj}
+     */
+    function displayHighlight(hl) {
+        let list = document.getElementById('hl-displayerList');
+
+        list.innerHTML += templates.displayerHighlight(hl.content);
+    }
 
     // Global functions.
     window.highlightDisplayer = {display: funcs.display, hide: funcs.hide};
 
     return funcs;
 })();
+
+/**
+ * Object to represent a highlight, this is created when the user highlights something using the highlight modal
+ * @param content
+ */
+function HighlightObj(content) {
+    return {
+        content: content,
+        created: new Date()
+    }
+}
