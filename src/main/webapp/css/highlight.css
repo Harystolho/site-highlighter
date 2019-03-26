@@ -1,3 +1,8 @@
+/*
+ How z-index is used: https://getbootstrap.com/docs/4.1/layout/overview/#z-index
+*/
+
+
 #highlightModal::before, #highlightModal::after {
     content: "";
     position: absolute;
@@ -45,7 +50,7 @@
 #highlightNotification {
     position: fixed;
     background-color: white;
-    z-index: 99999;
+    z-index: 1060;
     right: 0;
     top: 78px;
     padding: 9px 20px;

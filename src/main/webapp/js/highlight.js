@@ -207,11 +207,7 @@ window.Highlight = (() => {
         saveSelection(selectedText) {
             sendSelectionToServer(selectedText, (status) => {
                 if (status >= 200 && status <= 299) { // 2XX
-                    showNotificationModal();
-
-                    highlightSelectionInPage();
-
-                    window.getSelection().removeAllRanges();
+                    afterSaveSelection(selectedText);
                 } else {
                     showNotificationModal("Error saving highlight", 5000);
                 }
@@ -266,9 +262,7 @@ window.Highlight = (() => {
 
     let guestMode = {
         saveSelection(selectedText) {
-            showNotificationModal();
-            highlightSelectionInPage();
-            window.getSelection().removeAllRanges();
+            afterSaveSelection(selectedText);
         },
         saveCustomModalText() {
             // This feature doesn't work for guests
@@ -279,6 +273,14 @@ window.Highlight = (() => {
     };
 
     let userMode = guestMode;
+
+    function afterSaveSelection(selectedText) {
+        console.log(selectedText);
+        showNotificationModal();
+        highlightSelectionInPage();
+        HighlightDisplayer.addHighlight(HighlightDisplayer.createHighlight(selectedText));
+        window.getSelection().removeAllRanges();
+    }
 
     funcs.saveSelection = function () {
         if (isUserModeUndefined())
@@ -649,8 +651,24 @@ let HighlightDisplayer = (() => {
     function displayHighlight(hl) {
         let list = document.getElementById('hl-displayerList');
 
-        list.innerHTML += templates.displayerHighlight(hl.content);
+        if (list === null) {
+            funcs.display();
+        } else {
+            list.innerHTML += templates.displayerHighlight(hl.content);
+        }
+
     }
+
+    /**
+     * Use this method if the {content] has html tags such as <br>, <div> or <b>
+     * @param content {String}
+     * @return {HighlightObj}
+     */
+    funcs.createHighlight = (content) => {
+        let formattedContent = content.replace(/<br>/g, "");
+
+        return new HighlightObj(formattedContent);
+    };
 
     // Global functions.
     window.highlightDisplayer = {display: funcs.display, hide: funcs.hide};
