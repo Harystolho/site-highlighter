@@ -131,7 +131,6 @@ window.Highlight = (() => {
 
     //TODO add options to change bg color
     //TODO don't show this if the displayer is open
-    //TODO close if displayer is opened
     /**
      * @param msg
      * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
@@ -143,12 +142,16 @@ window.Highlight = (() => {
             notification.innerHTML = msg;
             notification.style.display = "block";
 
-            if (duration > 0)
+            if (duration >= 0)
                 setTimeout(() => {
-                    document.querySelector("#highlightNotification").style.display = "none";
+                    funcs.hideNotificationModal();
                 }, duration);
         }
     }
+
+    funcs.hideNotificationModal = () =>{
+        document.querySelector("#highlightNotification").style.display = "none";
+    };
 
     /**
      * Shows or hides the modal that is used to highlight content
@@ -642,6 +645,8 @@ let HighlightDisplayer = (() => {
 
     funcs.display = () => {
         createDisplayer();
+
+        Highlight.hideNotificationModal();
 
         // Remove existing highlights
         document.querySelectorAll('.hl-highlight').forEach(node => node.remove());
