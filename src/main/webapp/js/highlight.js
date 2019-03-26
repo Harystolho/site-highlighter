@@ -84,6 +84,7 @@ window.Highlight = (() => {
         let div = document.createElement('div');
         div.id = 'hlContainer';
 
+        Logger.log("Insert base node element");
         document.body.appendChild(div);
     }
 
@@ -93,7 +94,7 @@ window.Highlight = (() => {
     function loadModal() {
         if (document.getElementById("highlightModal") === null) {
             Logger.log("Insert Highlight Modal");
-            document.body.innerHTML += templates.modalDiv;
+            appendToBase(templates.modalDiv);
         }
     }
 
@@ -103,7 +104,7 @@ window.Highlight = (() => {
      */
     function loadNotificationModal() {
         if (document.getElementById("highlightNotification") === null)
-            document.body.innerHTML += templates.notificationDiv;
+            appendToBase(templates.notificationDiv);
     }
 
     /**
@@ -129,6 +130,7 @@ window.Highlight = (() => {
     }
 
     //TODO add options to change bg color
+    //TODO don't show this if the displayer is open
     /**
      * @param msg
      * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
@@ -288,7 +290,6 @@ window.Highlight = (() => {
     let userMode = guestMode;
 
     function afterSaveSelection(selectedText) {
-        console.log(selectedText);
         showNotificationModal();
         highlightSelectionInPage();
         HighlightDisplayer.addHighlight(HighlightDisplayer.createHighlight(selectedText));
@@ -326,7 +327,7 @@ window.Highlight = (() => {
     }
 
     function loadCustomSaveModal() {
-        document.body.innerHTML += templates.customSaveDiv;
+        appendToBase(templates.customSaveDiv);
     }
 
     function saveSelectionUsingShortcut() {
@@ -428,12 +429,12 @@ window.Highlight = (() => {
     }
 
     function showNotLoadedNotification() {
-        document.body.innerHTML += templates.notLoadedNotification;
+        appendToBase(templates.notLoadedNotification);
     }
 
     function showAuthenticateModal() {
         if (document.getElementById("highlight-authenticateModal") === null)
-            document.body.innerHTML += templates.authenticateModal;
+            appendToBase(templates.authenticateModal);
     }
 
     //TODO show last used document first in custom save modal
@@ -626,6 +627,10 @@ window.Highlight = (() => {
     return funcs;
 })();
 
+function appendToBase(node) {
+    document.getElementById('hlContainer').innerHTML += node;
+}
+
 /**
  * Manages the container that displays the highlights made in the current page
  */
@@ -650,7 +655,7 @@ let HighlightDisplayer = (() => {
      */
     function createDisplayer() {
         if (document.getElementById('highlight-displayer') === null)
-            document.body.innerHTML += templates.displayer;
+            appendToBase(templates.displayer);
     }
 
     funcs.hide = () => {
