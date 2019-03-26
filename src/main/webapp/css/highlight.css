@@ -214,6 +214,7 @@
     border-radius: 7px 0 0 7px;
     padding-left: 8px;
     z-index: 1030;
+    display: none;
 }
 
 #hl-displayerList {
@@ -222,7 +223,8 @@
 }
 
 .hl-highlight {
-    margin: 7px 0;
+    padding: 10px 0;
+    color: #000;
 }
 
 #hl-displayer-header {
@@ -230,4 +232,5 @@
     font-weight: bold;
     color: gray;
     display: inline-block;
+    font-size: larger;
 }

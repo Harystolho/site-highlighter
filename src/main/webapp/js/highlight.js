@@ -619,18 +619,26 @@ window.Highlight = (() => {
 let HighlightDisplayer = (() => {
     let funcs = {};
 
-    let highlights = [new HighlightObj("No value.No connection.No nurture.No furthering of the relationship."), new HighlightObj("aving a ton of potential connection on the table by not making the emails themselves valuable.Essentially, only the people who clicke")];
+    let highlights = [];
 
     funcs.display = () => {
-        if (document.getElementById('highlight-displayer') === null) {
-            document.body.innerHTML += templates.displayer;
-        } else {
-            // Remove existing highlights
-            document.querySelectorAll('.hl-highlight').forEach(node => node.remove());
-        }
+        createDisplayer();
+
+        // Remove existing highlights
+        document.querySelectorAll('.hl-highlight').forEach(node => node.remove());
+
+        document.getElementById('highlight-displayer').style.display = "block";
 
         highlights.forEach(hl => displayHighlight(hl));
     };
+
+    /**
+     * Adds the {@Link templates.highlightDisplayer} to the DOM if it doesn't exist, but doesn't display it
+     */
+    function createDisplayer() {
+        if (document.getElementById('highlight-displayer') === null)
+            document.body.innerHTML += templates.displayer;
+    }
 
     funcs.hide = () => {
         document.getElementById('highlight-displayer').remove();
@@ -649,14 +657,9 @@ let HighlightDisplayer = (() => {
      * @param hl [@Link HighlightObj}
      */
     function displayHighlight(hl) {
-        let list = document.getElementById('hl-displayerList');
+        createDisplayer();
 
-        if (list === null) {
-            funcs.display();
-        } else {
-            list.innerHTML += templates.displayerHighlight(hl.content);
-        }
-
+        document.getElementById('hl-displayerList').innerHTML += templates.displayerHighlight(hl.content);
     }
 
     /**
@@ -670,11 +673,12 @@ let HighlightDisplayer = (() => {
         return new HighlightObj(formattedContent);
     };
 
-    // Global functions.
+// Global functions.
     window.highlightDisplayer = {display: funcs.display, hide: funcs.hide};
 
     return funcs;
-})();
+})
+();
 
 /**
  * Object to represent a highlight, this is created when the user highlights something using the highlight modal

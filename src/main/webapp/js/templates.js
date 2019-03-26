@@ -105,7 +105,7 @@ let displayer = `
             <!--Highlights go here-->
         </div>
         <div>
-            <a>See all your Highlights -></a>
+            <a href="${highlightHost}/dashboard" target="_blank">See all your Highlights -></a>
         </div>
     </div>`;
 
