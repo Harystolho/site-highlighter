@@ -67,12 +67,25 @@ window.Highlight = (() => {
      * Loads the Highlight script
      */
     funcs.load = () => {
+        createBaseNode();
+
         loadModal();
 
         loadNotificationModal();
 
         checkModalLoaded();
     };
+
+    /**
+     * Creates a div in the <body> element that is used as a container to add other nodes used by this script. This avoids
+     * cluttering the <body> element.
+     */
+    function createBaseNode() {
+        let div = document.createElement('div');
+        div.id = 'hlContainer';
+
+        document.body.appendChild(div);
+    }
 
     /**
      * Adds the modal div to the DOM
