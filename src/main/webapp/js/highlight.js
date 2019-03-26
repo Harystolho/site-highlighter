@@ -131,6 +131,7 @@ window.Highlight = (() => {
 
     //TODO add options to change bg color
     //TODO don't show this if the displayer is open
+    //TODO close if displayer is opened
     /**
      * @param msg
      * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
@@ -695,8 +696,7 @@ let HighlightDisplayer = (() => {
     window.highlightDisplayer = {display: funcs.display, hide: funcs.hide};
 
     return funcs;
-})
-();
+})();
 
 /**
  * Object to represent a highlight, this is created when the user highlights something using the highlight modal

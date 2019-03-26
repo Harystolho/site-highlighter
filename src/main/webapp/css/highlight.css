@@ -231,6 +231,26 @@
     font-variant: small-caps;
     font-weight: bold;
     color: gray;
-    display: inline-block;
+    margin: 0;
     font-size: larger;
+}
+
+.hl-close-icon{
+    display: flex;
+    cursor: pointer;
+}
+
+.hl-close-icon.displayer{
+    margin-right: 9px;
+    color: #a2a2a2;
+}
+
+.hl-close-icon::before{
+    content: "|";
+    transform: rotateZ(45deg) translateY(-4px) translateX(4px);
+}
+
+.hl-close-icon::after{
+    content: "|";
+    transform: rotateZ(-45deg);
 }
