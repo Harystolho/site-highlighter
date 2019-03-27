@@ -2,7 +2,6 @@
  How z-index is used: https://getbootstrap.com/docs/4.1/layout/overview/#z-index
 */
 
-
 #highlightModal::before, #highlightModal::after {
     content: "";
     position: absolute;
@@ -212,19 +211,21 @@
     background-color: #fff;
     box-shadow: 0 0 5px #00000080;
     border-radius: 7px 0 0 7px;
-    padding-left: 8px;
     z-index: 1030;
     display: none;
 }
 
 #hl-displayerList {
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 75vh;
 }
 
 .hl-highlight {
-    padding: 10px 0;
+    margin: 12px 6px;
     color: #000;
+    box-shadow: 0 0 6px 2px #93939370;
+    border-radius: 4px;
+    padding: 3px;
 }
 
 #hl-displayer-header {
@@ -235,22 +236,22 @@
     font-size: larger;
 }
 
-.hl-close-icon{
+.hl-close-icon {
     display: flex;
     cursor: pointer;
 }
 
-.hl-close-icon.displayer{
+.hl-close-icon.displayer {
     margin-right: 9px;
     color: #a2a2a2;
 }
 
-.hl-close-icon::before{
+.hl-close-icon::before {
     content: "|";
     transform: rotateZ(45deg) translateY(-4px) translateX(4px);
 }
 
-.hl-close-icon::after{
+.hl-close-icon::after {
     content: "|";
     transform: rotateZ(-45deg);
 }

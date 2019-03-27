@@ -309,7 +309,7 @@ window.Highlight = (() => {
             // This feature doesn't work for guests
         },
         openCustomSaveModal() {
-            showNotificationModal("This feature doesn't work for guest accounts", 4000);
+            showNotificationModal("This feature doesn't work for guest accounts", 4000, {type: NotificationType.ERROR});
         }
     };
 

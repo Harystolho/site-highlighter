@@ -97,7 +97,7 @@ let authenticateModal =
 
 let displayer = `
     <div id="highlight-displayer">
-        <div style="display: flex;justify-content: space-between;">
+        <div style="display: flex;justify-content: space-between; margin-left: 7px;">
             <h5 id="hl-displayer-header">Highlights</h5>
             <div class="hl-close-icon displayer" onclick="highlightDisplayer.hide()"></div>
         </div>
