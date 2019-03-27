@@ -72,6 +72,10 @@
     flex-direction: column;
 }
 
+#highlightCustomSave{
+    z-index: 1030;
+}
+
 #customSaveContent {
     border: dashed 2px #0003;
     padding: 2px;

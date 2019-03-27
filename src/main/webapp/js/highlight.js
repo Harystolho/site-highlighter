@@ -74,12 +74,10 @@ window.Highlight = (() => {
      */
     funcs.load = () => {
         createBaseNode();
-
         loadModal();
-
         loadNotificationModal();
-
         checkModalLoaded();
+        loadUserMode();
     };
 
     /**
@@ -163,9 +161,8 @@ window.Highlight = (() => {
                 let modal = document.getElementById("highlight-displayer");
 
                 if (modal !== null)
-                    if (modal.style.display !== 'none')
+                    if (modal.style.display !== 'none' && modal.style.display !== '')
                         return false;
-
             }
 
             return true;
@@ -232,18 +229,6 @@ window.Highlight = (() => {
 
         return lowest;
     }
-
-    /**
-     * Checks if the user is authenticated before calling the [func]
-     * @param func
-     */
-    funcs.withAuthentication = (func) => {
-        if (getAuthToken() === null) { // User is not authenticated
-            showAuthenticateModal();
-        } else {
-            func();
-        }
-    };
 
     let accountMode = {
         saveSelection(selectedText) {
@@ -334,7 +319,7 @@ window.Highlight = (() => {
         if (isUserModeUndefined())
             return;
 
-        userMode.saveSelection(saveCustomModalText());
+        userMode.saveSelection(userMode.saveCustomModalText());
     };
 
     /**
@@ -641,6 +626,17 @@ window.Highlight = (() => {
         });
     };
 
+    /**
+     * If the local storage has they authentication token this means the user is using an account
+     */
+    function loadUserMode() {
+        if (getAuthToken() !== null) {
+            // TODO check if token has not expired
+            // if(isTokenValid(getAuthToken()))
+            userMode = accountMode;
+        }
+    }
+
     function isUserModeUndefined() {
         if (userMode === undefined)
             showAuthenticateModal();
@@ -648,7 +644,7 @@ window.Highlight = (() => {
         return userMode === undefined;
     }
 
-    if(DEVELOPMENT){ // Change variables used in development
+    if (DEVELOPMENT) { // Change variables used in development
 
     }
 

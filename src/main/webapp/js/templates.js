@@ -104,7 +104,7 @@ let displayer = `
         <div id="hl-displayerList">
             <!--Highlights go here-->
         </div>
-        <div>
+        <div style="margin-left: 7px">
             <a href="${highlightHost}/dashboard" target="_blank">See all your Highlights -></a>
         </div>
     </div>`;
