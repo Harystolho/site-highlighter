@@ -361,6 +361,7 @@ window.Highlight = (() => {
             cb(response.status);
         }).catch((error) => {
             if (error.response) {
+                Logger.log("Show authentication modal because /api/v1/save returned 401");
                 showAuthenticateModal();
             }
         });
@@ -385,6 +386,7 @@ window.Highlight = (() => {
             cb(response.status);
         }).catch((error) => {
             if (error.response) {
+                Logger.log("Show authentication modal because /api/v1/save returned 401");
                 showAuthenticateModal();
             }
         });
@@ -494,6 +496,7 @@ window.Highlight = (() => {
             cb(response);
         }).catch((error) => {
             if (error.response) {
+                Logger.log("Show authentication modal because /api/v1/document/status returned 401");
                 showAuthenticateModal();
             }
         });
