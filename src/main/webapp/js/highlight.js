@@ -12,7 +12,7 @@ window.Highlight = (() => {
     let funcs = {};
 
     let finalPos = {x: 0, y: 0};
-    let savedHighlightMsg = `Saved Highlight!<br><div id="savedHighlightMsg" onclick="highlightDisplayer.display()">View my Highlights</div>`;
+    let savedHighlightMsg = `Highlight Saved!<br><div id="savedHighlightMsg" onclick="highlightDisplayer.display()">View my Highlights</div>`;
 
     let options = {
         on: true, /*If true, show highlight modal when something is selected*/
@@ -38,7 +38,12 @@ window.Highlight = (() => {
      * GUEST: Used when the user chooses to user the Highlight script as a guest, the highlights are stored in
      *  the local browser. {@link guestMode}
      */
-    //let userMode = undefined;
+        //let userMode = undefined;
+
+    const NotificationType = Object.freeze({
+            ERROR: "ERROR", // Show notification above other modals
+            INFO: "INFO" // Don't show notification if a modal is already open
+        });
 
     window.addEventListener('message', (event) => {
         if (event.origin === window.location.origin && event.data === 'highlight.load') {
@@ -130,14 +135,18 @@ window.Highlight = (() => {
     }
 
     //TODO add options to change bg color
-    //TODO don't show this if the displayer is open
     /**
      * @param msg
      * @param duration {int} if the {duration} is smaller than 0 ms the modal won't get closed
+     * @param options {Object} {@Link NotificationType} If the type is NotificationType.INFO and the highlight-displayer
+     * is visible, the notification modal won't get shown
+     *
      */
-    function showNotificationModal(msg = savedHighlightMsg, duration = 3000) {
-        let notification = document.querySelector("#highlightNotification");
+    function showNotificationModal(msg = savedHighlightMsg, duration = 3000, options = {type: NotificationType.INFO}) {
+        if(!showModal(options.type))
+            return;
 
+        let notification = document.querySelector("#highlightNotification");
         if (notification !== null) {
             notification.innerHTML = msg;
             notification.style.display = "block";
@@ -147,9 +156,22 @@ window.Highlight = (() => {
                     funcs.hideNotificationModal();
                 }, duration);
         }
+
+        function showModal(type) {
+            if (type !== NotificationType.ERROR) {
+                let modal = document.getElementById("highlight-displayer");
+
+                if (modal !== null)
+                    if (modal.style.display !== 'none')
+                        return false;
+
+            }
+
+            return true;
+        }
     }
 
-    funcs.hideNotificationModal = () =>{
+    funcs.hideNotificationModal = () => {
         document.querySelector("#highlightNotification").style.display = "none";
     };
 
