@@ -649,7 +649,7 @@ window.Highlight = (() => {
     }
 
     if(DEVELOPMENT){ // Change variables used in development
-        
+
     }
 
     return funcs;
