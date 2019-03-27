@@ -7,6 +7,7 @@ import * as templates from './templates';
 import {highlightHost} from './templates';
 
 let Logger = new LoggerClass();
+let DEVELOPMENT = false;
 
 window.Highlight = (() => {
     let funcs = {};
@@ -38,12 +39,12 @@ window.Highlight = (() => {
      * GUEST: Used when the user chooses to user the Highlight script as a guest, the highlights are stored in
      *  the local browser. {@link guestMode}
      */
-        //let userMode = undefined;
+    let userMode = undefined;
 
     const NotificationType = Object.freeze({
-            ERROR: "ERROR", // Show notification above other modals
-            INFO: "INFO" // Don't show notification if a modal is already open
-        });
+        ERROR: "ERROR", // Show notification above other modals
+        INFO: "INFO" // Don't show notification if a modal is already open
+    });
 
     window.addEventListener('message', (event) => {
         if (event.origin === window.location.origin && event.data === 'highlight.load') {
@@ -143,7 +144,7 @@ window.Highlight = (() => {
      *
      */
     function showNotificationModal(msg = savedHighlightMsg, duration = 3000, options = {type: NotificationType.INFO}) {
-        if(!showModal(options.type))
+        if (!showModal(options.type))
             return;
 
         let notification = document.querySelector("#highlightNotification");
@@ -312,8 +313,6 @@ window.Highlight = (() => {
             showNotificationModal("This feature doesn't work for guest accounts", 4000, {type: NotificationType.ERROR});
         }
     };
-
-    let userMode = guestMode;
 
     function afterSaveSelection(selectedText) {
         showNotificationModal();
@@ -649,6 +648,9 @@ window.Highlight = (() => {
         return userMode === undefined;
     }
 
+    if(DEVELOPMENT){ // Change variables used in development
+        
+    }
 
     return funcs;
 })();
