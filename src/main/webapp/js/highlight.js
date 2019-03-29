@@ -6,7 +6,7 @@ import * as templates from './templates';
 
 let highlightHost = templates.highlightHost;
 let Logger = new common.Logger();
-let DEVELOPMENT = false;
+let DEVELOPMENT = true;
 
 window.Highlight = (() => {
     let funcs = {};
