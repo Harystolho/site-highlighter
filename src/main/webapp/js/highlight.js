@@ -1,12 +1,11 @@
 import '../css/highlight.css';
 
 import * as common from "./common";
-import {Logger as LoggerClass} from "./common";
 import * as axios from 'axios';
 import * as templates from './templates';
-import {highlightHost} from './templates';
 
-let Logger = new LoggerClass();
+let highlightHost = templates.highlightHost;
+let Logger = new common.Logger();
 let DEVELOPMENT = false;
 
 window.Highlight = (() => {
@@ -485,7 +484,6 @@ window.Highlight = (() => {
     };
 
     /**
-     *
      * @param status {DOCUMENT_STATUS|String}
      * @param cb
      */

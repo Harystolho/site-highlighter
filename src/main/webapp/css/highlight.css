@@ -217,6 +217,7 @@
     border-radius: 7px 0 0 7px;
     z-index: 1030;
     display: none;
+    overflow-x: hidden;
 }
 
 #hl-displayerList {
@@ -238,6 +239,7 @@
     color: gray;
     margin: 0;
     font-size: larger;
+    line-height: normal;
 }
 
 .hl-close-icon {
