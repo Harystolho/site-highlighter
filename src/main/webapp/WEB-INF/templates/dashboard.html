@@ -24,13 +24,14 @@
         <div id="documentLibrary" class="generalLibrary">
             <div style="position: relative;">
                 <h1 id="documentLibraryTitle">Documents</h1>
-                <img id="documentLibrary_addNewDocument" src="/icons/new-document.png" onclick="Dashboard.createNewDocument()">
+                <img id="documentLibrary_addNewDocument" src="/icons/new-document.png"
+                     onclick="Dashboard.createNewDocument()">
             </div>
             <!--TODO add the scroll to this div-->
             <div id="documentLibraryList">
-				<h1>Think bofore writting code</h1>
-				<h1>Blink eyes, Fix posture</h1>
-			</div>
+                <h1>Think bofore writting code</h1>
+                <h1>Blink eyes, Fix posture</h1>
+            </div>
         </div>
         <div id="tagLibrary" class="generalLibrary" style="display:none;">
             <h1 id="tagLibraryTitle">Tags</h1>
@@ -49,6 +50,9 @@
                      onclick="Dashboard.switchDocumentGoldStatus()">
                 <img class="content-toolbar-item" src="/icons/trash.png"
                      onclick="Dashboard.deleteDocument()">
+                <div id="tagContainer" onclick="Dashboard.tagEditor.showTagEditor()">
+                    <input id="tagsInput" onkeydown="Dashboard.tagEditor.onkeydown(event)" placeholder="Type space to separate tags">
+                </div>
             </div>
             <div id="tempStatusMsg"></div>
         </div>

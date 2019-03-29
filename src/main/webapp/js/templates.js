@@ -117,6 +117,10 @@ let displayerHighlight = (content) => {
     `;
 };
 
+let tag = (text) =>{
+    return `<div class="document-tag">${text}</div>`;
+};
+
 export {
     modalDiv,
     notificationDiv,
@@ -127,5 +131,6 @@ export {
     confirmModal,
     authenticateModal,
     displayer,
-    displayerHighlight
+    displayerHighlight,
+    tag
 }

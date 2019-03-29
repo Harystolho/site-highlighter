@@ -1,5 +1,7 @@
 package com.harystolho.sitehighlighter.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 import com.harystolho.sitehighlighter.utils.DocumentStatus;
@@ -18,6 +20,8 @@ public class Document {
 
 	private DocumentStatus status = DocumentStatus.WOOD;
 
+	private List<DocumentTag> tags;
+	
 	public Document(String title, String owner, String path) {
 		this.title = title;
 		this.owner = owner;

@@ -5,6 +5,8 @@ import * as templates from './templates';
 import '../css/bootstrap.min.css'
 import '../css/common.css'
 
+const ENTER_KEY_CODE = 13;
+
 window.Dashboard = (() => {
     let funcs = {};
 
@@ -160,6 +162,64 @@ window.Dashboard = (() => {
         });
 
         document.cookie = finalCookie;
+    };
+
+    funcs.tagEditor = {
+        onkeydown(event) {
+            if (event.keyCode === ENTER_KEY_CODE) {
+                this.createTagsFromInput();
+            }
+        },
+        /**
+         * Creates tags and displays them
+         */
+        createTagsFromInput() {
+            let input = document.getElementById("tagsInput");
+
+            if (!this.verifyInput(input.value)) {
+                return; // TODO
+            }
+
+            let tags = input.value.split(" ");
+
+            this.displayTagsInToolbar(tags);
+            document.getElementById("tagsInput").style.display = 'none';
+        },
+        /**
+         *
+         * @param value
+         * @return {Boolean} 'true' if the value is valid, false otherwise
+         */
+        verifyInput(value) {
+            return value.trim().length > 2;
+        },
+        /**
+         * @param tags {Array}
+         * ToolBar = div with id 'contentToolbar'
+         */
+        displayTagsInToolbar(tags) {
+            tags.forEach((tag) => {
+                document.getElementById("tagContainer").innerHTML += templates.tag(tag);
+            });
+        },
+        showTagEditor(){
+            let input = document.getElementById("tagsInput");
+
+            if(input.style.display === 'none'){ // The tag input is hidden
+                input.style.display = 'block';
+
+                let tags = document.querySelectorAll('.document-tag');
+                let tagNames = [];
+
+                tags.forEach((tag)=>{
+                    tagNames.push(tag.innerHTML);
+
+                    tag.remove();
+                });
+
+                input.value = tagNames.join(" ");
+            }
+        }
     };
 
     return funcs;

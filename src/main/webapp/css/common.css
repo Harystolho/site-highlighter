@@ -263,3 +263,30 @@ body {
     top: 30%;
 }
 
+#tagsInput {
+    height: 28px;
+    align-self: end;
+    border: none;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 5px #0000003b;
+    margin-bottom: 3px;
+    padding: 0 7px;
+}
+
+.document-tag{
+    margin: 0px 2px;
+    background-color: #0070ff;
+    padding: 0px 8px;
+    border-radius: 7px;
+    height: min-content;
+    color: white;
+    font-variant: small-caps;
+    font-family: Raleway, serif;
+}
+
+#tagContainer{
+    align-self: end;
+    display: flex;
+    height: 28px;
+}
