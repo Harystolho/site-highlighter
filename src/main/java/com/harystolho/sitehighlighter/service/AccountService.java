@@ -1,11 +1,9 @@
 package com.harystolho.sitehighlighter.service;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;

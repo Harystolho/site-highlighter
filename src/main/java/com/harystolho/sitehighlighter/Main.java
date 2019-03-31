@@ -15,6 +15,8 @@ public class Main {
 	}
 }
 
+//TODO if when user go to /auth to authenticate the cookie is valid return a token
+
 //TODO change document's name
 
 //TODO options - add option to choose modal z-index

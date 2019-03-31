@@ -48,7 +48,8 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 	@Override
 	public List<Document> getDocumentsByUser(String accountId) {
-		return mongoOperations.findAll(Document.class);
+		Query query = Query.query(Criteria.where("owner").is(accountId));
+		return mongoOperations.find(query, Document.class);
 	}
 
 	@Override

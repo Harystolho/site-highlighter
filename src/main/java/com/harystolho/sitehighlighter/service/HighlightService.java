@@ -30,13 +30,13 @@ public class HighlightService {
 
 		path = removeSlashAtTheEndOfPath(path);
 
-		Document document = documentDao.getDocumentByPath("123", path);
+		Document document = documentDao.getDocumentByPath(accountId, path);
 
 		if (document == null) {
-			document = documentDao.createDocument("123", title, path);
+			document = documentDao.createDocument(accountId, title, path);
 		}
 
-		documentDao.addHighlightToDocument("123", document.getId(), new Highlight(text, path, title));
+		documentDao.addHighlightToDocument(accountId, document.getId(), new Highlight(text, path, title));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
@@ -47,7 +47,7 @@ public class HighlightService {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
 
-		documentDao.addHighlightToDocument("123", docId, new Highlight(text, "", ""));
+		documentDao.addHighlightToDocument(accountId, docId, new Highlight(text, "", ""));
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}

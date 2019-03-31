@@ -231,6 +231,8 @@
     box-shadow: 0 0 6px 2px #93939370;
     border-radius: 4px;
     padding: 3px;
+    font-size: 17px;
+    line-height: 1;
 }
 
 #hl-displayer-header {

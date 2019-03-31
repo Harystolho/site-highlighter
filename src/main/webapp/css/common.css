@@ -89,6 +89,7 @@ body {
     height: 66px;
     display: flex;
     align-items: end;
+    background-color: #f5fcff;
 }
 
 .content-toolbar-item {
@@ -342,4 +343,5 @@ body {
 .tagLibrary--doc{
     padding: 4px;
     font-size: 18px;
+    cursor: pointer;
 }

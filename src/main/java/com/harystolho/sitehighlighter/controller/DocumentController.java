@@ -3,8 +3,6 @@ package com.harystolho.sitehighlighter.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,7 +85,7 @@ public class DocumentController {
 	@GetMapping("/api/v1/documents/status/{status}")
 	public ResponseEntity<Object> getDocumentsByStatus(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String status) {
-		ServiceResponse<ArrayNode> response = documentService.getDocumentsByStatus("123", status);
+		ServiceResponse<ArrayNode> response = documentService.getDocumentsByStatus(accountId, status);
 
 		switch (response.getStatus()) {
 		case FAIL:
