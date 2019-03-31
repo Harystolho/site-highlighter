@@ -88,6 +88,7 @@ body {
     border-bottom: solid 1px #9e9e9e;
     height: 66px;
     display: flex;
+    align-items: end;
     background-color: #f5fcff;
 }
 
@@ -266,12 +267,17 @@ body {
 #tagsInput {
     height: 28px;
     align-self: end;
-    border: none;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 0 5px #0000003b;
+    border: solid 1px transparent;
+    border-radius: 4px;
     margin-bottom: 3px;
     padding: 0 7px;
+    background-color: transparent;
+    text-align: end;
+}
+
+#tagsInput:focus {
+    background-color: #fcfcfc;
+    border: solid 1px #beebff;
 }
 
 .document-tag{

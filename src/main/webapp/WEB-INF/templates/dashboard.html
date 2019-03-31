@@ -42,16 +42,22 @@
     <div id="contentContainer">
         <div id="contentToolbarContainer">
             <div id="contentToolbar">
-                <img class="content-toolbar-item" src="/icons/bold.png" onclick="ContentEditor.boldSelection()">
-                <img class="content-toolbar-item" src="/icons/color.png" onclick="ContentEditor.changeSelectionColor()">
-                <img class="content-toolbar-item" src="/icons/remove-formatting.png"
-                     onclick="ContentEditor.removeSelectionFormatting()">
-                <img id="documentGoldStar" class="content-toolbar-item" src="/icons/star.png"
-                     onclick="Dashboard.switchDocumentGoldStatus()">
-                <img class="content-toolbar-item" src="/icons/trash.png"
-                     onclick="Dashboard.deleteDocument()">
-                <div id="tagContainer" onclick="Dashboard.tagEditor.showTagEditor()"> <!--TODO don't show ::before in tags-->
-                    <input id="tagsInput" onkeydown="Dashboard.tagEditor.onkeydown(event)">
+                <div style="flex-grow: 1;">
+                    <img class="content-toolbar-item" src="/icons/bold.png" onclick="ContentEditor.boldSelection()">
+                    <img class="content-toolbar-item" src="/icons/color.png"
+                         onclick="ContentEditor.changeSelectionColor()">
+                    <img class="content-toolbar-item" src="/icons/remove-formatting.png"
+                         onclick="ContentEditor.removeSelectionFormatting()">
+                    <img id="documentGoldStar" class="content-toolbar-item" src="/icons/star.png"
+                         onclick="Dashboard.switchDocumentGoldStatus()">
+                    <img class="content-toolbar-item" src="/icons/trash.png"
+                         onclick="Dashboard.deleteDocument()">
+                </div>
+                <div>
+                    <div id="tagContainer" onclick="Dashboard.tagEditor.showTagEditor()">
+                        <!--TODO don't show ::before in tags-->
+                        <input id="tagsInput" onkeydown="Dashboard.tagEditor.onkeydown(event)" placeholder="Tags">
+                    </div>
                 </div>
             </div>
             <div id="tempStatusMsg"></div>
