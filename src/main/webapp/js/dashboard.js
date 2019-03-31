@@ -207,7 +207,7 @@ window.Dashboard = (() => {
          * @return {Boolean} 'true' if the value is valid, false otherwise
          */
         verifyInput(value) {
-            if(value.match(/[.,"]/g) !== null)
+            if (value.match(/[.,"]/g) !== null)
                 return false; // TODO show invalid input
 
             return value.trim().length > 2;
@@ -217,6 +217,9 @@ window.Dashboard = (() => {
          * ToolBar = div with id 'contentToolbar'
          */
         displayTagsInToolbar(tags) {
+            if (tags === null)
+                return;
+
             tags.forEach((tag) => {
                 document.getElementById("tagContainer").innerHTML += templates.tag(tag);
             });
@@ -238,6 +241,10 @@ window.Dashboard = (() => {
 
                 input.value = tagNames.join(" ");
             }
+        },
+        reset() {
+            document.querySelectorAll('.document-tag').forEach(tag => tag.remove());
+            document.getElementById("tagsInput").style.display = "none";
         }
     };
 
@@ -305,10 +312,13 @@ window.ContentEditor = (() => {
             let data = JSON.parse(response).data;
 
             resetDocumentOptions(id);
+            Dashboard.tagEditor.reset();
 
             options.setStatus(data.status);
 
             document.querySelector("#content").innerHTML = data.highlights;
+
+            Dashboard.tagEditor.displayTagsInToolbar(data.tags);
         });
     };
 

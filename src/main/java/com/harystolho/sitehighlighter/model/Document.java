@@ -21,7 +21,7 @@ public class Document {
 	private DocumentStatus status = DocumentStatus.WOOD;
 
 	private List<String> tags;
-	
+
 	public Document(String title, String owner, String path) {
 		this.title = title;
 		this.owner = owner;
@@ -81,4 +81,11 @@ public class Document {
 		this.owner = owner;
 	}
 
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
 }
