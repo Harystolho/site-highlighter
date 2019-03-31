@@ -20,6 +20,8 @@ window.Dashboard = (() => {
 
     window.onload = () => {
         requestDocuments();
+
+        funcs.tagEditor.reset();
     };
 
     /**
@@ -174,7 +176,7 @@ window.Dashboard = (() => {
          * Creates tags and displays them
          */
         createTagsFromInput() {
-            let input = document.getElementById("tagsInput");
+            let input = $id("tagsInput");
 
             if (!this.verifyInput(input.value)) {
                 return; // TODO
@@ -220,20 +222,19 @@ window.Dashboard = (() => {
         displayTagsInToolbar(tags) {
             if (tags === null || tags.length === 0) {
                 this.showTagEditor();
-
             } else {
-                document.getElementById("tagsInput").style.display = 'none'; // Hide tag input
+                $hide($id("tagsInput"));
 
                 tags.forEach((tag) => {
-                    document.getElementById("tagContainer").innerHTML += templates.tag(tag);
+                    $id("tagContainer").innerHTML += templates.tag(tag);
                 });
             }
         },
         showTagEditor() {
-            let input = document.getElementById("tagsInput");
+            let input = $id("tagsInput");
 
             if (input.style.display === 'none') { // The tag input is hidden
-                input.style.display = 'block';
+                $show(input);
 
                 let tags = document.querySelectorAll('.document-tag');
                 let tagNames = [];
@@ -249,7 +250,7 @@ window.Dashboard = (() => {
         },
         reset() {
             document.querySelectorAll('.document-tag').forEach(tag => tag.remove());
-            document.getElementById("tagsInput").style.display = "none";
+            $hide($id("tagsInput"));
         }
     };
 
@@ -471,22 +472,32 @@ function httpPost(url, body, cb) {
     xhttp.send(body);
 }
 
-// Helper functions
-$id = id => document.getElementById(id);
-$class = clazz => document.getElementsByClassName(clazz);
-$selector = sel => document.querySelector(sel);
+let HelperFunctions = (() => {
+    window.$id = (id) => {
+        return document.getElementById(id);
+    };
 
-/**
- * @param el {Element}
- */
-function $hide(el){
-    el.style.display = "none";
-}
+    window.$class = (clazz) => {
+        return document.getElementsByClassName(clazz);
+    };
 
-/**
- * @param el {Element}
- * @param display {String} display type
- */
-function $show(el, display="block"){
-    el.style.display = display;
-}
+    window.$selector = (sel) => {
+        return sel => document.querySelector(sel);
+    };
+
+    /**
+     * @param el {Element}
+     */
+    window.$hide = (el) => {
+        el.style.display = "none";
+    };
+
+    /**
+     * @param el {Element}
+     * @param display {String} display type
+     */
+    window.$show = (el, display = "block") => {
+        el.style.display = display;
+    };
+
+})();
