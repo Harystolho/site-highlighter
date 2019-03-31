@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.service.DocumentService;
 import com.harystolho.sitehighlighter.service.ServiceResponse;
-import com.harystolho.sitehighlighter.utils.API_Response;
 
 @RestController
 public class DocumentController {
@@ -45,7 +44,7 @@ public class DocumentController {
 		}
 	}
 
-	@GetMapping("/api/v1/document/{id}")
+	@GetMapping("/api/v1/documents/{id}")
 	public ResponseEntity<Object> getDocument(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String id) {
 		ServiceResponse<Document> response = documentService.getDocumentById(accountId, id);
@@ -58,66 +57,58 @@ public class DocumentController {
 		}
 	}
 
-	@PostMapping("/api/v1/document/save")
-	public API_Response saveDocument(@RequestAttribute("highlight.accountId") String accountId,
+	@PostMapping("/api/v1/documents/save")
+	public ResponseEntity<Object> saveDocument(@RequestAttribute("highlight.accountId") String accountId,
 			HttpServletRequest req) {
 		ServiceResponse<Object> response = documentService.saveDocument(accountId, req.getParameter("id"),
 				req.getParameter("text"));
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
-	@PostMapping("/api/v1/document/status")
-	public API_Response changeDocumentStatus(@RequestAttribute("highlight.accountId") String accountId,
+	@PostMapping("/api/v1/documents/status")
+	public ResponseEntity<Object> changeDocumentStatus(@RequestAttribute("highlight.accountId") String accountId,
 			@RequestParam("id") String id, @RequestParam("status") String status) {
 		ServiceResponse<Object> response = documentService.changeDocumentStatus(accountId, id, status);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
 	@CrossOrigin()
-	@GetMapping("/api/v1/document/status/{status}")
-	public API_Response getDocumentsByStatus(@RequestAttribute("highlight.accountId") String accountId,
+	@GetMapping("/api/v1/documents/status/{status}")
+	public ResponseEntity<Object> getDocumentsByStatus(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String status) {
 		ServiceResponse<ArrayNode> response = documentService.getDocumentsByStatus("123", status);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
-	@DeleteMapping("/api/v1/document/{id}")
-	public API_Response deleteDocument(@RequestAttribute("highlight.accountId") String accountId,
+	@DeleteMapping("/api/v1/documents/{id}")
+	public ResponseEntity<Object> deleteDocument(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String id) {
 		ServiceResponse<Void> response = documentService.deleteDocument(accountId, id);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
 	@PostMapping("/api/v1/documents/{docId}/tags")

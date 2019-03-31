@@ -488,13 +488,13 @@ window.Highlight = (() => {
      * @param cb
      */
     function getDocumentsThatMatchStatus(status, cb) {
-        axios.get(`${highlightHost}/api/v1/document/status/${status}`, {
+        axios.get(`${highlightHost}/api/v1/documents/status/${status}`, {
             headers: {'Authorization': getAuthToken()}
         }).then((response) => {
             cb(response);
         }).catch((error) => {
             if (error.response) {
-                Logger.log("Show authentication modal because /api/v1/document/status returned 401");
+                Logger.log("Show authentication modal because /api/v1/documents/status returned 401");
                 showAuthenticateModal();
             }
         });

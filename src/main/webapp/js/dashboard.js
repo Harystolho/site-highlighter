@@ -101,13 +101,13 @@ window.Dashboard = (() => {
 
             if (status === 'GOLD') { // Change status to WOOD
                 formData.append("status", 'wood');
-                axios.post('/api/v1/document/status', formData).then((response) => {
+                axios.post('/api/v1/documents/status', formData).then((response) => {
                     $id("documentGoldStar").classList.remove("active");
                     ContentEditor.options.setDocumentStatus('WOOD');
                 });
             } else { // Change status to GOLD
                 formData.append('status', 'gold');
-                axios.post('/api/v1/document/status', formData).then((response) => {
+                axios.post('/api/v1/documents/status', formData).then((response) => {
                     $id("documentGoldStar").classList.add("active");
                     ContentEditor.options.setDocumentStatus('GOLD');
                 });
@@ -122,7 +122,7 @@ window.Dashboard = (() => {
             let title = document.querySelector(`[data-id='${docId}']`).querySelector("span").textContent;
 
             confirmModal.display(`Delete "${title}"?`, () => {
-                axios.delete(`/api/v1/document/${docId}`).then((response) => {
+                axios.delete(`/api/v1/documents/${docId}`).then((response) => {
                     if (response.status === 200) {
                         document.querySelector(`[data-id='${docId}']`).remove();
                         ContentEditor.displayDocumentContent(0);
@@ -386,7 +386,7 @@ window.ContentEditor = (() => {
             funcs.saveDocument();
         }
 
-        axios.get(`/api/v1/document/${id}`).then((response) => {
+        axios.get(`/api/v1/documents/${id}`).then((response) => {
             let data = response.data;
 
             resetDocumentOptions(id);
@@ -426,7 +426,7 @@ window.ContentEditor = (() => {
         formData.append('id', options.currentDocumentId);
         formData.append('text', $id("content").innerHTML);
 
-        axios.post('/api/v1/document/save', formData).then((response) => {
+        axios.post('/api/v1/documents/save', formData).then((response) => {
             let tempStatusMsg = document.querySelector("#tempStatusMsg");
 
             tempStatusMsg.innerHTML = "Saved!";
