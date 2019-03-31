@@ -145,7 +145,7 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(question, cb) {
-            document.body.innerHTML += templates.singleInputModal(question);
+            $id('modalContainer').innerHTML += templates.singleInputModal(question);
 
             Dashboard.functions.singleInputOk = cb;
         },
@@ -162,7 +162,7 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(question, cb) {
-            document.body.innerHTML += templates.confirmModal(question);
+            $id('modalContainer').innerHTML += templates.confirmModal(question);
 
             Dashboard.functions.confirmOk = cb;
         },
