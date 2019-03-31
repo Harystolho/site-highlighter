@@ -182,9 +182,10 @@ window.Dashboard = (() => {
 
             let tags = input.value.toLowerCase().split(" ");
 
+            tags = tags.filter(t => t.length > 0);
+
             this.saveTagsInServer(tags, () => {
                 this.displayTagsInToolbar(tags);
-                document.getElementById("tagsInput").style.display = 'none'; // Hide tag input
             });
         },
         /**
@@ -217,14 +218,16 @@ window.Dashboard = (() => {
          * ToolBar = div with id 'contentToolbar'
          */
         displayTagsInToolbar(tags) {
-            if (tags === null || tags.length === 0){
+            if (tags === null || tags.length === 0) {
                 this.showTagEditor();
-                return;
-            }
 
-            tags.forEach((tag) => {
-                document.getElementById("tagContainer").innerHTML += templates.tag(tag);
-            });
+            } else {
+                document.getElementById("tagsInput").style.display = 'none'; // Hide tag input
+
+                tags.forEach((tag) => {
+                    document.getElementById("tagContainer").innerHTML += templates.tag(tag);
+                });
+            }
         },
         showTagEditor() {
             let input = document.getElementById("tagsInput");
@@ -466,4 +469,24 @@ function httpPost(url, body, cb) {
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send(body);
+}
+
+// Helper functions
+$id = id => document.getElementById(id);
+$class = clazz => document.getElementsByClassName(clazz);
+$selector = sel => document.querySelector(sel);
+
+/**
+ * @param el {Element}
+ */
+function $hide(el){
+    el.style.display = "none";
+}
+
+/**
+ * @param el {Element}
+ * @param display {String} display type
+ */
+function $show(el, display="block"){
+    el.style.display = display;
 }
