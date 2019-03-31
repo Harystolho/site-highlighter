@@ -277,6 +277,7 @@ body {
 #tagsInput:focus {
     background-color: #fcfcfc;
     border: solid 1px #beebff;
+    text-align: left;
 }
 
 .document-tag{
@@ -324,7 +325,7 @@ body {
     padding: 3px 12px;
     background-color: #0070ff;
     border-radius: 7px;
-    margin: 4px 9px;
+    margin: 4px 5px;
     color: white;
     cursor: pointer;
     border: solid 1px transparent;

@@ -45,8 +45,10 @@ window.Dashboard = (() => {
             const list = $id("tagLibraryList");
             const tags = response.data;
 
-            while(list.firstChild)
+            while (list.firstChild)
                 list.removeChild(list.firstChild);
+
+            tags.sort((a, b) => a > b);
 
             tags.forEach((tag) => {
                 list.innerHTML += dash_templates.tagTemplate(tag);
