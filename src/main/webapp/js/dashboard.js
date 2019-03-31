@@ -1,6 +1,7 @@
 import * as common from './common';
 import * as axios from 'axios';
 import * as templates from './templates';
+import * as dash_templates from './dashboard_templates';
 
 import '../css/bootstrap.min.css'
 import '../css/common.css'
@@ -39,6 +40,21 @@ window.Dashboard = (() => {
         });
     }
 
+    function requestTags() {
+        axios.get('/api/v1/documents/tags').then((response) => {
+            const list = $id("tagLibraryList");
+            const tags = response.data;
+
+            while(list.firstChild)
+                list.removeChild(list.firstChild);
+
+            tags.forEach((tag) => {
+                list.innerHTML += dash_templates.tagTemplate(tag);
+            });
+
+        });
+    }
+
     /**
      * @param library {String}
      */
@@ -46,6 +62,14 @@ window.Dashboard = (() => {
         document.querySelectorAll(".generalLibrary").forEach(l => l.style.display = "none");
 
         document.querySelector(library).style.display = "block";
+
+        switch (library) {
+            case funcs.libraries.DOCUMENT:
+                break;
+            case funcs.libraries.TAG:
+                requestTags();
+                break;
+        }
     };
 
     funcs.switchDocumentGoldStatus = () => {

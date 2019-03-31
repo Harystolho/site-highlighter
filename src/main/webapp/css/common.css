@@ -314,3 +314,25 @@ body {
 #tagContainer:hover::before{
     display: block;
 }
+
+#tagLibraryList{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tagLibrary--tag{
+    padding: 3px 12px;
+    background-color: #0070ff;
+    border-radius: 7px;
+    margin: 4px 9px;
+    color: white;
+    cursor: pointer;
+    border: solid 1px transparent;
+    transition: all 0.2s;
+}
+
+.tagLibrary--tag:hover{
+    color: #0070ff;
+    background-color: white;
+    border: solid 1px #0070ff;
+}
