@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -88,6 +89,14 @@ public class DocumentService {
 	public ServiceResponse<Void> deleteDocument(String identifier, String id) {
 		documentDao.deleteDocument("123", id);
 
+		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
+	public ServiceResponse<Object> changeDocumentTags(String accountId, String docId, String tags) {
+		List<String> tagArray = Arrays.asList(tags.split(","));
+		
+		documentDao.updateDocumentTags("123", docId, tagArray);
+		
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 

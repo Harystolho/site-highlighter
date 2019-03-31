@@ -180,10 +180,26 @@ window.Dashboard = (() => {
                 return; // TODO
             }
 
-            let tags = input.value.split(" ");
+            let tags = input.value.toLowerCase().split(" ");
 
-            this.displayTagsInToolbar(tags);
-            document.getElementById("tagsInput").style.display = 'none';
+            this.saveTagsInServer(tags, () => {
+                this.displayTagsInToolbar(tags);
+                document.getElementById("tagsInput").style.display = 'none'; // Hide tag input
+            });
+        },
+        /**
+         * @param tags {Array}
+         * @param cb
+         */
+        saveTagsInServer(tags, cb) {
+            let formData = new FormData();
+            formData.append("tags", tags);
+
+            axios.post(`/api/v1/documents/${ContentEditor.options.currentDocumentId()}/tags`, formData, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then((response) => {
+                cb();
+            });
         },
         /**
          *
@@ -191,6 +207,9 @@ window.Dashboard = (() => {
          * @return {Boolean} 'true' if the value is valid, false otherwise
          */
         verifyInput(value) {
+            if(value.match(/[.,"]/g) !== null)
+                return false; // TODO show invalid input
+
             return value.trim().length > 2;
         },
         /**
@@ -202,16 +221,16 @@ window.Dashboard = (() => {
                 document.getElementById("tagContainer").innerHTML += templates.tag(tag);
             });
         },
-        showTagEditor(){
+        showTagEditor() {
             let input = document.getElementById("tagsInput");
 
-            if(input.style.display === 'none'){ // The tag input is hidden
+            if (input.style.display === 'none') { // The tag input is hidden
                 input.style.display = 'block';
 
                 let tags = document.querySelectorAll('.document-tag');
                 let tagNames = [];
 
-                tags.forEach((tag)=>{
+                tags.forEach((tag) => {
                     tagNames.push(tag.innerHTML);
 
                     tag.remove();

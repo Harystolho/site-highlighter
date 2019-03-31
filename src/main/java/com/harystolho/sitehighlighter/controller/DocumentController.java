@@ -5,12 +5,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -119,5 +122,19 @@ public class DocumentController {
 		}
 
 		return API_Response.of("OK", response.getResponse());
+	}
+
+	@PostMapping("/api/v1/documents/{docId}/tags")
+	public ResponseEntity<Object> changeDocumentTags(@RequestAttribute("highlight.accountId") String accountId,
+			@PathVariable String docId, @RequestParam("tags") String tags) {
+
+		ServiceResponse<Object> response = documentService.changeDocumentTags(accountId, docId, tags);
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		default:
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
 	}
 }

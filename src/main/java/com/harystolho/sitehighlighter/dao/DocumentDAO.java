@@ -35,4 +35,6 @@ public interface DocumentDAO {
 
 	void deleteDocument(String accountId, String docId);
 
+	void updateDocumentTags(String string, String docId, List<String> tagArray);
+
 }

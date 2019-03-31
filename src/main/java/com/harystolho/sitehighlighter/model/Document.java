@@ -20,7 +20,7 @@ public class Document {
 
 	private DocumentStatus status = DocumentStatus.WOOD;
 
-	private List<DocumentTag> tags;
+	private List<String> tags;
 	
 	public Document(String title, String owner, String path) {
 		this.title = title;

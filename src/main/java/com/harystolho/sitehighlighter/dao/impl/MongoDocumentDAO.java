@@ -15,6 +15,7 @@ import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
 import com.harystolho.sitehighlighter.utils.DocumentStatus;
+import com.mongodb.client.result.UpdateResult;
 
 @Service
 public class MongoDocumentDAO implements DocumentDAO {
@@ -106,6 +107,18 @@ public class MongoDocumentDAO implements DocumentDAO {
 		mongoOperations.save(doc, "trash");
 
 		mongoOperations.remove(query, Document.class);
+	}
+
+	@Override
+	public void updateDocumentTags(String accountId, String docId, List<String> tagArray) {
+		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
+
+		Update update = Update.update("tags", tagArray);
+
+		UpdateResult result = mongoOperations.updateFirst(query, update, Document.class);
+
+		if (result.getModifiedCount() == 0)
+			logger.severe(String.format("Can't find doc[%s] to update tags", docId));
 	}
 
 }
