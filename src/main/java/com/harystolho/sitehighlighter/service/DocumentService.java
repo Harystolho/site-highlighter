@@ -2,8 +2,10 @@ package com.harystolho.sitehighlighter.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -107,14 +109,27 @@ public class DocumentService {
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
-	public ServiceResponse<Set<String>> getDocumentsTags(String accountId) {
+	public ServiceResponse<Map<String, List<String>>> getDocumentsTags(String accountId) {
 		List<Document> documents = documentDao.getTagsByAccountId(accountId);
 
-		Set<String> tags = new HashSet<>();
+		// <Tag, List<Document Id>>
+		Map<String, List<String>> tags = new HashMap<>();
 
 		documents.forEach((doc) -> {
-			if (doc.getTags() != null)
-				tags.addAll(doc.getTags());
+			if (doc.getTags() != null) {
+				doc.getTags().forEach((tag) -> {
+					List<String> docIds = tags.get(tag);
+
+					if (docIds == null) {
+						docIds = new ArrayList<>();
+						docIds.add(doc.getId());
+
+						tags.put(tag, docIds);
+					} else {
+						docIds.add(doc.getId());
+					}
+				});
+			}
 		});
 
 		return ServiceResponse.of(tags, ServiceStatus.OK);

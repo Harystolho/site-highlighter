@@ -1,7 +1,7 @@
 package com.harystolho.sitehighlighter.controller;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,17 +34,15 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/documents")
-	public API_Response getDocuments(@RequestAttribute("highlight.accountId") String accountId) {
+	public ResponseEntity<Object> getDocuments(@RequestAttribute("highlight.accountId") String accountId) {
 		ServiceResponse<List<Document>> response = documentService.listDocuments(accountId);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
 	@GetMapping("/api/v1/document/{id}")
@@ -147,7 +145,7 @@ public class DocumentController {
 	public ResponseEntity<Object> getDocumentTagsByAccountId(
 			@RequestAttribute("highlight.accountId") String accountId) {
 
-		ServiceResponse<Set<String>> response = documentService.getDocumentsTags(accountId);
+		ServiceResponse<Map<String, List<String>>> response = documentService.getDocumentsTags(accountId);
 
 		switch (response.getStatus()) {
 		case FAIL:

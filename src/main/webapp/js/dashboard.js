@@ -19,6 +19,18 @@ window.Dashboard = (() => {
     // Object used by the inputModals to call a callback function
     funcs.functions = {};
 
+    /**
+     * {'docId': {Document object returned by the server}, ...}
+     * @type {Object}
+     */
+    let docsMap = new Map();
+
+    /**
+     * {'tag': [Arrays of document's id that contain the tag], ...}
+     * @type {Object}
+     */
+    let tagsMap = undefined;
+
     window.onload = () => {
         requestDocuments();
 
@@ -29,12 +41,16 @@ window.Dashboard = (() => {
      * A {Document} is a file that contains highlights in it.
      */
     function requestDocuments() {
-        httpGet("/api/v1/documents", (data) => {
-            let response = JSON.parse(data);
+        axios.get('/api/v1/documents').then((response) => {
+            let data = response.data;
 
-            let library = document.querySelector("#documentLibraryList");
+            data.forEach((doc) => {
+                docsMap.set(doc.id, doc);
+            });
 
-            response.data.forEach((doc) => {
+            const library = document.querySelector("#documentLibraryList");
+
+            data.forEach((doc) => {
                 library.innerHTML += templates.librarySiteTemplate(doc.title, doc.path, doc.id);
             });
         });
@@ -42,18 +58,18 @@ window.Dashboard = (() => {
 
     function requestTags() {
         axios.get('/api/v1/documents/tags').then((response) => {
-            const list = $id("tagLibraryList");
-            const tags = response.data;
+            tagsMap = response.data;
+            const tags = Object.keys(tagsMap);
 
-            while (list.firstChild)
+            const list = $id("tagLibraryList");
+            while (list.firstChild) // Remove existing tags from tagLibraryList
                 list.removeChild(list.firstChild);
 
-            tags.sort((a, b) => a > b);
+            tags.sort((a, b) => a > b); // Sort alphabetically
 
             tags.forEach((tag) => {
                 list.innerHTML += dash_templates.tagTemplate(tag);
             });
-
         });
     }
 
@@ -278,6 +294,32 @@ window.Dashboard = (() => {
             document.querySelectorAll('.document-tag').forEach(tag => tag.remove());
             $hide($id("tagsInput"));
         }
+    };
+
+    funcs.displayDocumentsByTag = (tag) => {
+        const tagLibraryDocList = $id("tagLibrary--documentList");
+
+        while (tagLibraryDocList.firstChild)
+            tagLibraryDocList.removeChild(tagLibraryDocList.firstChild);
+
+        let docIds = tagsMap[tag];
+
+        docIds.forEach((id) => {
+            let doc = docsMap.get(id);
+            tagLibraryDocList.innerHTML += dash_templates.tagDocumentTemplate(doc.title, doc.id);
+        });
+
+    };
+
+    /**
+     * Used for debugging purposes
+     */
+    funcs.printDebug = () => {
+        console.log("Docs Map:");
+        console.log(docsMap);
+
+        console.log("Tags Map:");
+        console.log(tagsMap);
     };
 
     return funcs;

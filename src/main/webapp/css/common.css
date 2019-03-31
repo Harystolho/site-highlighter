@@ -38,7 +38,7 @@ body {
     padding: 8px 7px;
 }
 
-.library-template-container:hover {
+.library-template-container:hover , .tagLibrary--doc:hover{
     box-shadow: 0 0 5px #4b4b4b66;
     background-color: #0776ff;
     color: white;
@@ -319,6 +319,7 @@ body {
 #tagLibraryList{
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 .tagLibrary--tag{
@@ -336,4 +337,9 @@ body {
     color: #0070ff;
     background-color: white;
     border: solid 1px #0070ff;
+}
+
+.tagLibrary--doc{
+    padding: 4px;
+    font-size: 18px;
 }
