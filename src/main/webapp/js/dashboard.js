@@ -96,19 +96,14 @@ window.Dashboard = (() => {
         let status = ContentEditor.options.documentStatus();
 
         if (docId !== 0) {
+            status === 'GOLD' ? status = 'WOOD' : status = 'GOLD';
+
             let formData = new FormData();
-
-            if (status === 'GOLD') {
-                status = 'WOOD';
-            } else {
-                status = 'GOLD';
-            }
-
             formData.append('status', status);
 
             axios.post(`/api/v1/documents/${docId}/status`, formData).then((response) => {
                     $id("documentGoldStar").classList.remove("active");
-                
+
                     ContentEditor.options.setDocumentStatus(status);
                 }
             );
