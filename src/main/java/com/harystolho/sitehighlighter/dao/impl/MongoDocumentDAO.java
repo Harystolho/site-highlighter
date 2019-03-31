@@ -7,14 +7,17 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.expression.spel.ast.Projection;
 import org.springframework.stereotype.Service;
 
 import com.harystolho.sitehighlighter.dao.DocumentDAO;
 import com.harystolho.sitehighlighter.model.Document;
 import com.harystolho.sitehighlighter.model.Highlight;
 import com.harystolho.sitehighlighter.utils.DocumentStatus;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.UpdateResult;
 
 @Service
@@ -116,6 +119,14 @@ public class MongoDocumentDAO implements DocumentDAO {
 		Update update = Update.update("tags", tagArray);
 
 		mongoOperations.updateFirst(query, update, Document.class);
+	}
+
+	@Override
+	public List<Document> getTagsByAccountId(String accountId) {
+		Query query = Query.query(Criteria.where("owner").is(accountId));
+		query.fields().include("tags");
+
+		return mongoOperations.find(query, Document.class);
 	}
 
 }

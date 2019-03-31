@@ -1,6 +1,7 @@
 package com.harystolho.sitehighlighter.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -135,6 +136,24 @@ public class DocumentController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+	}
+
+	/**
+	 * @param accountId
+	 * @return all the tags from all the documents that belong to the accoundId
+	 */
+	@GetMapping("/api/v1/documents/tags")
+	public ResponseEntity<Object> getDocumentTagsByAccountId(
+			@RequestAttribute("highlight.accountId") String accountId) {
+
+		ServiceResponse<Set<String>> response = documentService.getDocumentsTags(accountId);
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		default:
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
 	}
 }

@@ -37,4 +37,10 @@ public interface DocumentDAO {
 
 	void updateDocumentTags(String string, String docId, List<String> tagArray);
 
+	/**
+	 * @param accountId
+	 * @return All the documents that belong to the accountId with their tags
+	 */
+	List<Document> getTagsByAccountId(String accountId);
+
 }

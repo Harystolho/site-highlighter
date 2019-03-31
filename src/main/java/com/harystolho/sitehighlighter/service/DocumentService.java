@@ -2,8 +2,10 @@ package com.harystolho.sitehighlighter.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +105,19 @@ public class DocumentService {
 		documentDao.updateDocumentTags("123", docId, tagArray);
 
 		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
+	public ServiceResponse<Set<String>> getDocumentsTags(String accountId) {
+		List<Document> documents = documentDao.getTagsByAccountId(accountId);
+
+		Set<String> tags = new HashSet<>();
+
+		documents.forEach((doc) -> {
+			if (doc.getTags() != null)
+				tags.addAll(doc.getTags());
+		});
+
+		return ServiceResponse.of(tags, ServiceStatus.OK);
 	}
 
 }
