@@ -210,15 +210,17 @@ window.Dashboard = (() => {
             if (value.match(/[.,"]/g) !== null)
                 return false; // TODO show invalid input
 
-            return value.trim().length > 2;
+            return true;
         },
         /**
          * @param tags {Array}
          * ToolBar = div with id 'contentToolbar'
          */
         displayTagsInToolbar(tags) {
-            if (tags === null)
+            if (tags === null || tags.length === 0){
+                this.showTagEditor();
                 return;
+            }
 
             tags.forEach((tag) => {
                 document.getElementById("tagContainer").innerHTML += templates.tag(tag);

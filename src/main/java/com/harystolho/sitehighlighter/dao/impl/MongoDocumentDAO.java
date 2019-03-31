@@ -115,10 +115,7 @@ public class MongoDocumentDAO implements DocumentDAO {
 
 		Update update = Update.update("tags", tagArray);
 
-		UpdateResult result = mongoOperations.updateFirst(query, update, Document.class);
-
-		if (result.getModifiedCount() == 0)
-			logger.severe(String.format("Can't find doc[%s] to update tags", docId));
+		mongoOperations.updateFirst(query, update, Document.class);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.harystolho.sitehighlighter.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +76,8 @@ public class DocumentService {
 		List<Document> matches = documentDao.getDocumentsByStatus("123", DocumentStatus.statusFromString(status));
 
 		matches.forEach((doc) -> {
-			ObjectNode node = new ObjectNode(new JsonNodeFactory(false)); // TODO extract ObjectNode creation to another method
+			ObjectNode node = new ObjectNode(new JsonNodeFactory(false)); // TODO extract ObjectNode creation to another
+																			// method
 
 			node.put("id", doc.getId());
 			node.put("title", doc.getTitle());
@@ -93,10 +95,13 @@ public class DocumentService {
 	}
 
 	public ServiceResponse<Object> changeDocumentTags(String accountId, String docId, String tags) {
-		List<String> tagArray = Arrays.asList(tags.split(","));
-		
+		List<String> tagArray = new ArrayList<>(); // ArraysList is modifiable, Arrays.asList() is not
+		tagArray.addAll(Arrays.asList(tags.split(",")));
+
+		tagArray.removeIf(tag -> tag == null || tag.isEmpty());
+
 		documentDao.updateDocumentTags("123", docId, tagArray);
-		
+
 		return ServiceResponse.of(null, ServiceStatus.OK);
 	}
 
