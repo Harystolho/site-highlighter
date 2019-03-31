@@ -1,7 +1,10 @@
 import '../css/bootstrap.min.css'
 import '../css/auth.css'
+import * as common from './common';
 
 import * as axios from 'axios'
+
+let Logger = new common.Logger();
 
 const EMAIL_REGEX = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
@@ -13,6 +16,8 @@ window.onload = () => {
 
     authContainer.signFunction = authContainer.signIn;
 
+    bindTemporaryIdToExistingCookie();
+
     // TODO check if url query has mode=SIGN_IN and display header saying "sign in now"
 };
 
@@ -21,6 +26,7 @@ window.onkeyup = (event) => {
         authContainer.signFunction();
     }
 };
+
 
 let authContainer = {
         /**
@@ -144,4 +150,33 @@ function isPasswordValid(password) {
     }
 
     return true;
+}
+
+/**
+ * If the user is logged in, bind the existing cookie's value to the temporary id
+ */
+function bindTemporaryIdToExistingCookie() {
+    let cookies = document.cookie.split("; "); // Get all cookies
+
+    let found = false;
+
+    cookies.forEach((cookie) => {
+        if (cookie.includes(common.HIGHLIGHT_COOKIE)) {
+            Logger.log("Found an existing cookie");
+            found = true;
+        }
+    });
+
+    if (found) {
+        let tempId = new URLSearchParams(window.location.search).get('temporary_id');
+
+        if (tempId === null)
+            return;
+
+        axios.post(`/auth/temporaryId/${tempId}/bind`).then((response) => {
+            window.close();
+        }).catch((response) => {
+            // Do nothing
+        });
+    }
 }

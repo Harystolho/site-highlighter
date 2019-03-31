@@ -566,7 +566,7 @@ window.Highlight = (() => {
             showNotificationModal("Waiting for Authentication... Please Sign In using the window/tab that has been opened.", -1);
 
             axios.post(`${highlightHost}/auth/temporaryId`).then((response) => {
-                this.temporaryId = response.data.data;
+                this.temporaryId = response.data;
 
                 window.open(`${templates.highlightHost}/auth/?temporary_id=${this.temporaryId}`);
 
