@@ -97,21 +97,21 @@ window.Dashboard = (() => {
 
         if (docId !== 0) {
             let formData = new FormData();
-            formData.append("id", docId);
 
-            if (status === 'GOLD') { // Change status to WOOD
-                formData.append("status", 'wood');
-                axios.post('/api/v1/documents/status', formData).then((response) => {
-                    $id("documentGoldStar").classList.remove("active");
-                    ContentEditor.options.setDocumentStatus('WOOD');
-                });
-            } else { // Change status to GOLD
-                formData.append('status', 'gold');
-                axios.post('/api/v1/documents/status', formData).then((response) => {
-                    $id("documentGoldStar").classList.add("active");
-                    ContentEditor.options.setDocumentStatus('GOLD');
-                });
+            if (status === 'GOLD') {
+                status = 'WOOD';
+            } else {
+                status = 'GOLD';
             }
+
+            formData.append('status', status);
+
+            axios.post(`/api/v1/documents/${docId}/status`, formData).then((response) => {
+                    $id("documentGoldStar").classList.remove("active");
+                
+                    ContentEditor.options.setDocumentStatus(status);
+                }
+            );
         }
     };
 
@@ -326,7 +326,8 @@ window.Dashboard = (() => {
     };
 
     return funcs;
-})();
+})
+();
 
 // TODO show box to edit the link in an <a> tag
 window.ContentEditor = (() => {
@@ -423,10 +424,9 @@ window.ContentEditor = (() => {
             return;
 
         let formData = new FormData();
-        formData.append('id', options.currentDocumentId);
         formData.append('text', $id("content").innerHTML);
 
-        axios.post('/api/v1/documents/save', formData).then((response) => {
+        axios.post(`/api/v1/documents/${options.currentDocumentId}/save`, formData).then((response) => {
             let tempStatusMsg = document.querySelector("#tempStatusMsg");
 
             tempStatusMsg.innerHTML = "Saved!";

@@ -454,7 +454,7 @@ window.Highlight = (() => {
      */
     function addDocumentsToCustomSelect() {
         getDocumentsThatMatchStatus(DOCUMENT_STATUS.GOLD, (response) => {
-            let docs = response.data.data;
+            let docs = response.data;
 
             let select = document.getElementById("customSave-select");
 

@@ -57,11 +57,10 @@ public class DocumentController {
 		}
 	}
 
-	@PostMapping("/api/v1/documents/save")
+	@PostMapping("/api/v1/documents/{id}/save")
 	public ResponseEntity<Object> saveDocument(@RequestAttribute("highlight.accountId") String accountId,
-			HttpServletRequest req) {
-		ServiceResponse<Object> response = documentService.saveDocument(accountId, req.getParameter("id"),
-				req.getParameter("text"));
+			@PathVariable String id, @RequestParam("text") String text) {
+		ServiceResponse<Object> response = documentService.saveDocument(accountId, id, text);
 
 		switch (response.getStatus()) {
 		case FAIL:
@@ -71,9 +70,9 @@ public class DocumentController {
 		}
 	}
 
-	@PostMapping("/api/v1/documents/status")
+	@PostMapping("/api/v1/documents/{id}/status")
 	public ResponseEntity<Object> changeDocumentStatus(@RequestAttribute("highlight.accountId") String accountId,
-			@RequestParam("id") String id, @RequestParam("status") String status) {
+			@PathVariable String id, @RequestParam("status") String status) {
 		ServiceResponse<Object> response = documentService.changeDocumentStatus(accountId, id, status);
 
 		switch (response.getStatus()) {
