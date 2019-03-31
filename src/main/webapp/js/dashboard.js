@@ -29,7 +29,7 @@ window.Dashboard = (() => {
      * {'tag': [Arrays of document's id that contain the tag], ...}
      * @type {Object}
      */
-    let tagsMap = undefined;
+    let tagsMap = {};
 
     window.onload = () => {
         requestDocuments();
@@ -48,7 +48,9 @@ window.Dashboard = (() => {
                 docsMap.set(doc.id, doc);
             });
 
-            const library = document.querySelector("#documentLibraryList");
+            const library = $id('documentLibraryList');
+
+            $removeAllChildren(library);
 
             data.forEach((doc) => {
                 library.innerHTML += templates.librarySiteTemplate(doc.title, doc.path, doc.id);
@@ -62,8 +64,7 @@ window.Dashboard = (() => {
             const tags = Object.keys(tagsMap);
 
             const list = $id("tagLibraryList");
-            while (list.firstChild) // Remove existing tags from tagLibraryList
-                list.removeChild(list.firstChild);
+            $removeAllChildren(list);
 
             tags.sort((a, b) => a > b); // Sort alphabetically
 
@@ -74,12 +75,12 @@ window.Dashboard = (() => {
     }
 
     /**
-     * @param library {String}
+     * @param library {String} {@Link Dashboard.libraries}
      */
     funcs.displayLibrary = (library) => {
-        document.querySelectorAll(".generalLibrary").forEach(l => l.style.display = "none");
+        document.querySelectorAll(".generalLibrary").forEach(l => $hide(l));
 
-        document.querySelector(library).style.display = "block";
+        $show(document.querySelector(library));
 
         switch (library) {
             case funcs.libraries.DOCUMENT:
@@ -95,14 +96,19 @@ window.Dashboard = (() => {
         let status = ContentEditor.options.documentStatus();
 
         if (docId !== 0) {
+            let formData = new FormData();
+            formData.append("id", docId);
+
             if (status === 'GOLD') { // Change status to WOOD
-                httpPost("/api/v1/document/status", `id=${docId}&status=wood`, (data) => {
-                    document.getElementById("documentGoldStar").classList.remove("active");
+                formData.append("status", 'wood');
+                axios.post('/api/v1/document/status', formData).then((response) => {
+                    $id("documentGoldStar").classList.remove("active");
                     ContentEditor.options.setDocumentStatus('WOOD');
                 });
             } else { // Change status to GOLD
-                httpPost("/api/v1/document/status", `id=${docId}&status=gold`, (data) => {
-                    document.getElementById("documentGoldStar").classList.add("active");
+                formData.append('status', 'gold');
+                axios.post('/api/v1/document/status', formData).then((response) => {
+                    $id("documentGoldStar").classList.add("active");
                     ContentEditor.options.setDocumentStatus('GOLD');
                 });
             }
@@ -141,8 +147,6 @@ window.Dashboard = (() => {
                 axios.post(`/api/v1/save/`, formData, {
                     headers: {'Content-Type': 'multipart/form-data'}
                 }).then((response) => {
-                    // Remove existing documents
-                    Array.from(document.querySelector("#documentLibraryList").children).forEach(child => child.remove());
                     requestDocuments();
                 });
             } else {
@@ -299,8 +303,7 @@ window.Dashboard = (() => {
     funcs.displayDocumentsByTag = (tag) => {
         const tagLibraryDocList = $id("tagLibrary--documentList");
 
-        while (tagLibraryDocList.firstChild)
-            tagLibraryDocList.removeChild(tagLibraryDocList.firstChild);
+        $removeAllChildren(tagLibraryDocList);
 
         let docIds = tagsMap[tag];
 
@@ -323,8 +326,9 @@ window.Dashboard = (() => {
     };
 
     return funcs;
-})(); // TODO show box to edit the link in an <a> tag
+})();
 
+// TODO show box to edit the link in an <a> tag
 window.ContentEditor = (() => {
     let funcs = {};
 
@@ -372,7 +376,7 @@ window.ContentEditor = (() => {
         if (id === 0) {
             resetDocumentOptions(id);
 
-            document.querySelector("#content").innerHTML = "";
+            $id("content").innerHTML = "";
             return;
         }
 
@@ -382,15 +386,15 @@ window.ContentEditor = (() => {
             funcs.saveDocument();
         }
 
-        httpGet(`/api/v1/document/${id}`, (response) => {
-            let data = JSON.parse(response).data;
+        axios.get(`/api/v1/document/${id}`).then((response) => {
+            let data = response.data;
 
             resetDocumentOptions(id);
             Dashboard.tagEditor.reset();
 
             options.setStatus(data.status);
 
-            document.querySelector("#content").innerHTML = data.highlights;
+            $id("content").innerHTML = data.highlights;
 
             Dashboard.tagEditor.displayTagsInToolbar(data.tags);
         });
@@ -403,13 +407,13 @@ window.ContentEditor = (() => {
     }
 
     function updatePageBasedOnStatus() {
-        document.getElementById("documentGoldStar").classList.remove("active");
+        $id("documentGoldStar").classList.remove("active");
 
         switch (options.getStatus()) {
             case 'WOOD':
                 break;
             case 'GOLD':
-                document.getElementById("documentGoldStar").classList.add("active");
+                $id("documentGoldStar").classList.add("active");
                 break;
         }
     }
@@ -418,11 +422,11 @@ window.ContentEditor = (() => {
         if (options.currentDocumentId === undefined)
             return;
 
-        let content = document.querySelector("#content");
+        let formData = new FormData();
+        formData.append('id', options.currentDocumentId);
+        formData.append('text', $id("content").innerHTML);
 
-        httpPost("/api/v1/document/save", `id=${options.currentDocumentId}&text=${encodeURIComponent(content.innerHTML)}`, (data) => {
-            let response = JSON.parse(data);
-
+        axios.post('/api/v1/document/save', formData).then((response) => {
             let tempStatusMsg = document.querySelector("#tempStatusMsg");
 
             tempStatusMsg.innerHTML = "Saved!";
@@ -513,33 +517,6 @@ window.ContentEditor = (() => {
     return funcs;
 })();
 
-function httpGet(url, cb) {
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            cb(this.responseText);
-        }
-    };
-
-    xhttp.open("GET", url, true);
-    xhttp.send();
-}
-
-function httpPost(url, body, cb) {
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            cb(this.responseText);
-        }
-    };
-
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhttp.send(body);
-}
-
 let HelperFunctions = (() => {
     window.$id = (id) => {
         return document.getElementById(id);
@@ -566,6 +543,11 @@ let HelperFunctions = (() => {
      */
     window.$show = (el, display = "block") => {
         el.style.display = display;
+    };
+
+    window.$removeAllChildren = (el) => {
+        while (el.firstChild)
+            el.removeChild(el.firstChild);
     };
 
 })();

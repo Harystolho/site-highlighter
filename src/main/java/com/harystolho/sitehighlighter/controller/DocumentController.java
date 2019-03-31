@@ -46,18 +46,16 @@ public class DocumentController {
 	}
 
 	@GetMapping("/api/v1/document/{id}")
-	public API_Response getDocument(@RequestAttribute("highlight.accountId") String accountId,
+	public ResponseEntity<Object> getDocument(@RequestAttribute("highlight.accountId") String accountId,
 			@PathVariable String id) {
 		ServiceResponse<Document> response = documentService.getDocumentById(accountId, id);
 
 		switch (response.getStatus()) {
 		case FAIL:
-			return API_Response.of("FAIL", null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
-			break;
+			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
 		}
-
-		return API_Response.of("OK", response.getResponse());
 	}
 
 	@PostMapping("/api/v1/document/save")
@@ -78,9 +76,8 @@ public class DocumentController {
 
 	@PostMapping("/api/v1/document/status")
 	public API_Response changeDocumentStatus(@RequestAttribute("highlight.accountId") String accountId,
-			HttpServletRequest req) {
-		ServiceResponse<Object> response = documentService.changeDocumentStatus(accountId, req.getParameter("id"),
-				req.getParameter("status"));
+			@RequestParam("id") String id, @RequestParam("status") String status) {
+		ServiceResponse<Object> response = documentService.changeDocumentStatus(accountId, id, status);
 
 		switch (response.getStatus()) {
 		case FAIL:

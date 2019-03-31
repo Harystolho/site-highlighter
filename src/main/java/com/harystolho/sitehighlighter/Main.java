@@ -15,8 +15,6 @@ public class Main {
 	}
 }
 
-//TODO add tag to document
-//TODO add sort by tag
 //TODO change document's name
 
 //TODO options - add option to choose modal z-index
