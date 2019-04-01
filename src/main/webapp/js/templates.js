@@ -31,47 +31,6 @@ let customSaveDiv = `<div id="highlightCustomSave">
                     <button id="customSave-saveButton" onclick="Highlight.saveCustomModalText()">Save Highlight</button>
                     </div>`;
 
-let singleInputModal = (question) => {
-    return `<div id="singleInputModal" class="dashboard-modal">
-                        <div class="dashboard-modal__header">
-                            <h4>${question}</h4>
-                        </div>
-                        <div class="dashboard-modal__content">
-                            <input id="singleInputModal_input" type="text"> 
-                        </div>
-                        <div class="dashboard-modal__footer">
-                            <button onclick="Dashboard.functions.singleInputOk(document.getElementById('singleInputModal_input').value)">Ok</button>
-                            <button onclick="Dashboard.modalContainer.hide()">Close</button>
-                        </div>
-                        </div>`;
-};
-
-let confirmModal = (question) => {
-    return `<div id="confirmModal" class="dashboard-modal">
-                        <div class="dashboard-modal__header">
-                            <h4>${question}</h4>
-                        </div>
-                        <div class="dashboard-modal__footer">
-                            <button onclick="Dashboard.functions.confirmOk()">Confirm</button>
-                            <button onclick="Dashboard.modalContainer.hide()">Close</button>
-                        </div>
-                        </div>`;
-};
-
-let librarySiteTemplate = (title, url, id) => {
-    return `
-    <div class="library-template-container" data-id="${id}">
-        <h5 class="library-template-title">
-            <span onclick="ContentEditor.displayDocumentContent('${id}')">${title}</span>
-            <!-- Most sites redirect to HTTPS-->
-            <a href="http://${url}" target="_blank"> 
-                <img class="library-template-external-link" src="/icons/external-link.png">
-            </a>
-        </h5>
-    </div>
-    `;
-};
-
 let notLoadedNotification =
     `<div id="highlight-notLoadedNotification">
         <span style="margin-bottom: 8px;">The Highlight Modal has not been loaded correctly. Do you wish to reload it?</span>
@@ -125,10 +84,7 @@ export {
     modalDiv,
     notificationDiv,
     customSaveDiv,
-    singleInputModal,
-    librarySiteTemplate,
     notLoadedNotification,
-    confirmModal,
     authenticateModal,
     displayer,
     displayerHighlight,

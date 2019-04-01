@@ -53,7 +53,7 @@ window.Dashboard = (() => {
             $removeAllChildren(library);
 
             data.forEach((doc) => {
-                library.innerHTML += templates.librarySiteTemplate(doc.title, doc.path, doc.id);
+                library.innerHTML += dash_templates.librarySiteTemplate(doc.title, doc.path, doc.id);
             });
         });
     }
@@ -130,7 +130,7 @@ window.Dashboard = (() => {
     };
 
     funcs.createNewDocument = () => {
-        singleInputModal.display("How do you want your document to be named?", (name) => {
+        singleInputModal.display({title:"How do you want your document to be named?"}, (name) => {
             if (name.trim().length > 3) {
                 let formData = new FormData();
                 formData.append("text", name);
@@ -152,15 +152,28 @@ window.Dashboard = (() => {
         });
     };
 
+    funcs.renameDocument = (docId = ContentEditor.options.currentDocumentId()) => {
+        singleInputModal.display({
+            title: "Choose a new title for your document",
+            value: docsMap.get(docId).title
+        }, (title) => {
+
+
+            singleInputModal.hide();
+        });
+    };
+
     let singleInputModal = {
         /**
          * Displays the {#singleInputModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
          * button is pressed it doesn't closed the modal, it just calls the callback.
-         * @param question {String} The text that appears on the header of the modal
+         * @param obj {Object} Object contaning the title(required) and the input value(optional)
          * @param cb {Function} called when the 'Ok' button is pressed
          */
-        display(question, cb) {
-            funcs.modalContainer.show(templates.singleInputModal(question));
+        display(obj, cb) {
+            funcs.modalContainer.show(dash_templates.singleInputModal(obj.title));
+
+            $id('singleInputModal_input').value = obj.value === undefined ? "" : obj.value;
 
             Dashboard.functions.singleInputOk = cb;
         },
@@ -177,7 +190,7 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(question, cb) {
-            funcs.modalContainer.show(templates.confirmModal(question));
+            funcs.modalContainer.show(dash_templates.confirmModal(question));
 
             Dashboard.functions.confirmOk = cb;
         },

@@ -19,14 +19,13 @@ public class Main {
 
 //TODO options - add option to choose modal z-index
 
-//TODO add reminder
-//TODO add calendar to remainder's doc
-
 //TODO addon - filter which pages the highlight work/doesn't work
 
 //TODO show error if site has csp
 
-//TODO replate API_REsponse wih REsponseEntity			
+//TODO add reminder
+//TODO add calendar to remainder's doc
+
 
 // https://just-comments.com/docs.html <- How to do authentication 
 
