@@ -41,7 +41,7 @@ let singleInputModal = (question) => {
                         </div>
                         <div class="dashboard-modal__footer">
                             <button onclick="Dashboard.functions.singleInputOk(document.getElementById('singleInputModal_input').value)">Ok</button>
-                            <button onclick="document.getElementById('singleInputModal').remove();">Close</button>
+                            <button onclick="Dashboard.modalContainer.hide()">Close</button>
                         </div>
                         </div>`;
 };
@@ -53,7 +53,7 @@ let confirmModal = (question) => {
                         </div>
                         <div class="dashboard-modal__footer">
                             <button onclick="Dashboard.functions.confirmOk()">Confirm</button>
-                            <button onclick="document.getElementById('confirmModal').remove();">Close</button>
+                            <button onclick="Dashboard.modalContainer.hide()">Close</button>
                         </div>
                         </div>`;
 };

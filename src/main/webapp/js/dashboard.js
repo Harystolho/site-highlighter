@@ -160,12 +160,12 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(question, cb) {
-            $id('modalContainer').innerHTML += templates.singleInputModal(question);
+            funcs.modalContainer.show(templates.singleInputModal(question));
 
             Dashboard.functions.singleInputOk = cb;
         },
         hide() {
-            document.getElementById('singleInputModal').remove();
+            funcs.modalContainer.hide();
         }
     };
 
@@ -177,12 +177,24 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(question, cb) {
-            $id('modalContainer').innerHTML += templates.confirmModal(question);
+            funcs.modalContainer.show(templates.confirmModal(question));
 
             Dashboard.functions.confirmOk = cb;
         },
         hide() {
-            document.getElementById('confirmModal').remove();
+            funcs.modalContainer.hide();
+        }
+    };
+
+    funcs.modalContainer = {
+        show(el) {
+            $show($id("modalContainerModal"));
+            $id('modalContainer').innerHTML += el;
+        },
+        hide() {
+            $hide($id("modalContainerModal"));
+
+            Array.from($class('dashboard-modal')).forEach(child => child.remove());
         }
     };
 
