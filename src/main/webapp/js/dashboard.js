@@ -186,6 +186,7 @@ window.Dashboard = (() => {
             funcs.modalContainer.show(dash_templates.singleInputModal(obj.title));
 
             $id('singleInputModal_input').value = obj.value === undefined ? "" : obj.value;
+            $id('singleInputModal_input').select();
 
             Dashboard.functions.singleInputOk = cb;
         },
