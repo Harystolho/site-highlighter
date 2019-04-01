@@ -130,8 +130,8 @@ window.Dashboard = (() => {
     };
 
     funcs.createNewDocument = () => {
-        singleInputModal.display({title:"How do you want your document to be named?"}, (name) => {
-            if (name.trim().length > 3) {
+        singleInputModal.display({title: "How do you want your document to be named?"}, (name) => {
+            if (isDocumentTitleValid(name)) {
                 let formData = new FormData();
                 formData.append("text", name);
 
@@ -157,9 +157,21 @@ window.Dashboard = (() => {
             title: "Choose a new title for your document",
             value: docsMap.get(docId).title
         }, (title) => {
+            if (!isDocumentTitleValid(title)) {
+                alert("Title has to have more than 3 characters");
+                return;
+            }
 
+            let span = document.querySelector(`[data-id='${docId}']`).querySelector("span");
 
-            singleInputModal.hide();
+            let formData = new FormData();
+            formData.append('title', title);
+
+            axios.patch(`/api/v1/documents/${docId}/title`, formData).then(() => {
+                span.textContent = title;
+
+                singleInputModal.hide();
+            });
         });
     };
 
@@ -333,6 +345,10 @@ window.Dashboard = (() => {
         });
 
     };
+
+    function isDocumentTitleValid(title) {
+        return title.trim().length > 3;
+    }
 
     /**
      * Used for debugging purposes

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -137,6 +138,20 @@ public class DocumentController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		default:
 			return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
+		}
+	}
+	
+	@PatchMapping("/api/v1/documents/{docId}/title")
+	public ResponseEntity<Object> changeDocumentTitle(@RequestAttribute("highlight.accountId") String accountId,
+			@PathVariable String docId, @RequestParam("title") String title) {
+
+		ServiceResponse<Object> response = documentService.changeDocumentTitle(accountId, docId, title);
+
+		switch (response.getStatus()) {
+		case FAIL:
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		default:
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 }

@@ -135,4 +135,10 @@ public class DocumentService {
 		return ServiceResponse.of(tags, ServiceStatus.OK);
 	}
 
+	public ServiceResponse<Object> changeDocumentTitle(String accountId, String docId, String title) {
+		documentDao.updateDocumentTitle(accountId, docId, title);
+
+		return ServiceResponse.of(null, ServiceStatus.OK);
+	}
+
 }

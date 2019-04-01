@@ -43,4 +43,6 @@ public interface DocumentDAO {
 	 */
 	List<Document> getTagsByAccountId(String accountId);
 
+	void updateDocumentTitle(String accountId, String docId, String title);
+
 }

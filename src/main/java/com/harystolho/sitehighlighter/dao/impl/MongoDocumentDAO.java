@@ -130,4 +130,13 @@ public class MongoDocumentDAO implements DocumentDAO {
 		return mongoOperations.find(query, Document.class);
 	}
 
+	@Override
+	public void updateDocumentTitle(String accountId, String docId, String title) {
+		Query query = Query.query(Criteria.where("_id").is(docId).and("owner").is(accountId));
+
+		Update update = Update.update("title", title);
+
+		mongoOperations.updateFirst(query, update, Document.class);
+	}
+
 }

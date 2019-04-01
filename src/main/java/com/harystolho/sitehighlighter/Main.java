@@ -15,8 +15,6 @@ public class Main {
 	}
 }
 
-//TODO change document's name
-
 //TODO options - add option to choose modal z-index
 
 //TODO addon - filter which pages the highlight work/doesn't work
