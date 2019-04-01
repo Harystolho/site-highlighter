@@ -74,6 +74,10 @@ public class CookieService {
 		return getAccountIdByIdentifier(token);
 	}
 
+	public boolean isCookieLoggedIn(Cookie cookie) {
+		return cookies.containsKey(cookie.getValue());
+	}
+
 	/**
 	 * Session identifier is the value in the highlight cookie
 	 * 

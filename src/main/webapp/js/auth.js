@@ -170,13 +170,11 @@ function bindTemporaryIdToExistingCookie() {
     if (found) {
         let tempId = new URLSearchParams(window.location.search).get('temporary_id');
 
-        if (tempId === null)
-            return;
-
-        axios.post(`/auth/temporaryId/${tempId}/bind`).then((response) => {
-            window.close();
-        }).catch((response) => {
-            // Do nothing
-        });
+        if (tempId !== null)
+            axios.post(`/auth/temporaryId/${tempId}/bind`).then((response) => {
+                window.close();
+            }).catch((response) => {
+                // Do nothing
+            });
     }
 }

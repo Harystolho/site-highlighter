@@ -94,6 +94,7 @@ public class AccountController {
 	public ResponseEntity<Object> bindCookieToTemporaryId(@CookieValue(CookieService.HIGHLIGHT_ID) String cookieValue,
 			@PathVariable String tempId) {
 		ServiceResponse<Object> response = accountService.bindTemporaryIdToCookie(cookieValue, tempId);
+		
 		switch (response.getStatus()) {
 		case FAIL:
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

@@ -147,15 +147,14 @@ public class AccountService {
 	}
 
 	public ServiceResponse<Object> bindTemporaryIdToCookie(String cookieValue, String temporaryId) {
-		Optional<String> accountId = cookieService.getAccountIdByIdentifier(cookieValue);
+		Cookie cookie = new Cookie("_", cookieValue);
 
-		if (accountId.isPresent()) {
-			authenticationService.bindCookie(temporaryId, new Cookie("_", cookieValue));
+		if (cookieService.isCookieLoggedIn(cookie)) {
+			authenticationService.bindCookie(temporaryId, cookie);
 			return ServiceResponse.of(null, ServiceStatus.OK);
 		} else {
 			return ServiceResponse.of(null, ServiceStatus.FAIL);
 		}
-
 	}
 
 }
