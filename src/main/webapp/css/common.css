@@ -368,3 +368,13 @@ body {
     border: none;
     transform: scale(1.1);
 }
+
+/*WORK IN PROGRESS*/
+.wip{
+    opacity: 0.3;
+}
+
+.wip:hover{
+    transform: none;
+    cursor: no-drop;
+}
