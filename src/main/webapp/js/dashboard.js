@@ -230,19 +230,19 @@ window.Dashboard = (() => {
     funcs.logOut = () => {
         let cookies = document.cookie.split("; "); // Get all cookies
 
-        let finalCookie = "";
+        let expiredCookie = "";
 
         cookies.forEach((cookie) => {
-            // If the cookie is not the one used by the server, add it to the final cookie
             if (cookie.includes(common.HIGHLIGHT_COOKIE)) {
-                finalCookie += cookie + '; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                expiredCookie += cookie + '; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             } else {
-                finalCookie += cookie + '; ';
+                expiredCookie += cookie + '; ';
             }
-
         });
 
-        document.cookie = finalCookie;
+        document.cookie = expiredCookie;
+
+        window.location.replace('/');
     };
 
     funcs.tagEditor = {

@@ -18,6 +18,8 @@ body {
 #menuContainer {
     width: var(--menu-container-width);
     background-color: #f3f3f3;
+    display: flex;
+    flex-direction: column;
 }
 
 #libraryContainer {
@@ -38,7 +40,7 @@ body {
     padding: 8px 7px;
 }
 
-.library-template-container:hover , .tagLibrary--doc:hover{
+.library-template-container:hover, .tagLibrary--doc:hover {
     box-shadow: 0 0 5px #4b4b4b66;
     background-color: #0776ff;
     color: white;
@@ -129,6 +131,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 68px;
+    flex: 1;
 }
 
 .menu-icon {
@@ -240,9 +243,11 @@ body {
     border: none;
     border-radius: 5px;
     padding: 2px 13px;
-    box-shadow: 0 0 3px #535353b3;
     margin: 0 4px;
-    font-family: Raleway, serif;
+    background-color: #0070ff;
+    color: white;
+    font-variant: small-caps;
+    font-size: 20px;
 }
 
 .dashboard-modal__footer button:hover {
@@ -281,7 +286,7 @@ body {
     text-align: left;
 }
 
-.document-tag{
+.document-tag {
     margin: 0px 2px;
     background-color: #0070ff;
     padding: 0px 8px;
@@ -292,14 +297,14 @@ body {
     font-family: Raleway, serif;
 }
 
-#tagContainer{
+#tagContainer {
     position: relative;
     align-self: end;
     display: flex;
     height: 28px;
 }
 
-#tagContainer::before{
+#tagContainer::before {
     content: "Use space to separate tags \aPress 'Enter' to save";
     position: absolute;
     top: 33px;
@@ -313,17 +318,17 @@ body {
     white-space: pre-wrap;
 }
 
-#tagContainer:hover::before{
+#tagContainer:hover::before {
     display: block;
 }
 
-#tagLibraryList{
+#tagLibraryList {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
 }
 
-.tagLibrary--tag{
+.tagLibrary--tag {
     padding: 3px 12px;
     background-color: #0070ff;
     border-radius: 7px;
@@ -334,21 +339,32 @@ body {
     transition: all 0.2s;
 }
 
-.tagLibrary--tag:hover{
+.tagLibrary--tag:hover {
     color: #0070ff;
     background-color: white;
     border: solid 1px #0070ff;
 }
 
-.tagLibrary--doc{
+.tagLibrary--doc {
     padding: 4px;
     font-size: 18px;
     cursor: pointer;
 }
 
-#modalContainerModal{
+#modalContainerModal {
     width: 100%;
     height: 100%;
     background-color: #00000094;
 }
 
+#menuProfileLogOut {
+    margin-bottom: 7px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#menuProfileLogOut:hover {
+    border: none;
+    transform: scale(1.1);
+}

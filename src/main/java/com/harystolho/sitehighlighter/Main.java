@@ -15,6 +15,13 @@ public class Main {
 	}
 }
 
+//TODO reselect the selected text if the user is not logged/as-guest yet
+
+//TODO fix highlight selection bg color on script
+
+//TODO save is user chose guest or account for some time
+//TODO option to choose account if the user has chosen guest and otherwise
+
 //TODO options - add option to choose modal z-index
 
 //TODO addon - filter which pages the highlight work/doesn't work

@@ -226,13 +226,12 @@
 }
 
 .hl-highlight {
-    margin: 12px 6px;
+    margin: 12px 0;
     color: #000;
-    box-shadow: 0 0 6px 2px #93939370;
-    border-radius: 4px;
+    box-shadow: 0 0 6px 2px #93939375;
     padding: 3px;
     font-size: 17px;
-    line-height: 1;
+    line-height: 1.3;
 }
 
 #hl-displayer-header {
@@ -242,6 +241,7 @@
     margin: 0;
     font-size: larger;
     line-height: normal;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; /*From bootstrap*/
 }
 
 .hl-close-icon {
