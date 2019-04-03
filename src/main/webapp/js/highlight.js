@@ -284,6 +284,9 @@ window.Highlight = (() => {
             addDocumentsToCustomSelect();
 
             document.querySelector("#customSaveContent").innerHTML = selectedText;
+        },
+        string() {
+            return 'ACCOUNT';
         }
     };
 
@@ -296,6 +299,9 @@ window.Highlight = (() => {
         },
         openCustomSaveModal() {
             showNotificationModal("This feature doesn't work for guest accounts", 4000, {type: NotificationType.ERROR});
+        },
+        string() {
+            return 'GUEST';
         }
     };
 
@@ -423,14 +429,6 @@ window.Highlight = (() => {
             // TODO fix when there is more than 1 div
         }
     }
-
-    /**
-     * Opens a window to manage the highlights. How this function is called varies from site to site, some may choose
-     * to add a button or an icon, but that doesn't interfere with the functionality
-     */
-    funcs.openHighlightsFrame = () => {
-
-    };
 
     /**
      *
@@ -580,7 +578,7 @@ window.Highlight = (() => {
         },
         asGuest() {
             funcs.closeBackgroundCover();
-            userMode = guestMode;
+            setUserMode(guestMode);
 
             reselectRange();
         },
@@ -593,7 +591,7 @@ window.Highlight = (() => {
 
                 if (response.status === 200) { // The user logged in successfully
                     localStorage.setItem('highlight.authToken', response.data.token);
-                    userMode = accountMode;
+                    setUserMode(accountMode);
 
                     showNotificationModal("Successful Authentication", 3000);
 
@@ -636,14 +634,19 @@ window.Highlight = (() => {
     };
 
     /**
-     * If the local storage has they authentication token this means the user is using an account
+     * Checks if the local storage has the userMode and updates it
      */
     function loadUserMode() {
-        if (getAuthToken() !== null) {
-            // TODO check if token has not expired
-            // if(isTokenValid(getAuthToken()))
-            userMode = accountMode;
-        }
+        switch (getUserModeFromLocalStorage()) {
+            case 'GUEST':
+                userMode = guestMode;
+                return;
+            case 'ACCOUNT':
+                if (getAuthToken() !== null) {
+                    // TODO check if token has not expired
+                    userMode = accountMode;
+                }
+        } // If it is not one of the above it remains undefined
     }
 
     function isUserModeUndefined() {
@@ -653,9 +656,26 @@ window.Highlight = (() => {
         return userMode === undefined;
     }
 
+    /**
+     * the item in local storage that stores the userMode is 'highlight.userMode'
+     */
+    function getUserModeFromLocalStorage() {
+        return localStorage.getItem('highlight.userMode');
+    }
+
+    /**
+     * @param mode {Object} accountMode or guestMode
+     */
+    function setUserMode(mode) {
+        userMode = mode;
+        localStorage.setItem('highlight.userMode', mode.string());
+    }
+
     function reselectRange() {
-        if (options.savedRange !== undefined)
+        if (options.savedRange !== undefined) {
             window.getSelection().addRange(options.savedRange);
+            options.savedRange = undefined;
+        }
 
         openHighlightModal(new Event('fake'));
     }

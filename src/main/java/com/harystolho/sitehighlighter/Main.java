@@ -15,10 +15,11 @@ public class Main {
 	}
 }
 
+//TODO fix close icon in highlightDisplayer
+
 //TODO fix highlight selection bg color on script
 //TODO if an alert is shown when the modal is open the alert closes the modal
 
-//TODO save is user chose guest or account for some time
 //TODO option to choose account if the user has chosen guest and otherwise
 
 //TODO options - add option to choose modal z-index
