@@ -16,7 +16,8 @@ window.Highlight = (() => {
 
     let options = {
         on: true, /*If true, show highlight modal when something is selected*/
-        loadingTimeout: 4500 /*Time to wait before checking if the modal has been loaded correctly*/
+        loadingTimeout: 4500, /*Time to wait before checking if the modal has been loaded correctly*/
+        savedRange: undefined /*Range that was selected before opening the authentication modal*/
     };
 
     let shortcutKey = {
@@ -446,6 +447,9 @@ window.Highlight = (() => {
     function showAuthenticateModal() {
         if (document.getElementById("highlight-authenticateModal") === null)
             appendToBase(templates.authenticateModal);
+
+        // Save what is selected to reselect later
+        options.savedRange = window.getSelection().getRangeAt(0).cloneRange();
     }
 
     //TODO show last used document first in custom save modal
@@ -473,7 +477,7 @@ window.Highlight = (() => {
         });
     }
 
-    funcs.socialMediaIconOnHover = () => {
+    funcs.socialMediaIconOnClick = () => {
         let container = document.getElementById("highlightSocialMedia");
 
         if (container.classList.contains('social-show')) {
@@ -577,6 +581,8 @@ window.Highlight = (() => {
         asGuest() {
             funcs.closeBackgroundCover();
             userMode = guestMode;
+
+            reselectRange();
         },
         async getTokenUsingTemporaryId() {
             let tries = 1;
@@ -590,6 +596,8 @@ window.Highlight = (() => {
                     userMode = accountMode;
 
                     showNotificationModal("Successful Authentication", 3000);
+
+                    reselectRange();
 
                     this.temporaryId = undefined; // Break loop
                 } else if (response.status === 202) { // The login window was opened but the user has not logged in yet
@@ -643,6 +651,13 @@ window.Highlight = (() => {
             showAuthenticateModal();
 
         return userMode === undefined;
+    }
+
+    function reselectRange() {
+        if (options.savedRange !== undefined)
+            window.getSelection().addRange(options.savedRange);
+
+        openHighlightModal(new Event('fake'));
     }
 
     if (DEVELOPMENT) { // Change variables used in development

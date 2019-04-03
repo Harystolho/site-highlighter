@@ -15,8 +15,6 @@ public class Main {
 	}
 }
 
-//TODO reselect the selected text if the user is not logged/as-guest yet
-
 //TODO fix highlight selection bg color on script
 //TODO if an alert is shown when the modal is open the alert closes the modal
 

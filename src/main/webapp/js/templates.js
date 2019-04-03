@@ -14,7 +14,7 @@ let modalDiv = `<div id="highlightModal">
                         <img class="highlightSocialMedia__icon" src="${highlightHost}/icons/fb-icon.png" onclick="Highlight.shareSelectionFacebook()">
                     </div>
                     <img id="highlight_shareSocialIcon" class="highlightModal-icon" src="${highlightHost}/icons/share.png" style="margin: 0 5px;"
-                    onclick="Highlight.socialMediaIconOnHover()">
+                    onclick="Highlight.socialMediaIconOnClick()">
                     <img class="highlightModal-icon" src="${highlightHost}/icons/gear.png" onclick="">
                 </div>`;
 
