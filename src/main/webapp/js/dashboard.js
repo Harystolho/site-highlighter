@@ -5,6 +5,7 @@ import * as dash_templates from './dashboard_templates';
 
 import '../css/bootstrap.min.css'
 import '../css/common.css'
+import {SingleInputModal} from "./dashboard_templates";
 
 const ENTER_KEY_CODE = 13;
 
@@ -114,24 +115,19 @@ window.Dashboard = (() => {
         let docId = ContentEditor.options.currentDocumentId();
 
         if (docId !== 0 && docId !== undefined) {
-            let title = document.querySelector(`[data-id='${docId}']`).querySelector("span").textContent;
+            new dash_templates.ConfirmModal(`Delete "${docsMap.get(docId).title}"?`, (close) => {
+                axios.delete(`/api/v1/documents/${docId}`).then(() => {
+                    document.querySelector(`[data-id='${docId}']`).remove();
+                    ContentEditor.displayDocumentContent(0);
 
-
-            confirmModal.display(`Delete "${title}"?`, () => {
-                axios.delete(`/api/v1/documents/${docId}`).then((response) => {
-                    if (response.status === 200) {
-                        document.querySelector(`[data-id='${docId}']`).remove();
-                        ContentEditor.displayDocumentContent(0);
-                    }
-
-                    confirmModal.hide();
+                    close();
                 });
-            });
+            }).display();
         }
     };
 
     funcs.createNewDocument = () => {
-        singleInputModal.display({title: "How do you want your document to be named?"}, (name) => {
+        new dash_templates.SingleInputModal('How do you want your document to be named?', {}, (name, close) => {
             if (isDocumentTitleValid(name)) {
                 let formData = new FormData();
                 formData.append("text", name);
@@ -149,15 +145,12 @@ window.Dashboard = (() => {
                 alert("Title has to have more than 3 characters");
             }
 
-            singleInputModal.hide();
-        });
+            close();
+        }).display();
     };
 
     funcs.renameDocument = (docId = ContentEditor.options.currentDocumentId()) => {
-        singleInputModal.display({
-            title: "Choose a new title for your document",
-            value: docsMap.get(docId).title
-        }, (title) => {
+        new dash_templates.SingleInputModal('Choose a new title for your document', {value: docsMap.get(docId).title}, (title, close) => {
             if (!isDocumentTitleValid(title)) {
                 alert("Title has to have more than 3 characters");
                 return;
@@ -171,51 +164,13 @@ window.Dashboard = (() => {
             axios.patch(`/api/v1/documents/${docId}/title`, formData).then(() => {
                 span.textContent = title;
 
-                singleInputModal.hide();
+                close();
             });
-        });
-    };
-
-    let singleInputModal = {
-        /**
-         * Displays the {#singleInputModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
-         * button is pressed it doesn't closed the modal, it just calls the callback.
-         * @param obj {Object} Object contaning the title(required) and the input value(optional)
-         * @param cb {Function} called when the 'Ok' button is pressed
-         */
-        display(obj, cb) {
-            funcs.modalContainer.show(new dash_templates.SingleInputModal(obj.title).getElement());
-
-            $id('singleInputModal_input').value = obj.value === undefined ? "" : obj.value;
-            $id('singleInputModal_input').select();
-
-            Dashboard.functions.singleInputOk = cb;
-        },
-        hide() {
-            funcs.modalContainer.hide();
-        }
-    };
-
-    let confirmModal = {
-        /**
-         * Displays the {#confirmModal}. The modal is closed when the 'Close' button is pressed. When the 'Ok'
-         * button is pressed it doesn't closed the modal, it just calls the callback.
-         * @param question {String} The text that appears on the header of the modal
-         * @param cb {Function} called when the 'Ok' button is pressed
-         */
-        display(question, cb) {
-            funcs.modalContainer.show(new dash_templates.ConfirmModal(question).getElement());
-
-            Dashboard.functions.confirmOk = cb;
-        },
-        hide() {
-            funcs.modalContainer.hide();
-        }
+        }).display();
     };
 
     funcs.modalContainer = {
         /**
-         *
          * @param el {HTMLElement}
          */
         show(el) {
