@@ -164,6 +164,8 @@ window.Dashboard = (() => {
             axios.patch(`/api/v1/documents/${docId}/title`, formData).then(() => {
                 span.textContent = title;
 
+                docsMap.get(docId).title = title; // Replace the title in the document's map
+
                 close();
             });
         }).display();

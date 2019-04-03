@@ -15,10 +15,6 @@ public class Main {
 	}
 }
 
-//TODO display what document is being displayed
-
-//TODO when a doc is renamed, replaced the docsMap
-
 //TODO reselect the selected text if the user is not logged/as-guest yet
 
 //TODO fix highlight selection bg color on script
