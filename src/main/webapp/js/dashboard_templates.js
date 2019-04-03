@@ -31,37 +31,76 @@ let librarySiteTemplate = (title, url, id) => {
     `;
 };
 
-let singleInputModal = (question) => {
-    return `<div id="singleInputModal" class="dashboard-modal">
-                        <div class="dashboard-modal__header">
-                            <h4>${question}</h4>
-                        </div>
-                        <div class="dashboard-modal__content">
-                            <input id="singleInputModal_input" type="text"> 
-                        </div>
-                        <div class="dashboard-modal__footer">
-                            <button onclick="Dashboard.functions.singleInputOk(document.getElementById('singleInputModal_input').value)">Ok</button>
-                            <button onclick="Dashboard.modalContainer.hide()">Close</button>
-                        </div>
-                        </div>`;
-};
+class InputModal {
+    constructor() {
+        this.html = ``;
+    }
 
-let confirmModal = (question) => {
-    return `<div id="confirmModal" class="dashboard-modal">
-                        <div class="dashboard-modal__header">
-                            <h4>${question}</h4>
-                        </div>
-                        <div class="dashboard-modal__footer">
-                            <button onclick="Dashboard.functions.confirmOk()">Confirm</button>
-                            <button onclick="Dashboard.modalContainer.hide()">Close</button>
-                        </div>
-                        </div>`;
-};
+    _create() {
+        let template = document.createElement('template');
+        template.innerHTML = this.html.trim();
+
+        this._element = template.content.firstChild;
+    }
+}
+
+class SingleInputModal extends InputModal {
+    constructor(question) {
+        super();
+
+        this.html =
+            `<div id="singleInputModal" class="dashboard-modal">
+                <div class="dashboard-modal__header">
+                    <h4>${question}</h4>
+                </div>
+                <div class="dashboard-modal__content">
+                    <input id="singleInputModal_input" type="text"> 
+                </div>
+                <div class="dashboard-modal__footer">
+                    <button onclick="Dashboard.functions.singleInputOk(document.getElementById('singleInputModal_input').value)">Ok</button>
+                    <button onclick="Dashboard.modalContainer.hide()">Close</button>
+                </div>
+            </div>`;
+
+        this._create();
+    }
+
+    /**
+     *
+     * @return {HTMLElement}
+     */
+    getElement() {
+        return this._element;
+    }
+}
+
+class ConfirmModal extends InputModal {
+    constructor(question) {
+        super();
+
+        this.html =
+            `<div id="confirmModal" class="dashboard-modal">
+                <div class="dashboard-modal__header">
+                    <h4>${question}</h4>
+                </div>
+                <div class="dashboard-modal__footer">
+                    <button onclick="Dashboard.functions.confirmOk()">Confirm</button>
+                    <button onclick="Dashboard.modalContainer.hide()">Close</button>
+                </div>
+            </div>`;
+
+        this._create();
+    }
+
+    getElement() {
+        return this._element;
+    }
+}
 
 export {
     tagTemplate,
     tagDocumentTemplate,
-    singleInputModal,
-    confirmModal,
+    SingleInputModal,
+    ConfirmModal,
     librarySiteTemplate
 }

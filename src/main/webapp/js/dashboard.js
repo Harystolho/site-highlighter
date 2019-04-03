@@ -116,6 +116,7 @@ window.Dashboard = (() => {
         if (docId !== 0 && docId !== undefined) {
             let title = document.querySelector(`[data-id='${docId}']`).querySelector("span").textContent;
 
+
             confirmModal.display(`Delete "${title}"?`, () => {
                 axios.delete(`/api/v1/documents/${docId}`).then((response) => {
                     if (response.status === 200) {
@@ -183,7 +184,7 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(obj, cb) {
-            funcs.modalContainer.show(dash_templates.singleInputModal(obj.title));
+            funcs.modalContainer.show(new dash_templates.SingleInputModal(obj.title).getElement());
 
             $id('singleInputModal_input').value = obj.value === undefined ? "" : obj.value;
             $id('singleInputModal_input').select();
@@ -203,7 +204,7 @@ window.Dashboard = (() => {
          * @param cb {Function} called when the 'Ok' button is pressed
          */
         display(question, cb) {
-            funcs.modalContainer.show(dash_templates.confirmModal(question));
+            funcs.modalContainer.show(new dash_templates.ConfirmModal(question).getElement());
 
             Dashboard.functions.confirmOk = cb;
         },
@@ -213,9 +214,13 @@ window.Dashboard = (() => {
     };
 
     funcs.modalContainer = {
+        /**
+         *
+         * @param el {HTMLElement}
+         */
         show(el) {
             $show($id("modalContainerModal"));
-            $id('modalContainer').innerHTML += el;
+            $id('modalContainer').appendChild(el);
         },
         hide() {
             $hide($id("modalContainerModal"));
