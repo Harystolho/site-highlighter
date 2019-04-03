@@ -312,6 +312,18 @@ window.Dashboard = (() => {
     }
 
     /**
+     * Adds css to the document display container in the document's list to indicate it's being displayed
+     * @param id document's id
+     */
+    funcs.selectDocument = (id) => {
+        let oldSelection = $class('library-template-container selected')[0];
+        if (oldSelection !== undefined)
+            oldSelection.classList.remove('selected');
+
+        document.querySelector(`[data-id='${id}']`).classList.add('selected');
+    };
+
+    /**
      * Used for debugging purposes
      */
     funcs.printDebug = () => {
@@ -395,6 +407,8 @@ window.ContentEditor = (() => {
             $id("content").innerHTML = data.highlights;
 
             Dashboard.tagEditor.displayTagsInToolbar(data.tags);
+
+            Dashboard.selectDocument(id);
         });
     };
 

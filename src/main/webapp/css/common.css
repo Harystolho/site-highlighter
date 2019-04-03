@@ -370,11 +370,15 @@ body {
 }
 
 /*WORK IN PROGRESS*/
-.wip{
+.wip {
     opacity: 0.3;
 }
 
-.wip:hover{
+.wip:hover {
     transform: none;
     cursor: no-drop;
+}
+
+.library-template-container.selected {
+    box-shadow: 0 0 5px #b9b9b9;
 }
