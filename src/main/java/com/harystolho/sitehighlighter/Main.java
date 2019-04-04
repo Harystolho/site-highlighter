@@ -15,6 +15,8 @@ public class Main {
 	}
 }
 
+//TODO create a requirement file. Write the thing i'm going to build and how long it will take, then compare the estimation
+
 //TODO fix close icon in highlightDisplayer
 
 //TODO fix highlight selection bg color on script

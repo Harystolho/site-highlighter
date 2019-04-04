@@ -92,8 +92,8 @@ class SingleInputModal extends InputModal {
                     <input id="singleInputModal_input" type="text"> 
                 </div>
                 <div class="dashboard-modal__footer">
-                    <button id="dashboardModalSIMOk">Ok</button> 
-                    <button class="dashboardModalClose">Close</button>
+                    <button class="dashboardModalClose hl-close">Close</button>
+                    <button id="dashboardModalSIMOk">Ok</button>
                 </div>
             </div>`;
 
@@ -140,8 +140,8 @@ class ConfirmModal extends InputModal {
                     <h4>${question}</h4>
                 </div>
                 <div class="dashboard-modal__footer">
+                    <button class="dashboardModalClose hl-close">Close</button>
                     <button id="dashboardModalCMConfirm" onclick="">Confirm</button>
-                    <button class="dashboardModalClose">Close</button>
                 </div>
             </div>`;
 
