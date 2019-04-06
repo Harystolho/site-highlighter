@@ -416,19 +416,51 @@ window.Highlight = (() => {
     }
 
     /**
-     * Adds a <span> tag arround the selection to indicate it was highlighted
+     * Changes the background color of the selection after it's highlighted
      */
     function highlightSelectionInPage() {
-        let highlightSpan = document.createElement("span");
+        let range = window.getSelection().getRangeAt(0);
 
-        highlightSpan.style.backgroundColor = "#fffd7c";
+        let startContainer = range.startContainer;
+        let scParent = startContainer.parentNode; // Save the parent for later
+        let scSelectedText = startContainer.textContent.slice(range.startOffset); // Only keep the part that is selected
 
-        try {
-            window.getSelection().getRangeAt(0).surroundContents(highlightSpan);
-        } catch (err) {
-            // TODO fix when there is more than 1 div
+        let endContainer = range.endContainer;
+
+        // If the startContainer is not the equal to the endContainer, they have to be handled separately
+        if (startContainer !== endContainer) {
+            let ecSelectedText = endContainer.textContent.slice(0, range.endOffset); // Only keep the part that is selected
+
+            endContainer.parentNode.innerHTML = endContainer.parentNode.innerHTML
+                .replace(ecSelectedText, surroundElement(ecSelectedText));
+        } else { // If the startContainer === endContainer
+            scSelectedText = scSelectedText.slice(0, range.endOffset - range.startOffset);
+        }
+
+        scParent.innerHTML = scParent.innerHTML.replace(scSelectedText, surroundElement(scSelectedText));
+
+
+        function surroundElement(el) {
+            return `<span style="background-color: #fffd7c">${el}</span>`
         }
     }
+
+    /*let elementsToHighlight = [];
+
+    for (const node of range.commonAncestorContainer.childNodes) {
+        if (elementsToHighlight.length === 0) { // It has not found the startContainer yet
+            if (node === range.startContainer)
+                elementsToHighlight.push(node);
+        } else {
+            if (node !== range.endContainer) {
+                elementsToHighlight.push(node);
+            } else {
+                elementsToHighlight.push(node); // Add the endContainer
+                break;
+            }
+
+        }
+    }*/
 
     /**
      *

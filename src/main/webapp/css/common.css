@@ -1,6 +1,5 @@
 :root {
-    --menu-container-width: 75px;
-    --library-container-width: 480px;
+    --content-spacing: 75px;
 }
 
 body {
@@ -16,24 +15,23 @@ body {
 }
 
 #menuContainer {
-    width: var(--menu-container-width);
+    width: 75px;
     background-color: #f3f3f3;
     display: flex;
     flex-direction: column;
 }
 
 #libraryContainer {
-    width: var(--library-container-width);
+    width: 34%;
+    max-width: 430px;
     padding: 7px 0;
     overflow-x: hidden;
     box-shadow: 1px 0 5px #00000080;
 }
 
 #contentContainer {
-    width: calc(100% - var(--menu-container-width) - var(--library-container-width));
+    flex: 1;
     background-color: #f1fbffb3;
-    overflow-y: auto;
-    padding: 0 15px;
 }
 
 .library-template-container {
@@ -73,25 +71,26 @@ body {
 }
 
 #content {
-    margin: 0 auto;
-    max-width: 1160px;
+    margin: 0 0 0 var(--content-spacing);
+    overflow-y: auto;
+    height: 100%;
+    padding-right: var(--content-spacing);
     font-family: 'Laila', serif;
 }
 
 #contentToolbarContainer {
-    height: 100px;
+    height: 66px;
     display: flex;
     justify-content: center;
+    margin: 0 var(--content-spacing) 44px var(--content-spacing);
 }
 
 #contentToolbar {
-    position: fixed;
-    width: 1163px;
     border-bottom: solid 1px #9e9e9e;
-    height: 66px;
     display: flex;
     align-items: end;
     background-color: #f5fcff;
+    width: 100%;
 }
 
 .content-toolbar-item {
@@ -386,4 +385,10 @@ body {
 
 .library-template-container.selected {
     box-shadow: 0 0 5px #b9b9b9;
+}
+
+@media (max-width: 1200px) {
+    :root{
+        --content-spacing: 30px;
+    }
 }

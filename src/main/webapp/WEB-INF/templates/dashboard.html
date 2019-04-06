@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="rootContainer">
-    <div id="menuContainer">
+    <div id="menuContainer" class="d-none d-lg-flex">
         <div id="menuIcons">
             <div class="menu-icon" onclick="Dashboard.displayLibrary(Dashboard.libraries.DOCUMENT)">
                 <img src="/icons/document-blue.png">
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div id="libraryContainer">
+    <div id="libraryContainer" class="d-none d-lg-block">
         <div id="documentLibrary" class="generalLibrary">
             <div style="position: relative;">
                 <h1 id="documentLibraryTitle">Documents</h1>
