@@ -421,27 +421,100 @@ window.Highlight = (() => {
     function highlightSelectionInPage() {
         let range = window.getSelection().getRangeAt(0);
 
+        // When the range containers are modified the range reference to them is lost
+        // Save the reference because it's used later
         let startContainer = range.startContainer;
-        let scParent = startContainer.parentNode; // Save the parent for later
-        let scSelectedText = startContainer.textContent.slice(range.startOffset); // Only keep the part that is selected
-
         let endContainer = range.endContainer;
 
-        // If the startContainer is not the equal to the endContainer, they have to be handled separately
-        if (startContainer !== endContainer) {
-            let ecSelectedText = endContainer.textContent.slice(0, range.endOffset); // Only keep the part that is selected
+        let scParent = startContainer.parentElement;
 
-            endContainer.parentNode.innerHTML = endContainer.parentNode.innerHTML
-                .replace(ecSelectedText, surroundElement(ecSelectedText));
-        } else { // If the startContainer === endContainer
-            scSelectedText = scSelectedText.slice(0, range.endOffset - range.startOffset);
+        let scNextSiblingEl = startContainer.nextElementSibling;
+
+        let scpNextSiblingEl = scParent.nextElementSibling;
+
+        highlightFirstAndLastContainer(startContainer, endContainer);
+        highlightContainersInBetween(startContainer, endContainer);
+
+        /**
+         * Highlights the first and the last container but not the containers in between
+         */
+        function highlightFirstAndLastContainer() {
+            let scSelectedText = startContainer.textContent.slice(range.startOffset); // Only keep the part that is selected
+
+            // If the startContainer is not the equal to the endContainer, they have to be handled separately
+            if (startContainer !== endContainer) {
+                let ecSelectedText = endContainer.textContent.slice(0, range.endOffset); // Only keep the part that is selected
+
+                endContainer.parentNode.innerHTML = endContainer.parentNode.innerHTML
+                    .replace(ecSelectedText, surroundElement(ecSelectedText));
+            } else { // If the startContainer === endContainer
+                scSelectedText = scSelectedText.slice(0, range.endOffset - range.startOffset);
+            }
+
+            scParent.innerHTML = scParent.innerHTML.replace(scSelectedText, surroundElement(scSelectedText));
         }
 
-        scParent.innerHTML = scParent.innerHTML.replace(scSelectedText, surroundElement(scSelectedText));
+        /**
+         * Highlights the containers between the first and the last containers
+         */
+        function highlightContainersInBetween() {
+            if (startContainer !== endContainer && existsContainersInBetween()) {
+                let currentElement = null;
 
+                if (scNextSiblingEl === null) {
+                    currentElement = scpNextSiblingEl;
+                } else {
+                    currentElement = scNextSiblingEl;
+
+                    for (const el of Array.from(scParent.children)) {
+                        if (el.outerHTML === scNextSiblingEl.outerHTML) {
+                            currentElement = el;
+                            break;
+                        }
+                    }
+                }
+
+                let siblings = [];
+
+                siblings.push(currentElement);
+
+                while (currentElement !== null) {
+                    if (currentElement.nextElementSibling !== null) {
+                        siblings.push(currentElement.nextElementSibling);
+                    }
+
+                    currentElement = currentElement.nextElementSibling;
+                }
+
+                siblings.forEach((s) => {
+                    s.innerHTML = surroundElement(s.innerText);
+                })
+            }
+        }
 
         function surroundElement(el) {
             return `<span style="background-color: #fffd7c">${el}</span>`
+        }
+
+        function existsContainersInBetween() {
+            let nextSibling = undefined;
+
+            if (range.startContainer.nextSibling === null) {
+                let parentElement = range.startContainer.parentElement;
+
+                while (nextSibling === undefined) {
+                    if (parentElement.nextSibling === null) {
+                        parentElement = parentElement.parentElement;
+                    } else {
+                        nextSibling = parentElement.nextSibling;
+                    }
+                }
+
+            } else {
+                nextSibling = range.startContainer.nextSibling;
+            }
+
+            return nextSibling !== range.endContainer;
         }
     }
 
