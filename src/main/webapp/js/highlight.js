@@ -181,6 +181,9 @@ window.Highlight = (() => {
         if (!isHighlightEnabled())
             return;
 
+        if (!shouldOpenModalInside(event.target))
+            return;
+
         let modal = document.querySelector("#highlightModal");
 
         // If the click was inside the modal
@@ -213,6 +216,27 @@ window.Highlight = (() => {
 
         //          text position |  modal height     |   padding      |   window y
         modal.style.top = rect.y - modal.offsetHeight - modalOffset + window.scrollY + "px";
+    }
+
+    /**
+     * @param element {HTMLElement}
+     * @return {Boolean}
+     */
+    function shouldOpenModalInside(element) {
+        if (element !== null && element !== undefined) {
+            let containers = [];
+
+            containers.push(document.getElementById("highlightModal"));
+            containers.push(document.getElementById('highlight-displayer'));
+
+            for (const container of containers) {
+                if (container !== null)
+                    if (container.contains(element))
+                        return false;
+            }
+        }
+
+        return true;
     }
 
     /**

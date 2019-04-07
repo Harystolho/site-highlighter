@@ -6,8 +6,6 @@
 
 
 * Code
-    * [ ] Highlight the selection correctly after the highlight has been saved
-    * [ ] Don't show the highlight modal inside the HighlightDisplayer
     * [ ] Fix error that closes the modal if an alert is shown
     
     * [ ] Option to choose auth type(account or guest)
@@ -32,4 +30,5 @@ Ask: What if I had to change this? What would break? How can I abstract this?
 // https://just-comments.com/docs.html <- How to do authentication 
 
 Done
-* [ ] _____ 
+* [x] Highlight the selection after the highlight has been saved
+* [x] Don't show the highlight modal inside the HighlightDisplayer - 30m(15m)
